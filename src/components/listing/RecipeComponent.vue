@@ -1,6 +1,6 @@
 <template>
-  <div class="recipe-container shadow-lg mx-3 my-5 rounded-md">
-    <div class="recipe-image rounded-t-md" style="height:380px; background-size: cover" :style="{ backgroundImage: 'url(' + recipe.imageUrl + ')' }"></div>
+  <div class="recipe-container shadow-lg mx-3 my-5 rounded-xl">
+    <div class="recipe-image rounded-t-xl" style="height:360px; background-size: cover" :style="{ backgroundImage: 'url(' + recipe.imageUrl + ')' }"></div>
 
     <div class="recipe-info text-left p-5 flex flex-column items-center">
       <div class="recipe-info-container w-full flex flex-column">
@@ -16,7 +16,7 @@
         </div>
 
         <div class="recipe-favorite w-1/8">
-          <img alt="Settings" src="../../assets/images/heart.png">
+         <!-- <img alt="Settings" src="../../assets/images/heart.png">-->
         </div>
       </div>
 
