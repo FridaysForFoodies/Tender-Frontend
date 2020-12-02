@@ -1,9 +1,9 @@
 <template>
   <nav id="nav" class="w-screen block fixed inset-x-0 bottom-0 z-10 bg-white">
-    <div class="flex flex-row items-center justify-around inner-nav bottom-0 fixed w-screen">
+    <div class="flex flex-row items-center justify-evenly inner-nav bottom-0 fixed w-screen">
 
       <div>
-        <img alt="Favourites" src="../assets/images/heart.png">
+        <img alt="Favorites" src="../assets/images/heart.png">
       </div>
 
       <div class="tender-logo flex items-center justify-center">
