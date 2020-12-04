@@ -1,11 +1,13 @@
 <template>
   <div class="w-full">
       <div style="overflow: scroll;margin-bottom: 100px;">
+
         <RecipeComponent
             v-for="recipe in recipes"
             v-bind:key="recipe.id"
             v-bind:recipe="recipe"
         ></RecipeComponent>
+
       </div>
   </div>
 </template>

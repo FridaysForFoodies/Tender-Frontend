@@ -1,13 +1,13 @@
 <template>
-  <div id="app">
-    <Navigation />
-    <router-view />
+  <div id="app" class="flex flex-col h-screen">
+
+    <router-view class="flex-1 regal-blue"/>
     <!-- Content -->
        <!-- Header -->
 
     <!-- Navigation -->
-   
 
+    <Navigation />
   </div>
 </template>
 
@@ -31,6 +31,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #333333;
-  height: 100%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <nav id="nav" class="w-screen block fixed inset-x-0 bottom-0 z-10 bg-transparent">
+  <nav id="nav" class="w-screen block bg-transparent">
     <div class="flex flex-row items-center justify-evenly inner-nav bottom-0 fixed w-screen">
 
       <router-link :to="{ name: 'Favourites' }" >
