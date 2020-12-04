@@ -12,13 +12,13 @@
         <label for="gluten">Glutenfree {{gluten}} </label>
         <input type="checkbox" id="gluten" name="gluten" value="gluten" v-model="gluten">
         <br>
-        <label for="diary">Diary {{diary}} </label>
-        <input type="checkbox" id="diary" name="diary" value="diary" v-model="diary">
+        <label for="dairy">Dairy {{ dairy }} </label>
+        <input type="checkbox" id="dairy" name="dairy" value="dairy" v-model="dairy">
         <br>
         <br>
-        <label for="time">Cooking time: {{time}}</label>
+        <label for="time">Cooking time: {{time}}<span v-show="time=60">+</span></label>
         <br>
-        <input type="range" min="0" max="60" value="30" step="15" id="time" v-model="time" name="time">
+        <input type="range" min="15" max="60" value="30" step="15" id="time" v-model="time" name="time">
       </form>
   </div>
 </template>
@@ -29,9 +29,9 @@ export default {
   data() {
     return {
       vegetarian: false,
-      vegan:  false,
-      gluten:  false,
-      diary:  false,
+      vegan: false,
+      gluten: false,
+      dairy: false,
       time: 30
     }
   },
