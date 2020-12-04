@@ -1,5 +1,7 @@
 <template>
-  
+  <p>
+    content component
+  </p>
 </template>
 
 <script>

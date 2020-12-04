@@ -1,4 +1,5 @@
 <template>
+
   <div id="app" class="flex flex-col h-screen">
 
     <router-view class="flex-1 regal-blue"/>
@@ -6,7 +7,7 @@
        <!-- Header -->
 
     <!-- Navigation -->
-
+  
     <Navigation />
   </div>
 </template>
@@ -20,6 +21,7 @@ export default {
     Navigation
   },
 }
+
 </script>
 
 <style>
@@ -33,3 +35,6 @@ export default {
   color: #333333;
 }
 </style>
+
+</script>
+
