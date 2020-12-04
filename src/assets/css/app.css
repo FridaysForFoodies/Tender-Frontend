@@ -5,3 +5,10 @@
 html, body {
     height: 100%;
 }
+
+:root{
+    --color-primary: #ffda07;
+    --color-secondary: #DEDACA;
+    --color-dark-grey: #333333;
+    --color-light-grey: #f8f8f8;
+}
