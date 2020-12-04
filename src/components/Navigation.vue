@@ -2,8 +2,8 @@
   <nav id="nav" class="w-screen block bg-transparent">
     <div class="flex flex-row items-center justify-evenly inner-nav bottom-0 fixed w-screen">
 
-      <router-link :to="{ name: 'Favourites' }" >
-        <img alt="Favorites" src="../assets/images/heart.png">
+      <router-link :to="{ name: 'Favourites' }" active-class="text-yellow-400">
+        <font-awesome-icon icon="heart" class="text-4xl"/>
       </router-link>
 
       <router-link :to=" { name: 'Home'}" class="tender-logo flex items-center justify-center">
@@ -18,8 +18,8 @@
         </svg>
       </router-link>
 
-      <router-link :to=" { name: 'Settings'}">
-        <img alt="Settings" src="../assets/images/settings.png">
+      <router-link :to=" { name: 'Settings'}" active-class="text-yellow-400">
+        <font-awesome-icon icon="cog" class="text-4xl tabColor"/>
       </router-link>
 
     </div>
@@ -29,7 +29,7 @@
 <script>
 export default {
   name: "Navigation"
-}
+  }
 </script>
 
 <style scoped>
