@@ -3,17 +3,17 @@
       <h1>Settings</h1>
       <br>
       <form>
-        <label for="vegetarian">Vegetarian {{vegetarian}} </label>
-        <input type="checkbox" id="vegetarian" value="vegetarian" name="vegetarian" v-model="vegetarian">
+        <label for="vegetarian">Vegetarian </label>
+        <input type="checkbox" id="vegetarian" value="vegetarian" name="vegetarian" v-model="vegetarian" @change="checkConsistency(false)">
         <br>
-        <label for="vegan">Vegan {{vegan}} </label>
-        <input type="checkbox" id="vegan" name="vegan" value="vegan" v-model="vegan">
+        <label for="vegan">Vegan </label>
+        <input type="checkbox" id="vegan" name="vegan" value="vegan" v-model="vegan" @change="checkConsistency(true)">
         <br>
-        <label for="gluten">Glutenfree {{gluten}} </label>
-        <input type="checkbox" id="gluten" name="gluten" value="gluten" v-model="gluten">
+        <label for="gluten">Glutenfree </label>
+        <input type="checkbox" id="gluten" name="gluten" value="gluten" v-model="gluten" >
         <br>
-        <label for="dairy">Dairy {{ dairy }} </label>
-        <input type="checkbox" id="dairy" name="dairy" value="dairy" v-model="dairy">
+        <label for="dairy">Dairy </label>
+        <input type="checkbox" id="dairy" name="dairy" value="dairy" v-model="dairy" @change="checkConsistency(false)">
         <br>
         <br>
         <label for="time">Cooking time: {{time}}<span v-show="time=60">+</span></label>
@@ -35,8 +35,16 @@ export default {
       time: 30
     }
   },
-  // computed: {
-  // }
+  methods: {
+    checkConsistency(vegan) {
+      if(vegan) {
+        this.vegetarian = false
+        this.dairy = false
+      } else {
+        this.vegan = false
+      }
+    }
+  }
 }
 </script>
 
