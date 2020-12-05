@@ -1,4 +1,4 @@
-name: Tender Frontend Node.js CI
+name: Tender Frontend CI
 
 on:
   push:
