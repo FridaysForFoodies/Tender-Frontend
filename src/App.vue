@@ -1,6 +1,13 @@
 <template>
-  <div id="app" class="h-full">
-    <router-view />   
+
+  <div id="app" class="flex flex-col h-screen">
+
+    <router-view class="flex-1 regal-blue"/>
+    <!-- Content -->
+       <!-- Header -->
+
+    <!-- Navigation -->
+  
     <Navigation />
   </div>
 </template>
@@ -14,4 +21,19 @@ export default {
     Navigation
   },
 }
+
 </script>
+
+<style>
+
+#app {
+  box-sizing: border-box;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #333333;
+}
+</style>
+
+

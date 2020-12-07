@@ -5,8 +5,8 @@
         
         <div flex-1></div>
         
-        <router-link :to=" { name: 'FoodTender'}" class="text-purple-600" >  
-          <img src="../assets/images/play.svg" class="w-6">
+        <router-link :to=" { name: 'FoodTender'}">  
+          <font-awesome-icon icon="play" class="text-4xl"/>
         </router-link>
       </div>
 

@@ -7,7 +7,8 @@ module.exports = {
         primary: "var(--color-primary)",
         secondary: "var(--color-secondary)",
         darkGrex: "var(--color-dark-grey)",
-        lightGrey: "var(--color-light-grey)"
+        lightGrey: "var(--color-light-grey)",
+        'regal-blue': '#243c5a'
       }
     },
   },
