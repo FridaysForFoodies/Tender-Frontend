@@ -22,10 +22,10 @@ jobs:
       - run: |
           docker build . -t ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }} -t ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_WEBAPP_NAME }}:latest
           docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_WEBAPP_NAME }}
-#       - uses: azure/webapps-deploy@v2
-#         with:
-#           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-#           publish-profile: ${{ secrets.AZURE_WEBAPP_DEV_PUBLISH_PROFILE }}
-#           images:
-#             ${{ env.CONTAINER_REGISTRY }}/tender-backend-dev:${{ github.sha }}
-#             ${{ env.CONTAINER_REGISTRY }}/tender-backend-dev:latest
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_DEV_PUBLISH_PROFILE }}
+          images:
+            ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}
+            ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_WEBAPP_NAME }}:latest
