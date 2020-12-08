@@ -1,6 +1,6 @@
 <template>
   <div class="recipe-container shadow-lg mx-3 my-5 rounded-xl">
-    <div class="recipe-image rounded-t-xl" style="height:360px; background-size: cover" :style="{ backgroundImage: 'url(' + recipe.imageUrl + ')' }"></div>
+    <div class="recipe-image rounded-t-xl" style="height:360px; background-size: cover" :style="{ backgroundImage: 'url(' + localRecipe.imageUrl + ')' }"></div>
 
     <div class="recipe-info text-left p-5 flex flex-column">
       <div class="recipe-info-container w-full flex flex-row items-center">
@@ -15,7 +15,9 @@
           </small>
         </div>
 
-        <font-awesome-icon icon="heart" class="recipe-favorite text-4xl item-center align-center"/>
+        <font-awesome-icon icon="heart" v-on:click="toggle" :class="localRecipe.isFavourite ? 'text-yellow-400' : ''" class="recipe-favorite text-4xl item-center align-center"/>
+
+
       </div>
 
     </div>
@@ -26,6 +28,17 @@
 export default {
   name: "recipeComponent",
   props: ['recipe'],
+  methods: {
+    toggle() {
+      this.localRecipe.isFavourite = !this.localRecipe.isFavourite;
+    }
+  },
+  computed: {
+    localRecipe: function () {
+      // `this` points to the vm instance
+      return this.recipe;
+    }
+  }
 }
 </script>
 
