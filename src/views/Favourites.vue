@@ -2,22 +2,22 @@
   <div class="w-full">
       <div style="overflow: scroll;margin-bottom: 100px;">
 
-        <RecipeComponent
+        <RecipeFavouriteComponent
             v-for="recipe in recipes"
             v-bind:key="recipe.id"
             v-bind:recipe="recipe"
-        ></RecipeComponent>
+        ></RecipeFavouriteComponent>
 
       </div>
   </div>
 </template>
 
 <script>
-import RecipeComponent from '../components/listing/RecipeComponent.vue'
+import RecipeFavouriteComponent from '../components/listing/RecipeFavouriteComponent.vue'
 export default {
   name: "Favourites",
   components: {
-    RecipeComponent
+    RecipeFavouriteComponent
   },
   data: function () {
     return {
