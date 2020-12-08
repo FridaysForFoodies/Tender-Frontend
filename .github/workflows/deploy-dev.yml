@@ -2,7 +2,7 @@ name: DEV Deploy Container Azure
 
 on:
   push:
-    branches: [develop]
+    branches: [dev]
 
 env:
   AZURE_WEBAPP_NAME: tender-app-dev
