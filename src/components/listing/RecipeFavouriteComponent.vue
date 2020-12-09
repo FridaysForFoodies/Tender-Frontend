@@ -11,7 +11,7 @@
           </h2>
         </div>
 
-        <font-awesome-icon icon="heart" v-on:click="toggle" :class="localRecipe.isFavourite ? 'text-yellow-400' : ''" class="recipe-favorite text-4xl item-center align-center"/>
+        <font-awesome-icon icon="heart" v-on:click="$emit('unfavourite-recipe')" class="text-yellow-400 recipe-favorite text-4xl item-center align-center"/>
 
 
       </div>
@@ -26,7 +26,8 @@ export default {
   props: ['recipe'],
   methods: {
     toggle() {
-      this.localRecipe.isFavourite = !this.localRecipe.isFavourite;
+      this.localRecipe.isFavourite =! this.localRecipe.isFavourite;
+      this
     }
   },
   computed: {
