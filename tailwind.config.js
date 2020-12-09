@@ -6,7 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'regal-blue': '#243c5a',
+        primary: "var(--color-primary)",
+        secondary: "var(--color-secondary)",
+        darkGrex: "var(--color-dark-grey)",
+        lightGrey: "var(--color-light-grey)",
+        'regal-blue': '#243c5a'
       }
     },
   },
