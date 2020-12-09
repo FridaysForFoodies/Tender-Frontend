@@ -27,7 +27,6 @@ export default {
   methods: {
     toggle() {
       this.localRecipe.isFavourite =! this.localRecipe.isFavourite;
-      this
     }
   },
   computed: {
