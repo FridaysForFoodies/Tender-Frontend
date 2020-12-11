@@ -5,6 +5,7 @@ import Home from './views/Home'
 import Favourites from './views/Favourites'
 import Settings from  './views/Settings'
 import FoodTender from  './views/FoodTender'
+import Recipes from  './views/Recipes'
 
 
 Vue.use(Router)
@@ -31,6 +32,11 @@ const router = new Router({
         path: '/food-tender',
         name: 'FoodTender',
         component: FoodTender
+    },
+    {
+        path: '/recipes',
+        name: 'Recipes',
+        component: Recipes
     }
 ]
 })

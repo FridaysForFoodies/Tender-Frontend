@@ -1,24 +1,24 @@
 <template>
   <div class="w-full">
-      <div style="overflow: scroll;margin-bottom: 100px;">
+    <div style="overflow: scroll;margin-bottom: 100px;">
 
-        <RecipeFavouriteComponent
-            v-for="recipe in recipes"
-            v-bind:key="recipe.id"
-            v-bind:recipe="recipe"
-            v-on:unfavourite-recipe="unfavRecipe(index)"
-        ></RecipeFavouriteComponent>
+      <RecipeComponent
+          v-for="recipe in recipes"
+          v-bind:key="recipe.id"
+          v-bind:recipe="recipe"
+          v-on:unfavourite-recipe="unfavRecipe(index)"
+      ></RecipeComponent>
 
-      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import RecipeFavouriteComponent from '../components/listing/RecipeFavouriteComponent.vue'
+import RecipeComponent from '../components/listing/RecipeComponent.vue'
 export default {
   name: "Favourites",
   components: {
-    RecipeFavouriteComponent
+    RecipeComponent
   },
   data: function () {
     return {
@@ -31,18 +31,11 @@ export default {
     }
   },
   methods: {
-    unfavRecipe: function(index) {
-      this.recipes.splice(index, 1);
-    }
+
   },
-  beforeRouteLeave(to, from, next) {
-    //this.unfavRecipes();
-    console.log("delte fav now");
-    next();
-  }
 }
 </script>
 
 <style scoped>
 
-</style>  
+</style>
