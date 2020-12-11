@@ -22,10 +22,15 @@
   <div class="relative w-screen flex-1 px-6">
 
     <!-- Hier muss noch die Karte rein...  dafür wollte ich gerne ein Card component erstellen-->
-  <CardStackComponent/>
+    <CardStackComponent
+        v-for="tag in tags"
+        v-bind:key="tag.id"
+        v-bind:items="tag.items"
+        v-bind:tag="tag"
+        :style="{ zIndex: -tag.id }"
+    />
 
   </div>
-
 
   
   </div>
@@ -52,18 +57,23 @@ export default {
   },
   data: function() {
     return {
-      tags: [{
-        cuisine: [
+      tags: [
+        {
+        id: 1,
+        category: 'cuisine',
+        items: [
           {id: 1, title: 'Japanese'},
           {id: 2, title: 'Italian'},
           {id: 3, title: 'German'},
-        ],
-        taste: [
-          {id: 1, title: 'Sweet'},
-          {id: 2, title: 'Salty'},
-          {id: 3, title: 'Spicy'},
-        ]
-      }]
+        ]}, {
+        id: 2,
+        category: 'taste',
+        items: [
+          {id: 1, title: 'sweet'},
+          {id: 2, title: 'spicy'},
+          {id: 3, title: 'salty'},
+        ]}
+      ]
     }
   }
 }

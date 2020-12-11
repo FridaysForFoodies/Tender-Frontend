@@ -2,7 +2,7 @@
   <div class="absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100">
 
     <div class="flex-1">
-      Tag 1
+      {{ localItem.title }}
     </div>
 
     <!-- Buttons -->
@@ -20,7 +20,13 @@
 
 <script>
 export default {
-  name: "CardComponent"
+  name: "CardComponent",
+  props: ['item'],
+  computed: {
+    localItem: function () {
+      return this.item;
+    }
+  }
 }
 </script>
 
