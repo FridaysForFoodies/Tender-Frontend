@@ -6,7 +6,7 @@
             v-for="recipe in recipes"
             v-bind:key="recipe.id"
             v-bind:recipe="recipe"
-            v-on:unfavourite-recipe="unfavouriteRecipe(index)"
+            v-on:unfavourite-recipe="unfavRecipe(index)"
         ></RecipeFavouriteComponent>
 
       </div>
@@ -31,9 +31,14 @@ export default {
     }
   },
   methods: {
-    unfavouriteRecipe: function(index) {
+    unfavRecipe: function(index) {
       this.recipes.splice(index, 1);
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    //this.unfavRecipes();
+    console.log("delte fav now");
+    next();
   }
 }
 </script>
