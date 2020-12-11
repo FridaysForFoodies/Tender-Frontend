@@ -3,11 +3,11 @@
 
   <div class="bg-white w-screen h-2.5"></div>
   
-  <div class="w-screen h-12 bg-white space-x-4 mb-2.5 ">
-    <button @click="goBack" class="w-8 h-8 ml-1 mt-2.5 mr-1 mb-1 inline-block" type="button">
+  <div class="flex w-screen h-12 bg-white space-x-4 mb-2.5">
+    <button @click="goBack" class="w-12 h-12 m-1" type="button">
       <img alt="Back" src="../assets/images/back-button.png">
       </button>
-      <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >Swipe for your taste!</h1> 
+      <h2 class="inline-block align-middle h-12 text-2xl font-bold" >Swipe for your taste!</h2> 
   </div>
       
     
