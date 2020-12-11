@@ -9,13 +9,9 @@
           <h2 class="text-2xl font-bold leading-6">
             {{ recipe.title }}
           </h2>
-
-          <small>
-            es fehlt dies das und das
-          </small>
         </div>
 
-        <font-awesome-icon icon="heart" v-on:click="toggle" :class="localRecipe.isFavourite ? 'text-yellow-400' : ''" class="recipe-favorite text-4xl item-center align-center"/>
+        <font-awesome-icon icon="heart" v-on:click="$emit('unfavourite-recipe')" class="text-yellow-400 recipe-favorite text-4xl item-center align-center"/>
 
 
       </div>
@@ -30,12 +26,11 @@ export default {
   props: ['recipe'],
   methods: {
     toggle() {
-      this.localRecipe.isFavourite = !this.localRecipe.isFavourite;
+      this.localRecipe.isFavourite =! this.localRecipe.isFavourite;
     }
   },
   computed: {
     localRecipe: function () {
-      // `this` points to the vm instance
       return this.recipe;
     }
   }
@@ -43,7 +38,7 @@ export default {
 </script>
 
 <style scoped>
-  .recipe-info {
-    height: 90px;
-  }
+.recipe-info {
+  height: 90px;
+}
 </style>
