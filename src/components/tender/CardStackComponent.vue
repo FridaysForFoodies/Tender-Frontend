@@ -1,10 +1,10 @@
 <template>
   <div class="absolute left-0 right-0 top-0 h-full">
     <CardComponent
-        v-for="item in items"
-        v-bind:key="item.id"
+        v-for="(item, index) in items"
+        v-bind:key="index"
         v-bind:item="item"
-        :style="{ zIndex: -item.id }"
+        :style="{ zIndex: -index }"
     />
   </div>
 </template>

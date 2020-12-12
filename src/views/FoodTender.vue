@@ -23,11 +23,11 @@
 
     <!-- Hier muss noch die Karte rein...  dafür wollte ich gerne ein Card component erstellen-->
     <CardStackComponent
-        v-for="tag in tags"
-        v-bind:key="tag.id"
+        v-for="(tag, index) in tags"
+        v-bind:key="index"
         v-bind:items="tag.items"
         v-bind:tag="tag"
-        :style="{ zIndex: -tag.id }"
+        :style="{ zIndex: -index }"
     />
 
   </div>
