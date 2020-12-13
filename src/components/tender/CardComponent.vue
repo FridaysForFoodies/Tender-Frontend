@@ -11,17 +11,17 @@
       v-if="isShowing"
   >
     <!-- Title -->
-    <div class="flex-1">
-      {{ localItem.title }}
+    <div class="flex-1"> 
+      {{ item.title }} <strong> {{ item.liked }} </strong>
     </div>
 
     <!-- Buttons -->
     <div class="flex flex-row justify-around w-full h-16 text-center mb-6">
-      <button class="w-16 h-auto">
+      <button class="w-16 h-auto" @click="replyDad">
         <img class="transform rotate-180" alt="Dislike" src="../../assets/images/dislike.png">
       </button>
 
-      <button class="w-16 h-auto">
+      <button class="w-16 h-auto" @click="like(item)">
         <img alt="Like" src="../../assets/images/like.png">
       </button>
     </div>
@@ -37,7 +37,7 @@ export default {
   components: {
     Vue2InteractDraggable
   },
-  props: ['item'],
+  props: ['item', 'listenerGrandChild'],
   computed: {
     localItem: function () {
       return this.item;
@@ -69,6 +69,19 @@ export default {
       setTimeout(() => {
         this.isShowing = false;
       }, 200);
+    },
+    like(item) {
+      this.localItem.like = true;
+      console.log(item.title + " liked!");
+      console.log(item.title + " is now: " + item.like);
+      //this.hideCard();
+    },
+    dislike(item) {
+      console.log(item.title + " disliked!");
+      this.hideCard();
+    },
+    replyDad() {
+      this.$emit("listenerGrandChild", "I'm here my Dad!");
     }
   }
 }

@@ -7,7 +7,8 @@
     <button @click="goBack" class="w-8 h-8 ml-1 mt-2.5 mr-1 mb-1 inline-block" type="button">
       <img alt="Back" src="../assets/images/back-button.png">
       </button>
-      <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >Swipe for your taste!</h1> 
+      <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >{{ message }}</h1> 
+    
   </div>
       
     
@@ -23,15 +24,15 @@
 
     <!-- Hier muss noch die Karte rein...  dafür wollte ich gerne ein Card component erstellen-->
     <CardStackComponent
-        v-for="(tag, index) in tags"
+        v-for="(tag, index) in unlikedCategories"
         v-bind:key="index"
         v-bind:items="tag.items"
         v-bind:tag="tag"
         :style="{ zIndex: -index }"
+
+        @listenerChild="listenerChild"
     />
-
   </div>
-
   
   </div>
 </template>
@@ -48,11 +49,19 @@ export default {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     },
-    like() {
-      console.log("like tapped")
+    listenerChild(reply) {
+      this.message = reply;
+    }
+  },
+  computed: {
+    localTags() {
+      return this.tags
     },
-    dislike() {
-      console.log("dislike tapped")
+    unlikedCategories() {
+      // only returns the categories that have not been liked yet
+      const newTags = this.localTags.filter(cat => cat.items.every(item => item.liked === false));
+      console.log(newTags);
+      return newTags;
     }
   },
   data: function() {
@@ -62,18 +71,29 @@ export default {
         id: 1,
         category: 'cuisine',
         items: [
-          {id: 1, title: 'Japanese'},
-          {id: 2, title: 'Italian'},
-          {id: 3, title: 'German'},
+          {id: 1, title: 'Japanese', liked: false},
+          {id: 2, title: 'Italian', liked: false},
+          {id: 3, title: 'German', liked: false},
+          {id: 3, title: 'Indian', liked: false},
+
         ]}, {
         id: 2,
         category: 'taste',
         items: [
-          {id: 1, title: 'sweet'},
-          {id: 2, title: 'spicy'},
-          {id: 3, title: 'salty'},
+          {id: 1, title: 'sweet', liked: false},
+          {id: 2, title: 'spicy', liked: false},
+          {id: 3, title: 'salty', liked: false},
+        ]},
+        {
+        id: 2,
+        category: 'carbs',
+        items: [
+          {id: 1, title: 'potatoe', liked: false},
+          {id: 2, title: 'pasta', liked: false},
+          {id: 3, title: 'bread', liked: false},
         ]}
-      ]
+      ],
+      message: "Where are you, my Childddd?"
     }
   }
 }
