@@ -7,8 +7,7 @@
     <button @click="goBack" class="w-8 h-8 ml-1 mt-2.5 mr-1 mb-1 inline-block" type="button">
       <img alt="Back" src="../assets/images/back-button.png">
       </button>
-      <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >{{ message }}</h1> 
-    
+      <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >{{ message }}</h1>     
   </div>
       
     
@@ -19,18 +18,16 @@
     </div>
   </div> 
 
-  <!-- Card Container -->
   <div class="relative w-screen flex-1 px-6">
-
-    <!-- Hier muss noch die Karte rein...  dafür wollte ich gerne ein Card component erstellen-->
     <CardStackComponent
-        v-for="(tag, index) in unlikedCategories"
+        v-for="(tag, index) in openCategories"
         v-bind:key="index"
         v-bind:items="tag.items"
-        v-bind:tag="tag"
+        v-bind:category="tag.category"
         :style="{ zIndex: -index }"
 
-        @listenerChild="listenerChild"
+        @liked="setCategoryLiked"
+        @disliked="categoryIsUnliked"  
     />
   </div>
   
@@ -49,19 +46,22 @@ export default {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     },
-    listenerChild(reply) {
-      this.message = reply;
+    categoryIsUnliked(items, item) {
+      let lastElement = items[items.length - 1];
+      if(lastElement.title === item.title) {
+        item.liked = true;
+      }
+    },
+    setCategoryLiked(category, subcategory) {
+      let tagIndex = this.tags.findIndex(tag => tag.category === category);
+      let itemIndex = this.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
+      this.tags[tagIndex].items[itemIndex].liked = true;
     }
   },
   computed: {
-    localTags() {
-      return this.tags
-    },
-    unlikedCategories() {
-      // only returns the categories that have not been liked yet
-      const newTags = this.localTags.filter(cat => cat.items.every(item => item.liked === false));
-      console.log(newTags);
-      return newTags;
+    openCategories() {
+      // returns all elements in tags array, where all items in items array have not been liked yet
+      return this.tags.filter(tag => tag.items.every(item => item.liked === false));
     }
   },
   data: function() {
@@ -74,26 +74,44 @@ export default {
           {id: 1, title: 'Japanese', liked: false},
           {id: 2, title: 'Italian', liked: false},
           {id: 3, title: 'German', liked: false},
-          {id: 3, title: 'Indian', liked: false},
-
-        ]}, {
+          {id: 4, title: 'Indian', liked: false},
+        ]}, 
+        {
         id: 2,
-        category: 'taste',
+        category: 'flavour',
         items: [
           {id: 1, title: 'sweet', liked: false},
           {id: 2, title: 'spicy', liked: false},
           {id: 3, title: 'salty', liked: false},
         ]},
         {
-        id: 2,
+        id: 3,
         category: 'carbs',
         items: [
           {id: 1, title: 'potatoe', liked: false},
           {id: 2, title: 'pasta', liked: false},
           {id: 3, title: 'bread', liked: false},
+        ]},
+        {
+        id: 4,
+        category: 'season',
+        items: [
+          {id: 1, title: 'summer', liked: false},
+          {id: 2, title: 'winter', liked: false},
+          {id: 3, title: 'spring', liked: false},
+          {id: 4, title: 'autumn', liked: false},
+        ]},
+        {
+        id: 5,
+        category: 'diet',
+        items: [
+          {id: 1, title: 'low carb', liked: false},
+          {id: 2, title: 'protein boost', liked: false},
+          {id: 3, title: 'low fat', liked: false},
+          {id: 4, title: 'autumn', liked: false},
         ]}
       ],
-      message: "Where are you, my Childddd?"
+      message: "Swipe for your Taste!"
     }
   }
 }

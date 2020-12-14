@@ -2,22 +2,23 @@
   <!-- Draggable -->
   <Vue2InteractDraggable
       class="absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100"
-      @draggedLeft="draggedLeft"
-      @draggedRight="draggedRight"
       :interact-block-drag-down="interactBlockDragDown"
       :interact-block-drag-left="interactBlockDragLeft"
       :interact-block-drag-right="interactBlockDragRight"
       :interact-block-drag-up="interactBlockDragUp"
       v-if="isShowing"
+
+      @draggedLeft="dislike(item)"
+      @draggedRight="like(item)"
   >
     <!-- Title -->
     <div class="flex-1"> 
-      {{ item.title }} <strong> {{ item.liked }} </strong>
+      {{ item.title }}
     </div>
 
     <!-- Buttons -->
     <div class="flex flex-row justify-around w-full h-16 text-center mb-6">
-      <button class="w-16 h-auto" @click="replyDad">
+      <button class="w-16 h-auto" @click="dislike(item)">
         <img class="transform rotate-180" alt="Dislike" src="../../assets/images/dislike.png">
       </button>
 
@@ -25,7 +26,7 @@
         <img alt="Like" src="../../assets/images/like.png">
       </button>
     </div>
-
+    
   </Vue2InteractDraggable>
 </template>
 
@@ -37,11 +38,8 @@ export default {
   components: {
     Vue2InteractDraggable
   },
-  props: ['item', 'listenerGrandChild'],
-  computed: {
-    localItem: function () {
-      return this.item;
-    }
+  props: {
+    item: Object
   },
   data() {
     return {
@@ -53,35 +51,18 @@ export default {
     };
   },
   methods: {
-    draggedLeft() {
-      console.log("dragged left!");
-      //emit negative event
-      this.hideCard();
-    },
-
-    draggedRight() {
-      console.log("dragged right!");
-      //emit positive event
-      this.hideCard();
-    },
-
     hideCard() {
       setTimeout(() => {
         this.isShowing = false;
       }, 200);
     },
     like(item) {
-      this.localItem.like = true;
-      console.log(item.title + " liked!");
-      console.log(item.title + " is now: " + item.like);
-      //this.hideCard();
-    },
-    dislike(item) {
-      console.log(item.title + " disliked!");
+      this.$emit('liked', item);
       this.hideCard();
     },
-    replyDad() {
-      this.$emit("listenerGrandChild", "I'm here my Dad!");
+    dislike(item) {
+      this.$emit('disliked', item);
+      this.hideCard();
     }
   }
 }
