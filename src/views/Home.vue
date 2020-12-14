@@ -1,8 +1,9 @@
 <template>
     <div class="h-full p-4">
+
       <h1 class="text-2xl font-bold mt-24">Which ingredients<br/> do you have?</h1> 
       <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center">
-        
+   
         <div flex-1>
           <vue-tags-input v-model="tag" :tags="tags" :autocomplete-items="proposedIngredients" :validation="validation" @tags-changed="newTags => tags = newTags"/>
         </div>
@@ -12,12 +13,13 @@
         </router-link>
       </div>
 
-      <p class="font-bold mt-4">Common search terms</p>
+      <p class="font-bold	mt-4">Common search terms</p>
 
       <div v-for="ingredient in unselectedIngredients" :key="ingredient" @click="addTagFromList(ingredient)"
         class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2">
         <p class="text-gray-400">{{ ingredient.text }}</p>
       </div>
+
   </div>
 </template>
 
