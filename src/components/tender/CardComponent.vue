@@ -15,8 +15,8 @@
     <div class="flex-1"> 
       {{ item.title }}
     </div>
-
-    <!-- Buttons -->
+    
+    <!-- Buttons need to be moved to card stack component -->
     <div class="flex flex-row justify-around w-full h-16 text-center mb-6">
       <button class="w-16 h-auto" @click="dislike(item)">
         <img class="transform rotate-180" alt="Dislike" src="../../assets/images/dislike.png">
@@ -26,8 +26,9 @@
         <img alt="Like" src="../../assets/images/like.png">
       </button>
     </div>
-    
   </Vue2InteractDraggable>
+
+
 </template>
 
 <script>
@@ -58,10 +59,10 @@ export default {
     },
     like(item) {
       this.$emit('liked', item);
-      this.hideCard();
     },
     dislike(item) {
       this.$emit('disliked', item);
+      // maybe better to manage this by cardstackcomponent
       this.hideCard();
     }
   }

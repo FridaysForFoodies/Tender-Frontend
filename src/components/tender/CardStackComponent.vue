@@ -11,6 +11,7 @@
         @liked="liked"
         @disliked="disliked"
     />
+    
   </div>
 </template>
 
