@@ -8,6 +8,10 @@
       :interact-block-drag-left="interactBlockDragLeft"
       :interact-block-drag-right="interactBlockDragRight"
       :interact-block-drag-up="interactBlockDragUp"
+      :interact-lock-y-axis="true"
+      :interact-max-rotation="15"
+      :interact-x-threshold="200"
+      :interact-y-threshold="200"
       v-if="isShowing"
   >
     <!-- Title -->
