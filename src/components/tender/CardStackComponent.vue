@@ -34,11 +34,6 @@ export default {
     disliked(item) {
       this.$emit('disliked', this.items, item);
     }
-  },
-  data() {
-    return {
-      childMessage: "Where are you, my Grand Childddd?"
-    };
   }
 }
 </script>

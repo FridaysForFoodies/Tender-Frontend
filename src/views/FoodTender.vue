@@ -47,12 +47,14 @@ export default {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     },
     categoryIsUnliked(items, item) {
+      // need to discuss what happens if all items of category have been disliked
       let lastElement = items[items.length - 1];
       if(lastElement.title === item.title) {
         item.liked = true;
       }
     },
     setCategoryLiked(category, subcategory) {
+      // only temp solution until final data model is available
       let tagIndex = this.tags.findIndex(tag => tag.category === category);
       let itemIndex = this.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
       this.tags[tagIndex].items[itemIndex].liked = true;
