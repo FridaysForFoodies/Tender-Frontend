@@ -66,7 +66,7 @@ export default {
     },
     dislike(item) {
       this.$emit('disliked', item);
-      // maybe better to manage this by cardstackcomponent
+      // maybe better to hide card via stack
       this.hideCard();
     }
   }
