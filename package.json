@@ -18,7 +18,8 @@
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.9"
+    "vue-router": "^3.4.9",
+    "vue2-interact": "0.0.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
