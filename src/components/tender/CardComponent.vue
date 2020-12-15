@@ -63,6 +63,7 @@ export default {
     },
     like(item) {
       this.$emit('liked', item);
+      this.hideCard();
     },
     dislike(item) {
       this.$emit('disliked', item);
