@@ -17,7 +17,7 @@
   >
     <!-- Title -->
     <div class="flex-1"> 
-      {{ item.title }}
+      {{ item.title }} {{ this.$store.state.count }}
     </div>
     
     <!-- Buttons need to be moved to card stack component -->
@@ -62,8 +62,7 @@ export default {
       }, 200);
     },
     like(item) {
-      this.$emit('liked', item);
-      this.hideCard();
+      this.$emit('liked', item);      
     },
     dislike(item) {
       this.$emit('disliked', item);
