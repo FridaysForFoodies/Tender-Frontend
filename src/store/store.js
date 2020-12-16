@@ -12,7 +12,7 @@ const store = new Vuex.Store({
         id: 1,
         category: 'cuisine',
         items: [
-          {id: 1, title: 'Japanese', liked: false},
+          {id: 1, title: 'Japanese', liked: false, imgURL: 'https://external-preview.redd.it/vxPXEGgL4v8mCGw06IFGsmJNtqWQg-z60xQQ79dHKPY.jpg?auto=webp&s=db7685262e9b352a4888e547f52a244e2ea2cb9f'},
           {id: 2, title: 'Italian', liked: false},
           {id: 3, title: 'German', liked: false},
           {id: 4, title: 'Indian', liked: false},
@@ -60,6 +60,8 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
+      // !!! Mutations Must Be Synchronous
+
       [LIKE_CATEGORY_ITEM](state, category, subcategory) {
         let tagIndex = state.tags.findIndex(tag => tag.category === category);
         let itemIndex = state.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
@@ -68,7 +70,7 @@ const store = new Vuex.Store({
     }, 
     actions: {
       // Instead of mutating the state, actions commit mutations.
-      // Actions can contain arbitrary asynchronous operations. --> AXIOS Stuff goes in here :)   
+      // Actions can contain arbitrary >> asynchronous operations << . --> AXIOS Stuff goes in here :)   
     }
   })
 

@@ -62,7 +62,6 @@ export default {
   },
   computed: {
     openCategories() {
-      // returns all elements in tags array, where all items in items array have not been liked yet
       return this.$store.getters.openCategories
     },
     tags(){
