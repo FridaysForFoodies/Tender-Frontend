@@ -63,57 +63,15 @@ export default {
   computed: {
     openCategories() {
       // returns all elements in tags array, where all items in items array have not been liked yet
-      return this.tags.filter(tag => tag.items.every(item => item.liked === false));
+      return this.$store.getters.openCategories
+    },
+    tags(){
+      return this.$store.state.tags
     }
   },
   data: function() {
     return {
-      tags: [
-        {
-        id: 1,
-        category: 'cuisine',
-        items: [
-          {id: 1, title: 'Japanese', liked: false},
-          {id: 2, title: 'Italian', liked: false},
-          {id: 3, title: 'German', liked: false},
-          {id: 4, title: 'Indian', liked: false},
-        ]}, 
-        {
-        id: 2,
-        category: 'flavour',
-        items: [
-          {id: 1, title: 'sweet', liked: false},
-          {id: 2, title: 'spicy', liked: false},
-          {id: 3, title: 'salty', liked: false},
-        ]},
-        {
-        id: 3,
-        category: 'carbs',
-        items: [
-          {id: 1, title: 'potatoe', liked: false},
-          {id: 2, title: 'pasta', liked: false},
-          {id: 3, title: 'bread', liked: false},
-        ]},
-        {
-        id: 4,
-        category: 'season',
-        items: [
-          {id: 1, title: 'summer', liked: false},
-          {id: 2, title: 'winter', liked: false},
-          {id: 3, title: 'spring', liked: false},
-          {id: 4, title: 'autumn', liked: false},
-        ]},
-        {
-        id: 5,
-        category: 'diet',
-        items: [
-          {id: 1, title: 'low carb', liked: false},
-          {id: 2, title: 'protein boost', liked: false},
-          {id: 3, title: 'low fat', liked: false},
-          {id: 4, title: 'autumn', liked: false},
-        ]}
-      ],
-      message: "Swipe for your Taste!"
+       message: "Swipe for your Taste!"
     }
   }
 }
