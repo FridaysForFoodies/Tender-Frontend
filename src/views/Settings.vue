@@ -2,7 +2,7 @@
   <div class="my-4 mx-8">
     <h1 class="text-2xl font-bold">Do you have some special preferences?</h1>
 
-    <div class="grid grid-cols-2 gap-6 my-12">
+    <div class="grid grid-cols-2 gap-6 mt-12">
       <div class="text-left font-bold">
         <label for="vegetarian">Vegetarian </label>
       </div>
@@ -52,7 +52,17 @@
 <!--    <input type="range" min="15" max="60" value="30" step="15" id="time" v-model="time" name="time" class="slider">-->
 <!--    </div>-->
 
-    <vue-range-slider ref="slider" v-model="value" :dot-size="32" :min="0" :max="60" step="15" :process-style="{'background-color': '#ffda07'}" :height="2" :tooltip="false"></vue-range-slider>
+    <div class="text-left font-bold mt-6">
+      <span>Cooking time</span>
+    </div>
+    <br>
+    <vue-range-slider ref="slider" v-model="value" :dot-size="32" :min="15" :max="60" step="15" :process-style="{'background-color': '#ffda07'}" :height="2" :tooltip="false"/>
+    <div class="flex justify-between mx-2 mt-2">
+      <div>15</div>
+      <div>30</div>
+      <div>45</div>
+      <div>60+</div>
+    </div>
 
   </div>
 </template>
