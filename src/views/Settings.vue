@@ -46,16 +46,21 @@
       </div>
     </div>
 
-    <div class="slider-container">
-    <label class="text-left font-bold" for="time">Cooking time: {{ time }}<span v-show="time == 60">+</span></label>
-    <br>
-    <input type="range" min="15" max="60" value="30" step="15" id="time" v-model="time" name="time" class="slider">
-    </div>
+<!--    <div class="slider-container">-->
+<!--    <label class="text-left font-bold" for="time">Cooking time: {{ time }}<span v-show="time == 60">+</span></label>-->
+<!--    <br>-->
+<!--    <input type="range" min="15" max="60" value="30" step="15" id="time" v-model="time" name="time" class="slider">-->
+<!--    </div>-->
+
+    <vue-range-slider ref="slider" v-model="value" :dot-size="32" :min="0" :max="60" step="15" :process-style="{'background-color': '#ffda07'}" :height="2" :tooltip="false"></vue-range-slider>
 
   </div>
 </template>
 
 <script>
+import 'vue-range-component/dist/vue-range-slider.css'
+import VueRangeSlider from 'vue-range-component'
+
 export default {
   name: "Settings",
   data() {
@@ -64,7 +69,8 @@ export default {
       vegan: false,
       gluten: false,
       dairy: false,
-      time: 30
+      // time: 30
+      value: 30
     }
   },
   methods: {
@@ -79,6 +85,9 @@ export default {
   },
   computed: {
 
+  },
+  components: {
+    VueRangeSlider
   }
 }
 </script>
