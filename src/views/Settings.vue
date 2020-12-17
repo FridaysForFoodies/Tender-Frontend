@@ -193,4 +193,34 @@ input:checked + .switcher:before {
   cursor: pointer;
 }
 
+
+/* color the track
+ * firefox/webkit gradient done in JavaScript */
+/*input::-moz-range-track {*/
+/*  border: solid 2px #444;*/
+/*  border-radius: 8px;*/
+/*  -webkit-appearance: none;*/
+/*}*/
+/*input::-ms-fill-upper {*/
+/*  background-color: var(--color-primary);*/
+/*}*/
+.slider::-ms-fill-lower {
+  background-color: #267928;
+}
+/*input::-ms-fill-upper, input::-ms-fill-lower {*/
+/*  border: solid 2px #444;*/
+/*  border-radius: 8px;*/
+/*  -webkit-appearance: none;*/
+/*}*/
+/*input::-ms-track {*/
+/*  border: none;*/
+/*  color: transparent;*/
+/*}*/
+/*input.webkit-track {*/
+/*  border: solid 2px #444;*/
+/*  border-radius: 8px;*/
+/*  -webkit-appearance: none;*/
+/*}*/
+
+
 </style>
