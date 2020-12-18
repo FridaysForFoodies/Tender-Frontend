@@ -16,7 +16,7 @@
       @draggedLeft="dislike(item)"
       @draggedRight="like(item)"
   >
-      <img class="absolute flex flex-col left-0 right-0 top-0 h-full transform rounded-lg opacity-30" src="https://image.freepik.com/fotos-kostenlos/hoher-winkel-der-koestlichen-ramen-in-der-schuessel_23-2148678758.jpg" alt="monkey">
+    <img class="absolute flex flex-col left-0 right-0 top-0 h-full transform rounded-lg opacity-30" src="https://image.freepik.com/fotos-kostenlos/hoher-winkel-der-koestlichen-ramen-in-der-schuessel_23-2148678758.jpg" alt="japanese">
 
     <!-- Title -->
     <div class="flex-1 text-center font-oswald text-6xl uppercase"> 
@@ -29,12 +29,12 @@
       <button class="w-16 h-auto" @click="dislike(item)">
         <img class="transform rotate-180 mt-1" alt="Dislike" src="../../assets/images/dislike.png">
       </button>
-    </div>
+    </div> 
       <div class="rounded-full h-28 w-28 flex items-center justify-center bg-white border-8 border-gray-200">
       <button class="w-16 h-auto mb-2.5" @click="like(item)">
         <img alt="Like" src="../../assets/images/like.png">
       </button>
-      </div>
+    </div>
     </div>
 
   </Vue2InteractDraggable>
