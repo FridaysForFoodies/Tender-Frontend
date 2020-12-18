@@ -57,6 +57,11 @@ const store = new Vuex.Store({
         openCategories: state => {
             // returns all elements in tags array, where all items in items array have not been liked yet
             return state.tags.filter(tag => tag.items.every(item => item.liked === false));
+        },
+        finishedCategories: state => {
+          const allCategories = state.tags.length;
+
+          return allCategories - state.tags.filter(tag => tag.items.every(item => item.liked === false)).length; 
         }
     },
     mutations: {
