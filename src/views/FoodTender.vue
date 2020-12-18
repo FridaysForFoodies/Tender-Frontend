@@ -13,7 +13,10 @@
     
   <div class="relative m-2.5 h-8">
     <div class="overflow-hidden h-1.5 mb-4 flex bg-secondary">
-      <div style="width:25%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center align-middle bg-primary">
+      <div class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center align-middle bg-primary"
+          v-bind:style="{ width: progress()}"
+          style=""
+      >
       </div>
     </div>
   </div> 
@@ -58,12 +61,20 @@ export default {
       let tagIndex = this.tags.findIndex(tag => tag.category === category);
       let itemIndex = this.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
       this.tags[tagIndex].items[itemIndex].liked = true;
+    },
+    progress() {
+      // calculate progress based on finished categories
+      let progress = (this.finishedCategories / this.tags.length) * 100;
+      return  progress.toString() + "%"
     }
   },
   computed: {
     openCategories() {
       // returns all elements in tags array, where all items in items array have not been liked yet
       return this.$store.getters.openCategories
+    },
+    finishedCategories() {
+      return this.$store.getters.finishedCategories
     },
     tags(){
       return this.$store.state.tags

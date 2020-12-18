@@ -16,6 +16,7 @@
       @draggedLeft="dislike(item)"
       @draggedRight="like(item)"
   >
+
     <!-- Title -->
     <div class="flex-1">
       <h2 class="text-center font-oswald text-6xl uppercase" style="line-height: 8;">
