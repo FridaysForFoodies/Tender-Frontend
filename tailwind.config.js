@@ -11,11 +11,17 @@ module.exports = {
         darkGrex: "var(--color-dark-grey)",
         lightGrey: "var(--color-light-grey)",
         'regal-blue': '#243c5a'
+      },
+      fontFamily: {
+        montserrat: ['Montserrat'],
+        openSans: ['Open Sans'],
+        oswald: ['Oswald']
       }
-    },
+    }
   },
   variants: {
     extend: {},
   },
   plugins: [],
 }
+
