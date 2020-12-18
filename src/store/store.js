@@ -62,8 +62,6 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
-      // !!! Mutations Must Be Synchronous
-
       [LIKE_CATEGORY_ITEM](state, category, subcategory) {
         let tagIndex = state.tags.findIndex(tag => tag.category === category);
         let itemIndex = state.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
@@ -72,7 +70,9 @@ const store = new Vuex.Store({
     }, 
     actions: {
       // Instead of mutating the state, actions commit mutations.
+
       // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)   
+
     }
   })
 
