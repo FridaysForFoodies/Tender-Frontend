@@ -16,6 +16,7 @@
       @draggedLeft="dislike(item)"
       @draggedRight="like(item)"
   >
+
     <!-- Title -->
     <div class="flex-1">
       <h2 class="text-center font-oswald text-6xl uppercase" style="line-height: 8;">
@@ -29,7 +30,7 @@
         <img class="transform rotate-180" alt="Dislike" src="../../assets/images/dislike.png">
       </button>
 
-      <button class="rounded-full h-24 w-24 flex items-center justify-center bg-white border-8 border-gray-200 p-4" @click="like(item)">
+      <button class=" rounded-full h-24 w-24 flex items-center justify-center bg-white border-8 border-gray-200 p-4" @click="like(item)">
         <img alt="Like" src="../../assets/images/like.png">
       </button>
     </div>
