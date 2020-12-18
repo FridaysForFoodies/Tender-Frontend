@@ -55,13 +55,10 @@ const store = new Vuex.Store({
     },
     getters: {
         openCategories: state => {
-            // returns all elements in tags array, where all items in items array have not been liked yet
             return state.tags.filter(tag => tag.items.every(item => item.liked === false));
         },
         finishedCategories: state => {
-          const allCategories = state.tags.length;
-
-          return allCategories - state.tags.filter(tag => tag.items.every(item => item.liked === false)).length; 
+          return state.tags.length - state.tags.filter(tag => tag.items.every(item => item.liked === false)).length; 
         }
     },
     mutations: {
@@ -75,7 +72,7 @@ const store = new Vuex.Store({
     }, 
     actions: {
       // Instead of mutating the state, actions commit mutations.
-      // Actions can contain arbitrary >> asynchronous operations << . --> AXIOS Stuff goes in here :)   
+      // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)   
     }
   })
 
