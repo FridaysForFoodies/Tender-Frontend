@@ -1,58 +1,13 @@
 <template>
   <div class="my-4 mx-8">
-    <h1 class="text-2xl font-bold">Do you have some special preferences?</h1>
+    <h1 class="text-2xl font-bold mb-12">Do you have some special preferences?</h1>
 
-    <div class="grid grid-cols-2 gap-6 mt-12">
-      <div class="text-left font-bold">
-        <label for="vegetarian">Vegetarian </label>
-      </div>
-      <div class="text-right">
-        <label class="switch">
-          <input type="checkbox" id="vegetarian" value="vegetarian" name="vegetarian" v-model="vegetarian"
-                 @change="checkConsistency(false)">
-          <span class="switcher round"/>
-        </label>
-      </div>
+    <settings-checkbox :label-text="vegetarianLabel" :mapped-value="vegetarian" @change="checkConsistency=$event"/>
+    <settings-checkbox :label-text="veganLabel" :mapped-value="vegan" @change="checkConsistency=$event"/>
+    <settings-checkbox :label-text="glutenLabel" :mapped-value="gluten" @change="checkConsistency=$event"/>
+    <settings-checkbox :label-text="dairyLabel" :mapped-value="dairy" @change="checkConsistency=$event"/>
 
-      <div class="text-left font-bold">
-        <label for="vegan">Vegan </label>
-      </div>
-      <div class="text-right">
-        <label class="switch">
-          <input type="checkbox" id="vegan" name="vegan" value="vegan" v-model="vegan" @change="checkConsistency(true)">
-          <span class="switcher round"/>
-        </label>
-      </div>
-
-      <div class="text-left font-bold">
-        <label for="gluten">Glutenfree </label>
-      </div>
-      <div class="text-right">
-        <label class="switch">
-          <input type="checkbox" id="gluten" name="gluten" value="gluten" v-model="gluten">
-          <span class="switcher round"/>
-        </label>
-      </div>
-
-      <div class="text-left font-bold">
-        <label for="dairy">Dairy </label>
-      </div>
-      <div class="text-right">
-        <label class="switch">
-          <input type="checkbox" id="dairy" name="dairy" value="dairy" v-model="dairy"
-                 @change="checkConsistency(false)">
-          <span class="switcher round"/>
-        </label>
-      </div>
-    </div>
-
-<!--    <div class="slider-container">-->
-<!--    <label class="text-left font-bold" for="time">Cooking time: {{ time }}<span v-show="time == 60">+</span></label>-->
-<!--    <br>-->
-<!--    <input type="range" min="15" max="60" value="30" step="15" id="time" v-model="time" name="time" class="slider">-->
-<!--    </div>-->
-
-    <div class="text-left font-bold mt-6">
+    <div class="text-left font-bold">
       <span>Cooking time</span>
     </div>
     <br>
@@ -70,6 +25,7 @@
 <script>
 import 'vue-range-component/dist/vue-range-slider.css'
 import VueRangeSlider from 'vue-range-component'
+import SettingsCheckbox from '../components/SettingsCheckbox'
 
 export default {
   name: "Settings",
@@ -79,8 +35,11 @@ export default {
       vegan: false,
       gluten: false,
       dairy: false,
-      // time: 30
-      value: 30
+      value: 30,
+      vegetarianLabel: 'Vegetarian',
+      veganLabel: 'Vegan',
+      glutenLabel: 'Glutenfree',
+      dairyLabel: 'Dairy'
     }
   },
   methods: {
@@ -97,7 +56,8 @@ export default {
 
   },
   components: {
-    VueRangeSlider
+    VueRangeSlider,
+    SettingsCheckbox
   }
 }
 </script>
@@ -211,35 +171,5 @@ input:checked + .switcher:before {
   background: #FFF;
   cursor: pointer;
 }
-
-
-/* color the track
- * firefox/webkit gradient done in JavaScript */
-/*input::-moz-range-track {*/
-/*  border: solid 2px #444;*/
-/*  border-radius: 8px;*/
-/*  -webkit-appearance: none;*/
-/*}*/
-/*input::-ms-fill-upper {*/
-/*  background-color: var(--color-primary);*/
-/*}*/
-.slider::-ms-fill-lower {
-  background-color: #267928;
-}
-/*input::-ms-fill-upper, input::-ms-fill-lower {*/
-/*  border: solid 2px #444;*/
-/*  border-radius: 8px;*/
-/*  -webkit-appearance: none;*/
-/*}*/
-/*input::-ms-track {*/
-/*  border: none;*/
-/*  color: transparent;*/
-/*}*/
-/*input.webkit-track {*/
-/*  border: solid 2px #444;*/
-/*  border-radius: 8px;*/
-/*  -webkit-appearance: none;*/
-/*}*/
-
 
 </style>
