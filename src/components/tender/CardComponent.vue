@@ -66,7 +66,7 @@ export default {
       }, 200);
     },
     like(item) {
-      this.$emit('liked', item);      
+      this.$emit('liked', item);
     },
     dislike(item) {
       this.$emit('disliked', item);
