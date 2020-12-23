@@ -2,10 +2,10 @@
   <div class="my-4 mx-8">
     <h1 class="text-2xl font-bold mb-12">Do you have some special preferences?</h1>
 
-    <settings-checkbox :label-text="vegetarianLabel" :mapped-value="vegetarian" @change="checkConsistency=$event"/>
-    <settings-checkbox :label-text="veganLabel" :mapped-value="vegan" @change="checkConsistency=$event"/>
-    <settings-checkbox :label-text="glutenLabel" :mapped-value="gluten" @change="checkConsistency=$event"/>
-    <settings-checkbox :label-text="dairyLabel" :mapped-value="dairy" @change="checkConsistency=$event"/>
+    <settings-checkbox :label-text="vegetarianLabel" v-model="vegetarian"/>
+    <settings-checkbox :label-text="veganLabel" v-model="vegan"/>
+    <settings-checkbox :label-text="glutenLabel" v-model="gluten"/>
+    <settings-checkbox :label-text="dairyLabel" v-model="dairy"/>
 
     <div class="text-left font-bold">
       <span>Cooking time</span>

@@ -3,7 +3,7 @@
     <label class="text-left font-bold" for="something">{{ labelText }}</label>
 
     <label class="switch">
-      <input type="checkbox" id="something" v-model="mappedValue" @change="$emit('update', labelText === 'Vegan')">
+      <input type="checkbox" id="something" v-model="checkboxValue"/>
       <span class="switcher round"/>
     </label>
   </div>
@@ -16,12 +16,33 @@ export default {
     labelText: String,
     mappedValue: Boolean
   },
+  computed: {
+    checkboxValue: {
+      get() {return this.mappedValue},
+      set(val) {
+        this.$emit('input', val)
+      }
+    }
+  },
+  // data() {
+  //   return {
+  //     checkboxValue: false
+  //   }
+  // },
+  // setup(props, {emit}) {
+  //   const checkboxValue = computed({
+  //     get: () => props.mappedValue,
+  //     set: (value) => emit('change:mappedValue', value)
+  //   })
+  // return {checkboxValue}
+  // }
   // methods: {
-  //   checkConsistency(vegan) {
-  //     this.$emit('checkConsistency')
+  //   checkboxChanged() {
+  //     this.$emit('checkConsistency', this.mappedValue, this.labelText === 'Vegan')
   //   }
   // }
 }
+
 </script>
 
 
