@@ -57,7 +57,7 @@ const store = new Vuex.Store({
     },
     getters: {
         openCategories: state => {
-            return state.tags.filter(tag => tag.items.every(item => item.liked === false));
+            return state.tags;
         },
         finishedCategories: state => {
           return state.completedCategories;

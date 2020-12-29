@@ -39,7 +39,7 @@ export default {
       //this.$store.commit('removeCategoryFromTags', this);
 
       //Sage dem Cardstackcomponent, dass er die Kategorie entfernen kann, da ein Tag gewählt wurde
-      this.$emit('categoryLiked');
+      this.$emit('categoryLiked', this.category);
     },
 
     tagDisliked(index) {
@@ -55,7 +55,7 @@ export default {
     dislikeCategory() {
       //Wenn eine Kategorie gänzlich gedisliked wurde füge sie dennoch den liked
       this.$store.commit('addCategoryToLikedCategories', this.category);
-      this.$emit('categoryDisliked', this);
+      this.$emit('categoryDisliked', this.category);
     }
   }
 }
