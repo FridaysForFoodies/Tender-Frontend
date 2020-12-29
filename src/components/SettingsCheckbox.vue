@@ -3,7 +3,7 @@
     <label class="text-left font-bold" for="something">{{ labelText }}</label>
 
     <label class="switch">
-      <input type="checkbox" id="something" v-model="checkboxValue"/>
+      <input type="checkbox" id="something" :checked="mappedValue" @change="$emit('update:mappedValue', $event.target.checked)"/>
       <span class="switcher round"/>
     </label>
   </div>
@@ -17,13 +17,13 @@ export default {
     mappedValue: Boolean
   },
   computed: {
-    checkboxValue: {
-      get() {return this.mappedValue},
-      set(val) {
-        this.mappedValue = val
-        this.$emit('input', this.mappedValue)
-      }
-    }
+    // checkboxValue: {
+    //   get() {return this.mappedValue},
+    //   set(val) {
+    //     this.mappedValue = val
+    //     this.$emit('input', this.mappedValue)
+    //   }
+    // }
   },
   // data() {
   //   return {
