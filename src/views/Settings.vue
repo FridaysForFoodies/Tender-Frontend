@@ -11,7 +11,7 @@
       <span>Cooking time</span>
     </div>
     <br>
-    <vue-range-slider ref="slider" v-model="value" :dot-size="32" :min=15 :max="60" :step=15 :process-style="{'background-color': '#ffda07'}"  :tooltip=false :height="2"/>
+    <vue-range-slider ref="slider" v-model="value" :dot-size=32 :min=15 :max=60 :step=15 :tooltip=false :height=2 :process-style="{'background-color': '#ffda07'}"/>
     <div class="flex justify-between mx-2 mt-2">
       <div>15</div>
       <div>30</div>
