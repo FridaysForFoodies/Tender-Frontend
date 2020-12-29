@@ -20,7 +20,8 @@ export default {
     checkboxValue: {
       get() {return this.mappedValue},
       set(val) {
-        this.$emit('input', val)
+        this.mappedValue = val
+        this.$emit('input', this.mappedValue)
       }
     }
   },

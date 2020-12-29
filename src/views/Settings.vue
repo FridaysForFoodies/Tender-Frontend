@@ -3,15 +3,17 @@
     <h1 class="text-2xl font-bold mb-12">Do you have some special preferences?</h1>
 
     <settings-checkbox :label-text="vegetarianLabel" v-model="vegetarian"/>
-    <settings-checkbox :label-text="veganLabel" v-model="vegan"/>
-    <settings-checkbox :label-text="glutenLabel" v-model="gluten"/>
-    <settings-checkbox :label-text="dairyLabel" v-model="dairy"/>
+<!--    <settings-checkbox :label-text="veganLabel" v-model="vegan"/>-->
+<!--    <settings-checkbox :label-text="glutenLabel" v-model="gluten"/>-->
+<!--    <settings-checkbox :label-text="dairyLabel" v-model="dairy"/>-->
+    <label for="vegetarian">{{ vegetarianLabel }} </label>
+    <input type="checkbox" id="vegetarian" value="vegetarian" name="vegetarian" v-model="vegetarian" @change="checkConsistency(false)">
 
     <div class="text-left font-bold">
       <span>Cooking time</span>
     </div>
     <br>
-    <vue-range-slider ref="slider" v-model="value" :dot-size="32" :min="15" :max="60" step="15" :process-style="{'background-color': '#ffda07'}" :height="2" :tooltip="false"/>
+    <vue-range-slider ref="slider" v-model="value" :dot-size="32" :min=15 :max="60" :step=15 :process-style="{'background-color': '#ffda07'}"  :tooltip=false :height="2"/>
     <div class="flex justify-between mx-2 mt-2">
       <div>15</div>
       <div>30</div>
@@ -53,7 +55,19 @@ export default {
     }
   },
   computed: {
-
+  },
+  watch: {
+    vegan: (newValue, oldValue) => {
+      console.log("vegan watcher: from " + oldValue + " to " + newValue)
+      if (newValue) {
+        console.log("vegan IF")
+        this.vegetarian = false
+        this.dairy = false
+      } else {
+        console.log("vegan ELSE")
+        this.vegan = false
+      }
+    }
   },
   components: {
     VueRangeSlider,
