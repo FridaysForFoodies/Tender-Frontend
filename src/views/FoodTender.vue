@@ -69,7 +69,7 @@ export default {
     },
     progress() {
       // calculate progress based on finished categories
-      let progress = (this.finishedCategories / this.tags.length) * 100;
+      let progress = (this.finishedCategories.length / this.tags.length) * 100;
       return  progress.toString() + "%"
     }
   },
