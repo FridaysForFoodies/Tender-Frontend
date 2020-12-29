@@ -3,11 +3,11 @@
     <h1 class="text-2xl font-bold mb-12">Do you have some special preferences?</h1>
 
     <settings-checkbox :label-text="vegetarianLabel" :mapped-value.sync="vegetarian"/>
-<!--    <settings-checkbox :label-text="veganLabel" v-model="vegan"/>-->
-<!--    <settings-checkbox :label-text="glutenLabel" v-model="gluten"/>-->
-<!--    <settings-checkbox :label-text="dairyLabel" v-model="dairy"/>-->
-    <label for="vegetarian">{{ vegetarianLabel }} </label>
-    <input type="checkbox" id="vegetarian" value="vegetarian" name="vegetarian" v-model="vegetarian" @change="checkConsistency(false)">
+    <settings-checkbox :label-text="veganLabel" :mapped-value.sync="vegan"/>
+    <settings-checkbox :label-text="glutenLabel" :mapped-value.sync="gluten"/>
+    <settings-checkbox :label-text="dairyLabel" :mapped-value.sync="dairy"/>
+<!--    <label for="vegetarian">{{ vegetarianLabel }} </label>-->
+<!--    <input type="checkbox" id="vegetarian" value="vegetarian" name="vegetarian" v-model="vegetarian" @change="checkConsistency(false)">-->
 
     <div class="text-left font-bold">
       <span>Cooking time</span>
@@ -55,16 +55,32 @@ export default {
     }
   },
   computed: {
+
   },
   watch: {
-    vegan: (newValue, oldValue) => {
+    vegan(newValue, oldValue) {
       console.log("vegan watcher: from " + oldValue + " to " + newValue)
       if (newValue) {
         console.log("vegan IF")
         this.vegetarian = false
         this.dairy = false
-      } else {
-        console.log("vegan ELSE")
+      }
+      // else {
+      //   console.log("vegan ELSE")
+      //   this.vegan = false
+      // }
+    },
+    vegetarian(newValue, oldValue) {
+      console.log("veggy watcher: from " + oldValue + " to " + newValue)
+      if (newValue) {
+        console.log("veggy IF")
+        this.vegan = false
+      }
+    },
+    dairy(newValue, oldValue) {
+      console.log("dairy watcher: from " + oldValue + " to " + newValue)
+      if (newValue) {
+        // console.log("veggy IF")
         this.vegan = false
       }
     }
