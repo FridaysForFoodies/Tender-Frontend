@@ -6,8 +6,6 @@
     <settings-checkbox :label-text="veganLabel" :mapped-value.sync="vegan"/>
     <settings-checkbox :label-text="glutenLabel" :mapped-value.sync="gluten"/>
     <settings-checkbox :label-text="dairyLabel" :mapped-value.sync="dairy"/>
-<!--    <label for="vegetarian">{{ vegetarianLabel }} </label>-->
-<!--    <input type="checkbox" id="vegetarian" value="vegetarian" name="vegetarian" v-model="vegetarian" @change="checkConsistency(false)">-->
 
     <div class="text-left font-bold">
       <span>Cooking time</span>
@@ -23,6 +21,7 @@
 
   </div>
 </template>
+
 
 <script>
 import 'vue-range-component/dist/vue-range-slider.css'
@@ -45,14 +44,7 @@ export default {
     }
   },
   methods: {
-    checkConsistency(vegan) {
-      if (vegan) {
-        this.vegetarian = false
-        this.dairy = false
-      } else {
-        this.vegan = false
-      }
-    }
+
   },
   computed: {
 
@@ -61,26 +53,19 @@ export default {
     vegan(newValue, oldValue) {
       console.log("vegan watcher: from " + oldValue + " to " + newValue)
       if (newValue) {
-        console.log("vegan IF")
         this.vegetarian = false
         this.dairy = false
       }
-      // else {
-      //   console.log("vegan ELSE")
-      //   this.vegan = false
-      // }
     },
     vegetarian(newValue, oldValue) {
       console.log("veggy watcher: from " + oldValue + " to " + newValue)
       if (newValue) {
-        console.log("veggy IF")
         this.vegan = false
       }
     },
     dairy(newValue, oldValue) {
       console.log("dairy watcher: from " + oldValue + " to " + newValue)
       if (newValue) {
-        // console.log("veggy IF")
         this.vegan = false
       }
     }
@@ -92,114 +77,7 @@ export default {
 }
 </script>
 
+
 <style scoped>
-
-/*
- * checkbox style
- */
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.switcher {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.switcher:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .switcher {
-  background-color: var(--color-primary);
-}
-
-input:focus + .switcher {
-  box-shadow: 0 0 1px var(--color-primary);
-}
-
-input:checked + .switcher:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.switcher.round {
-  border-radius: 34px;
-}
-
-.switcher.round:before {
-  border-radius: 50%;
-}
-
-/*
- * range slider style
- */
-
-.slider-container {
-  width: 100%;
-}
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 3px;
-  border-radius: 5px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  background: #FFF;
-  cursor: pointer;
-  /*box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;*/
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #FFF;
-  cursor: pointer;
-}
 
 </style>

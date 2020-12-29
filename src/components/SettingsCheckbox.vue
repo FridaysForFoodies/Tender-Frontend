@@ -9,6 +9,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
   name: "SettingsCheckbox",
@@ -17,31 +18,8 @@ export default {
     mappedValue: Boolean
   },
   computed: {
-    // checkboxValue: {
-    //   get() {return this.mappedValue},
-    //   set(val) {
-    //     this.mappedValue = val
-    //     this.$emit('input', this.mappedValue)
-    //   }
-    // }
-  },
-  // data() {
-  //   return {
-  //     checkboxValue: false
-  //   }
-  // },
-  // setup(props, {emit}) {
-  //   const checkboxValue = computed({
-  //     get: () => props.mappedValue,
-  //     set: (value) => emit('change:mappedValue', value)
-  //   })
-  // return {checkboxValue}
-  // }
-  // methods: {
-  //   checkboxChanged() {
-  //     this.$emit('checkConsistency', this.mappedValue, this.labelText === 'Vegan')
-  //   }
-  // }
+
+  }
 }
 
 </script>
