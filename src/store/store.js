@@ -7,6 +7,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
       count: 0,
+      isAuthenticated: false,
+      authenticationToken: null,
       likedTags: [],
       completedCategories: [],
       tags: [
@@ -87,8 +89,7 @@ const store = new Vuex.Store({
     actions: {
       // Instead of mutating the state, actions commit mutations.
 
-      // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)   
-
+      // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)
     }
   })
 
