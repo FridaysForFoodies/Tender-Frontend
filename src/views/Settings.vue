@@ -32,10 +32,10 @@ export default {
   name: "Settings",
   data() {
     return {
-      vegetarian: false,
-      vegan: false,
-      gluten: false,
-      dairy: false,
+      vegetarian: this.$store.state.settingsVegetarian,
+      vegan: this.$store.state.settingsVegan,
+      gluten: this.$store.state.settingsGluten,
+      dairy: this.$store.state.settingsDairy,
       value: 30,
       vegetarianLabel: 'Vegetarian',
       veganLabel: 'Vegan',
@@ -73,6 +73,11 @@ export default {
   components: {
     VueRangeSlider,
     SettingsCheckbox
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit('updateSettings', [this.vegetarian, this.vegan, this.gluten, this.dairy])
+    console.log("before leaving settings: updateSettings");
+    next();
   }
 }
 </script>

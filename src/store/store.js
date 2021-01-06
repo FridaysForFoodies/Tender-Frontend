@@ -6,6 +6,10 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
+      settingsVegetarian: false,
+      settingsVegan: false,
+      settingsGluten: false,
+      settingsDairy: false,
       count: 0,
       tags: [
         {
@@ -16,7 +20,7 @@ const store = new Vuex.Store({
           {id: 2, title: 'Italian', liked: false},
           {id: 3, title: 'German', liked: false},
           {id: 4, title: 'Indian', liked: false},
-        ]}, 
+        ]},
         {
         id: 2,
         category: 'flavour',
@@ -58,7 +62,7 @@ const store = new Vuex.Store({
             return state.tags.filter(tag => tag.items.every(item => item.liked === false));
         },
         finishedCategories: state => {
-          return state.tags.length - state.tags.filter(tag => tag.items.every(item => item.liked === false)).length; 
+          return state.tags.length - state.tags.filter(tag => tag.items.every(item => item.liked === false)).length;
         }
     },
     mutations: {
@@ -66,12 +70,18 @@ const store = new Vuex.Store({
         let tagIndex = state.tags.findIndex(tag => tag.category === category);
         let itemIndex = state.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
         state.tags[tagIndex].items[itemIndex].liked = true;
+      },
+      updateSettings(state, newValuesArray) {
+        state.settingsVegetarian = newValuesArray[0]
+        state.settingsVegan = newValuesArray[1]
+        state.settingsGluten = newValuesArray[2]
+        state.settingsDairy = newValuesArray[3]
       }
-    }, 
+    },
     actions: {
       // Instead of mutating the state, actions commit mutations.
 
-      // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)   
+      // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)
 
     }
   })
