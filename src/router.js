@@ -6,6 +6,7 @@ import Favourites from './views/Favourites'
 import Settings from  './views/Settings'
 import FoodTender from  './views/FoodTender'
 import Recipes from  './views/Recipes'
+import Recipe from  './views/Recipe'
 
 
 Vue.use(Router)
@@ -37,6 +38,11 @@ const router = new Router({
         path: '/recipes',
         name: 'Recipes',
         component: Recipes
+    },
+    {
+        path: '/recipe',
+        name: 'Recipe',
+        component: Recipe
     }
 ]
 })

@@ -7,7 +7,6 @@
        <!-- Header -->
 
     <!-- Navigation -->
-  
     <Navigation />
   </div>
 </template>
@@ -20,6 +19,22 @@ export default {
   components: {
     Navigation
   },
+  created() {
+    if (!this.isAuthenticated) {
+      console.log("test");
+      this.$store.dispatch(
+          'userStorage/authRequest',
+          this.$apolloProvider.defaultClient,
+          { root: true }
+      );
+    }
+  },
+  computed: {
+    isAuthenticated(){
+      return this.$store.getters['userStorage/authenticationStatus'];
+    }
+  }
+
 }
 
 </script>
