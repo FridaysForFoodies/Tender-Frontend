@@ -7,7 +7,8 @@
        <!-- Header -->
 
     <!-- Navigation -->
-  
+
+    <button v-on:click="logUser()">Test</button>
     <Navigation />
   </div>
 </template>
@@ -20,6 +21,16 @@ export default {
   components: {
     Navigation
   },
+  data () {
+    return {
+      // Initialize your apollo data
+      uuid: '',
+    }
+  },
+  created() {
+    this.$store.dispatch('userStorage/authRequest', this.$apolloProvider.defaultClient, { root: true });
+  }
+
 }
 
 </script>

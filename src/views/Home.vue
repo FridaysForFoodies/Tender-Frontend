@@ -20,23 +20,23 @@
         <p class="text-gray-400">{{ ingredient.text }}</p>
       </div>
 
-      <ApolloQuery
+<!--      <ApolloQuery
       :query="require('../graphql/Ingredient.gql')"
     >
       <template slot-scope="{ result: { loading, error, data } }">
-        <!-- Loading -->
+        &lt;!&ndash; Loading &ndash;&gt;
         <div v-if="loading" class="loading apollo">Loading...</div>
 
-        <!-- Error -->
+        &lt;!&ndash; Error &ndash;&gt;
         <div v-else-if="error" class="error apollo">An error occured</div>
 
-        <!-- Result -->
+        &lt;!&ndash; Result &ndash;&gt;
         <div v-for="post in data.posts.data" :key="post.title" v-else-if="data" class="result apollo">{{ post.title }}</div>
 
-        <!-- No result -->
+        &lt;!&ndash; No result &ndash;&gt;
         <div v-else class="no-result apollo">No result :(</div>
       </template>
-    </ApolloQuery>
+    </ApolloQuery>-->
 
   </div>
 </template>

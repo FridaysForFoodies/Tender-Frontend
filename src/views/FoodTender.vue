@@ -74,18 +74,18 @@ export default {
     }
   },
   computed: {
-    isEmpty: function() {
+    isEmpty: () => {
       return this.tags.length == 0;
     },
     openCategories() {
       // returns all elements in tags array, where all items in items array have not been liked yet
-      return this.$store.getters.openCategories
+      return this.$store.getters['tagsStorage/openCategories'];
     },
     finishedCategories() {
-      return this.$store.getters.finishedCategories
+      return this.$store.getters['tagsStorage/finishedCategories'];
     },
     tags(){
-      return this.$store.state.tags
+      return this.$store.getters['tagsStorage/tags'];
     }
   },
   data: function() {
