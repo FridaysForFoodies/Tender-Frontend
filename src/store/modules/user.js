@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-const GET_ALL_USERS_QUERY = gql`query User {
+const GET_USER_UUID = gql`query User {
                                 generateUser {
                                     uuid
                                 }
@@ -9,7 +9,7 @@ const GET_ALL_USERS_QUERY = gql`query User {
 const userStorage = {
     namespaced: true,
     state: {
-        isAuthenticated: localStorage.getItem("tender-user-token") ? true : false,
+        isAuthenticated: false,
         authenticationToken: localStorage.getItem("tender-user-token") || "",
     },
     mutations: {
@@ -25,10 +25,12 @@ const userStorage = {
         async authRequest(context, apolloClient) {
             try {
                 console.log(apolloClient);
-                const data  = await apolloClient.query({ query: GET_ALL_USERS_QUERY})
+                const data  = await apolloClient.query({ query: GET_USER_UUID});
+                const uuid = data.data.generateUser.uuid;
 
-                if(!localStorage.getItem("tender-user-token")) {
-                    localStorage.setItem("tender-user-token", data.data.generateUser.uuid)
+                if(localStorage.getItem("tender-user-token") == undefined) {
+                    console.log("no token set");
+                    localStorage.setItem("tender-user-token", uuid)
                     context.commit('storeUserToken', localStorage.getItem("tender-user-token"));
                     context.commit('authenticateUser', true);
                 }
@@ -38,6 +40,11 @@ const userStorage = {
             }
         }
     },
+    getters: {
+        authenticationStatus: state => {
+            return state.isAuthenticated;
+        }
+    }
 }
 
 export default userStorage;

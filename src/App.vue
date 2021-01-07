@@ -20,13 +20,18 @@ export default {
     Navigation
   },
   created() {
-    if (this.isAuthenticated) {
-      this.$store.dispatch('userStorage/authRequest', this.$apolloProvider.defaultClient, { root: true });
+    if (!this.isAuthenticated) {
+      console.log("test");
+      this.$store.dispatch(
+          'userStorage/authRequest',
+          this.$apolloProvider.defaultClient,
+          { root: true }
+      );
     }
   },
   computed: {
     isAuthenticated(){
-      return this.$store.getters['userStorage/isAuthenticated'];
+      return this.$store.getters['userStorage/authenticationStatus'];
     }
   }
 
