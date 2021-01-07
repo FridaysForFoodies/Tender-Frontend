@@ -71,9 +71,7 @@ const store = new Vuex.Store({
     }, 
     actions: {
       // Instead of mutating the state, actions commit mutations.
-
-      // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)   
-
+      // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)
     }
   })
 

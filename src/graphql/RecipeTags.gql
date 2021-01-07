@@ -1,0 +1,8 @@
+query RecipeTags {
+  ingredientSuggestions(query:"Eier", count:2) {
+    name,
+    ID, 
+    imagePath,
+    searchCount
+  }
+}
