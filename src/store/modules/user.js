@@ -30,10 +30,9 @@ const userStorage = {
                 if(!localStorage.getItem("tender-user-token")) {
                     localStorage.setItem("tender-user-token", data.data.generateUser.uuid)
                     context.commit('storeUserToken', localStorage.getItem("tender-user-token"));
-                    context.commit('authenticateUser', localStorage.getItem("tender-user-token") ? true : false);
-                } else {
-                    context.commit('authenticateUser', localStorage.getItem("tender-user-token") ? true : false);
+                    context.commit('authenticateUser', true);
                 }
+
             } catch (e) {
                 console.log(e)
             }
