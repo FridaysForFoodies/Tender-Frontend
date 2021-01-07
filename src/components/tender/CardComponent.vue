@@ -68,7 +68,6 @@ export default {
     likeTag(tag) {
       this.$store.commit('addTagToLikedTags', tag);
       this.$emit('tagLiked', tag);
-      this.hideCard();
     },
     dislikeTag(tag) {
       this.$emit('dislikeTag', tag);
