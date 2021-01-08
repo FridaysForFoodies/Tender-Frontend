@@ -14,6 +14,7 @@ library.add(faHeart, faCog, faPlay)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
+// Vue.prototype.$apolloProvider = createProvider() --> evtl. globaler provider
 
 new Vue({
   apolloProvider: createProvider(),

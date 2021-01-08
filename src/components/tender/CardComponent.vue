@@ -2,7 +2,7 @@
   <!-- Draggable -->
   <Vue2InteractDraggable
       class="dragging-container absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100 bg-cover bg-no-repeat"
-      style="background-image: url('https://image.freepik.com/fotos-kostenlos/hoher-winkel-der-koestlichen-ramen-in-der-schuessel_23-2148678758.jpg')"
+      :style="{ backgroundImage: `url(http://s3-eu-west-1.amazonaws.com/hf-recipes${item.imagePath})`}"
       :interact-block-drag-down="interactBlockDragDown"
       :interact-block-drag-left="interactBlockDragLeft"
       :interact-block-drag-right="interactBlockDragRight"
@@ -13,14 +13,14 @@
       :interact-y-threshold="200"
       v-if="isShowing"
 
-      @draggedLeft="dislikeTag(item)"
-      @draggedRight="likeTag(item)"
+      @draggedLeft="dislikeTag"
+      @draggedRight="likeTag"
   >
 
     <!-- Title -->
     <div class="flex flex-1">
       <h2 class="m-auto text-center font-oswald text-5xl uppercase">
-        {{ item.title }}
+        {{ item.name }}
       </h2>
     </div>
     
@@ -48,7 +48,8 @@ export default {
     Vue2InteractDraggable
   },
   props: {
-    item: Object
+    item: Object,
+    itemIndex: Number
   },
   data() {
     return {
@@ -65,14 +66,13 @@ export default {
         this.isShowing = false;
       }, 200);
     },
-    likeTag(tag) {
-      this.$store.commit('addTagToLikedTags', tag);
-      this.$emit('tagLiked', tag);
+    likeTag() {
+      console.log("item liked called: " + this.item.name + " itemIndex: " + this.itemIndex);
+      this.$emit('likedTag', this.item, this.itemIndex);
     },
-    dislikeTag(tag) {
-      this.$emit('dislikeTag', tag);
-      // maybe better to hide card via stack
-      this.hideCard();
+    dislikeTag() {
+      console.log("item disliked called: " + this.item.name + " itemIndex: " + this.itemIndex);
+      this.$emit('dislikedTag', this.item, this.itemIndex);
     }
   }
 }
@@ -93,5 +93,10 @@ export default {
   background: rgba(255,255,255,.7);
   border-radius: 0.5rem;
   z-index: -1;
+}
+
+.dragging-container {
+  background-size: contain;
+  text-align: center;
 }
 </style>

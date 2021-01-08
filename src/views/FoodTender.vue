@@ -22,28 +22,31 @@
   </div> 
 
   <div class="relative w-screen flex-1 px-6">
-    <CardStackComponent
-        v-for="(tag, index) in openCategories"
+      <CardComponent
+        v-for="(item, index) in tenderTags"
         v-bind:key="index"
-        v-bind:items="tag.items"
-        v-bind:category="tag.category"
+        v-bind:item="item"
+        v-bind:itemIndex="index"
         :style="{ zIndex: -index }"
 
-        @categoryLiked="removeCategoryFromTags"
-        @categoryDisliked="removeCategoryFromTags"
+        @likedTag="liked"
+        @dislikedTag="disliked"
     />
-  </div>
+  </div> 
   
   </div>
 </template>
 
 <script>
-import CardStackComponent from '../components/tender/CardStackComponent.vue';
+import CardComponent from '../components/tender/CardComponent.vue';
 
 export default {
   name: "FoodTender",
   components: {
-    CardStackComponent
+    CardComponent
+  },
+  created: function() { 
+    this.fetchData();
   },
   methods: {
     goBack() {
@@ -71,6 +74,23 @@ export default {
       // calculate progress based on finished categories
       let progress = (this.finishedCategories.length / this.tags.length) * 100;
       return  progress.toString() + "%"
+    },
+    fetchData() {
+      this.$store.dispatch('tagsStorage/findTags', this.$apolloProvider.defaultClient);
+    },
+    liked(item, index) {
+      console.log("method liked called in foodtender view")
+      console.log("tag: " + item.name + " index: " + index);
+      this.$store.dispatch('tagsStorage/likeTenderTag', item);
+      this.tenderTags.splice(index, 1);
+
+            //const likedTags = this.$store.getters['tagsStorage/likedTags'];
+    },
+    disliked(item, index) {
+      console.log("method disliked called in foodtender view")
+      //this.tenderTags.splice(index, 1);
+      console.log("tag: " + item.name + " index: " + index);
+      this.tenderTags.splice(index, 1);
     }
   },
   computed: {
@@ -86,6 +106,12 @@ export default {
     },
     tags(){
       return this.$store.getters['tagsStorage/tags'];
+    },
+    tenderTags(){
+      return this.$store.getters['tagsStorage/tenderTags'];    
+    },
+    testVariable() {
+      return 'THIS is a test';
     }
   },
   data: function() {

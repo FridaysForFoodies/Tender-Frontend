@@ -1,4 +1,13 @@
 import {LIKE_CATEGORY_ITEM} from "@/store/mutation-types";
+import gql from 'graphql-tag';
+
+const GET_TAGS = gql`query Tag {
+                        findTags(take: 20) {
+                            id,
+                            name, 
+                            imagePath
+                        }
+                    }`;
 
 const tagsStorage = {
     namespaced: true,
@@ -8,6 +17,8 @@ const tagsStorage = {
         authenticationToken: null,
         likedTags: [],
         completedCategories: [],
+        tenderTags: [],
+        finishedTags: [],
         tags: [
             {
                 id: 1,
@@ -63,6 +74,12 @@ const tagsStorage = {
         },
         tags: state => {
             return state.tags;
+        },
+        tenderTags: state => {
+            return state.tenderTags;
+        },
+        likedTags: state => {
+            return state.likedTags;
         }
     },
     mutations: {
@@ -85,11 +102,26 @@ const tagsStorage = {
             // push liked tag to likedTags array
             state.completedCategories.push(category);
         },
+        addTags(state, tags) {
+            state.tenderTags = tags
+            // [{ id: 0, category: 'one', items: tags }];
+            console.log("these are the tags");
+            console.log(state.tenderTags);
+        }
     },
     actions: {
         // Instead of mutating the state, actions commit mutations.
         // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)
-    
+        async findTags(context, apolloClient) {
+            console.log(apolloClient);
+            const response  = await apolloClient.query({ query: GET_TAGS });
+            context.commit('addTags', response.data.findTags);
+        },
+        likeTenderTag(context, tag) {
+            context.commit('addTagToLikedTags', tag);
+        }
+
+
     }
 }
 
