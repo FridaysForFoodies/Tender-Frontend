@@ -75,9 +75,19 @@ export default {
     SettingsCheckbox
   },
   beforeRouteLeave(to, from, next) {
+    // let uid = currentUser
     this.$apollo.mutate({
-      mutation: setRecipePreferencesForUser,
-
+      mutation: "setRecipePreferencesForUser",
+      variables: {
+        preferences: {
+          user: localStorage.getItem("tender-user-token"),
+          vegan: this.vegan,
+          vegetarian: this.vegetarian,
+          gluten: this.glutenfree,
+          dairy: this.dairyfree,
+          cookingTime: this.value
+        }
+      }
     })
     // this.$store.commit('updateSettings', [this.vegetarian, this.vegan, this.glutenfree, this.dairyfree])
     console.log("before leaving settings: updateSettings");
