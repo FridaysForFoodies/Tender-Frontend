@@ -1,29 +1,33 @@
 <template>
-    <div>
-      <h1>Settings</h1>
-      <br>
-      <form>
-        <label for="vegetarian">Vegetarian </label>
-        <input type="checkbox" id="vegetarian" value="vegetarian" name="vegetarian" v-model="vegetarian" @change="checkConsistency(false)">
-        <br>
-        <label for="vegan">Vegan </label>
-        <input type="checkbox" id="vegan" name="vegan" value="vegan" v-model="vegan" @change="checkConsistency(true)">
-        <br>
-        <label for="gluten">Glutenfree </label>
-        <input type="checkbox" id="gluten" name="gluten" value="gluten" v-model="gluten" >
-        <br>
-        <label for="dairy">Dairy </label>
-        <input type="checkbox" id="dairy" name="dairy" value="dairy" v-model="dairy" @change="checkConsistency(false)">
-        <br>
-        <br>
-        <label for="time">Cooking time: {{time}}<span v-show="time=60">+</span></label>
-        <br>
-        <input type="range" min="15" max="60" value="30" step="15" id="time" v-model="time" name="time">
-      </form>
+  <div class="my-4 mx-8">
+    <h1 class="text-2xl font-bold mb-12">Do you have some special preferences?</h1>
+
+    <settings-checkbox :label-text="vegetarianLabel" :mapped-value.sync="vegetarian"/>
+    <settings-checkbox :label-text="veganLabel" :mapped-value.sync="vegan"/>
+    <settings-checkbox :label-text="glutenLabel" :mapped-value.sync="gluten"/>
+    <settings-checkbox :label-text="dairyLabel" :mapped-value.sync="dairy"/>
+
+    <div class="text-left font-bold">
+      <span>Cooking time</span>
+    </div>
+    <br>
+    <vue-range-slider ref="slider" v-model="value" :dot-size=32 :min=15 :max=60 :step=15 :tooltip=false :height=2 :process-style="{'background-color': '#ffda07'}"/>
+    <div class="flex justify-between mx-2 mt-2">
+      <div>15</div>
+      <div>30</div>
+      <div>45</div>
+      <div>60+</div>
+    </div>
+
   </div>
 </template>
 
+
 <script>
+import 'vue-range-component/dist/vue-range-slider.css'
+import VueRangeSlider from 'vue-range-component'
+import SettingsCheckbox from '../components/SettingsCheckbox'
+
 export default {
   name: "Settings",
   data() {
@@ -32,21 +36,47 @@ export default {
       vegan: false,
       gluten: false,
       dairy: false,
-      time: 30
+      value: 30,
+      vegetarianLabel: 'Vegetarian',
+      veganLabel: 'Vegan',
+      glutenLabel: 'Glutenfree',
+      dairyLabel: 'Dairy'
     }
   },
   methods: {
-    checkConsistency(vegan) {
-      if(vegan) {
+
+  },
+  computed: {
+
+  },
+  watch: {
+    vegan(newValue, oldValue) {
+      console.log("vegan watcher: from " + oldValue + " to " + newValue)
+      if (newValue) {
         this.vegetarian = false
         this.dairy = false
-      } else {
+      }
+    },
+    vegetarian(newValue, oldValue) {
+      console.log("veggy watcher: from " + oldValue + " to " + newValue)
+      if (newValue) {
+        this.vegan = false
+      }
+    },
+    dairy(newValue, oldValue) {
+      console.log("dairy watcher: from " + oldValue + " to " + newValue)
+      if (newValue) {
         this.vegan = false
       }
     }
+  },
+  components: {
+    VueRangeSlider,
+    SettingsCheckbox
   }
 }
 </script>
+
 
 <style scoped>
 
