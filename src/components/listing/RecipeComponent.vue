@@ -16,8 +16,6 @@
         </div>
 
         <font-awesome-icon icon="heart" v-on:click="toggle" :class="localRecipe.isFavourite ? 'text-yellow-400' : ''" class="recipe-favorite text-4xl item-center align-center"/>
-
-
       </div>
 
     </div>
