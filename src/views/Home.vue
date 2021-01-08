@@ -1,6 +1,6 @@
 <template>
   <div class="h-full p-4">
-    <h1 class="text-2xl font-bold mt-24">Which ingredients<br/> do you have?</h1> 
+    <h1 class="text-2xl font-bold mt-8">Which ingredients<br/> do you have?</h1> 
     <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center"
       @click="focusIngredientInput">
 
@@ -9,11 +9,6 @@
         :variables="{count: suggestionIngredientCount, query: searchTerm }"
         class="flex-1">
         <template slot-scope="{ result: { loading, error, data } }">
-          <div v-for="selectedIngredient in selectedIngredients" :key="selectedIngredient.ID" 
-            @click="removeFromSelectedIngredients(selectedIngredient)"
-            class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mb-2 text-gray-400">
-            {{ selectedIngredient.name }}
-          </div>
           <input ref="ingredientInput" v-model="searchTerm" class="w-full focus:outline-none">
           <div v-if="loading" class="loading apollo">Loading...</div>
           <div v-else-if="error" class="error apollo">An error occured</div>
@@ -36,6 +31,16 @@
         <font-awesome-icon icon="play" class="text-4xl ml-4"/>
       </router-link>
     </div>
+
+    <div class="mt-4">
+      <div v-for="selectedIngredient in selectedIngredients" :key="selectedIngredient.ID" 
+        @click="removeFromSelectedIngredients(selectedIngredient)"
+        class="border-solid border-gray-500 bg-primary border-2 rounded-full px-4 inline-flex mr-2 mb-2 text-gray-500">
+        {{ selectedIngredient.name }}
+      </div>
+    </div>
+
+    <p class="font-bold	mt-4">Your favourite search terms</p>
 
     <p class="font-bold	mt-4">Common search terms</p>
 
@@ -63,7 +68,7 @@ export default {
   data() {
     return {
       suggestionIngredientCount: 5,      
-      popularIngredientCount: 8,
+      popularIngredientCount: 5,
       searchTerm: '',
       selectedIngredients: [],
     }
