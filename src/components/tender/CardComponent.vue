@@ -13,24 +13,24 @@
       :interact-y-threshold="200"
       v-if="isShowing"
 
-      @draggedLeft="dislike(item)"
-      @draggedRight="like(item)"
+      @draggedLeft="dislikeTag(item)"
+      @draggedRight="likeTag(item)"
   >
 
     <!-- Title -->
-    <div class="flex-1">
-      <h2 class="text-center font-oswald text-6xl uppercase" style="line-height: 8;">
+    <div class="flex flex-1">
+      <h2 class="m-auto text-center font-oswald text-5xl uppercase">
         {{ item.title }}
       </h2>
     </div>
     
     <!-- Buttons need to be moved to card stack component -->
     <div class="flex flex-row justify-around w-full h-24 text-center mb-6">
-      <button class="rounded-full h-24 w-24 flex items-center justify-center bg-white border-8 border-gray-200 p-4" @click="dislike(item)">
+      <button class="rounded-full h-24 w-24 flex items-center justify-center bg-white border-8 border-gray-200 p-4" @click="dislikeTag(item)">
         <img class="transform rotate-180" alt="Dislike" src="../../assets/images/dislike.png">
       </button>
 
-      <button class=" rounded-full h-24 w-24 flex items-center justify-center bg-white border-8 border-gray-200 p-4" @click="like(item)">
+      <button class="rounded-full h-24 w-24 flex items-center justify-center bg-white border-8 border-gray-200 p-4" @click="likeTag(item)">
         <img alt="Like" src="../../assets/images/like.png">
       </button>
     </div>
@@ -65,12 +65,13 @@ export default {
         this.isShowing = false;
       }, 200);
     },
-    like(item) {
-      this.$emit('liked', item);
+    likeTag(tag) {
+      this.$store.commit('addTagToLikedTags', tag);
+      this.$emit('tagLiked', tag);
       this.hideCard();
     },
-    dislike(item) {
-      this.$emit('disliked', item);
+    dislikeTag(tag) {
+      this.$emit('dislikeTag', tag);
       // maybe better to hide card via stack
       this.hideCard();
     }

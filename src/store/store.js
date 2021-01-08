@@ -7,6 +7,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
       count: 0,
+      likedTags: [],
+      completedCategories: [],
       tags: [
         {
         id: 1,
@@ -55,10 +57,10 @@ const store = new Vuex.Store({
     },
     getters: {
         openCategories: state => {
-            return state.tags.filter(tag => tag.items.every(item => item.liked === false));
+            return state.tags;
         },
         finishedCategories: state => {
-          return state.tags.length - state.tags.filter(tag => tag.items.every(item => item.liked === false)).length; 
+          return state.completedCategories;
         }
     },
     mutations: {
@@ -66,7 +68,21 @@ const store = new Vuex.Store({
         let tagIndex = state.tags.findIndex(tag => tag.category === category);
         let itemIndex = state.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
         state.tags[tagIndex].items[itemIndex].liked = true;
-      }
+      },
+
+      addTagToLikedTags(state, tag) {
+        // push liked tag to likedTags array
+        state.likedTags.push(tag);
+      },
+
+      removeCategoryFromTags(state, category) {
+        state.tags.splice(state.tags.indexOf(category), 1);
+      },
+
+      addCategoryToCompletedCategories(state, category) {
+        // push liked tag to likedTags array
+        state.completedCategories.push(category);
+      },
     }, 
     actions: {
       // Instead of mutating the state, actions commit mutations.

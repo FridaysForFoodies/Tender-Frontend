@@ -29,8 +29,8 @@
         v-bind:category="tag.category"
         :style="{ zIndex: -index }"
 
-        @liked="setCategoryLiked"
-        @disliked="categoryIsUnliked"  
+        @categoryLiked="removeCategoryFromTags"
+        @categoryDisliked="removeCategoryFromTags"
     />
   </div>
   
@@ -49,26 +49,34 @@ export default {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     },
-    categoryIsUnliked(items, item) {
+    dislikeCategory(index) {
       // need to discuss what happens if all items of category have been disliked
-      let lastElement = items[items.length - 1];
+      /*let lastElement = items[items.length - 1];
       if(lastElement.title === item.title) {
         item.liked = true;
-      }
+      }*/
+      this.tags.splice(index, 1);
+      this.progress();
+
     },
-    setCategoryLiked(category, subcategory) {
+    removeCategoryFromTags(index) {
       // only temp solution until final data model is available
-      let tagIndex = this.tags.findIndex(tag => tag.category === category);
-      let itemIndex = this.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
-      this.tags[tagIndex].items[itemIndex].liked = true;
+      //let tagIndex = this.tags.findIndex(tag => tag.category === category);
+      //let itemIndex = this.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
+      //this.tags[tagIndex].items[itemIndex].liked = true;
+      this.tags.splice(index, 1);
+      this.progress();
     },
     progress() {
       // calculate progress based on finished categories
-      let progress = (this.finishedCategories / this.tags.length) * 100;
+      let progress = (this.finishedCategories.length / this.tags.length) * 100;
       return  progress.toString() + "%"
     }
   },
   computed: {
+    isEmpty: function() {
+      return this.tags.length == 0;
+    },
     openCategories() {
       // returns all elements in tags array, where all items in items array have not been liked yet
       return this.$store.getters.openCategories
