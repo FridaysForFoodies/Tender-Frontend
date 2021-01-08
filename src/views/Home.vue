@@ -19,25 +19,6 @@
         class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2">
         <p class="text-gray-400">{{ ingredient.text }}</p>
       </div>
-
-<!--      <ApolloQuery
-      :query="require('../graphql/Ingredient.gql')"
-    >
-      <template slot-scope="{ result: { loading, error, data } }">
-        &lt;!&ndash; Loading &ndash;&gt;
-        <div v-if="loading" class="loading apollo">Loading...</div>
-
-        &lt;!&ndash; Error &ndash;&gt;
-        <div v-else-if="error" class="error apollo">An error occured</div>
-
-        &lt;!&ndash; Result &ndash;&gt;
-        <div v-for="post in data.posts.data" :key="post.title" v-else-if="data" class="result apollo">{{ post.title }}</div>
-
-        &lt;!&ndash; No result &ndash;&gt;
-        <div v-else class="no-result apollo">No result :(</div>
-      </template>
-    </ApolloQuery>-->
-
   </div>
 </template>
 
