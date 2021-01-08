@@ -4,8 +4,8 @@
 
     <settings-checkbox :label-text="vegetarianLabel" :mapped-value.sync="vegetarian"/>
     <settings-checkbox :label-text="veganLabel" :mapped-value.sync="vegan"/>
-    <settings-checkbox :label-text="glutenLabel" :mapped-value.sync="gluten"/>
-    <settings-checkbox :label-text="dairyLabel" :mapped-value.sync="dairy"/>
+    <settings-checkbox :label-text="glutenfreeLabel" :mapped-value.sync="glutenfree"/>
+    <settings-checkbox :label-text="dairyfreeLabel" :mapped-value.sync="dairyfree"/>
 
     <div class="text-left font-bold">
       <span>Cooking time</span>
@@ -32,15 +32,15 @@ export default {
   name: "Settings",
   data() {
     return {
-      vegetarian: this.$store.state.settingsVegetarian,
-      vegan: this.$store.state.settingsVegan,
-      gluten: this.$store.state.settingsGluten,
-      dairy: this.$store.state.settingsDairy,
-      value: 30,
+      vegetarian: this.$store.state.settingsStorage.settingsVegetarian,
+      vegan: this.$store.state.settingsStorage.settingsVegan,
+      glutenfree: this.$store.state.settingsStorage.settingsGlutenfree,
+      dairyfree: this.$store.state.settingsStorage.settingsDairyfree,
+      value: this.$store.state.settingsStorage.cookingTime,
       vegetarianLabel: 'Vegetarian',
       veganLabel: 'Vegan',
-      glutenLabel: 'Glutenfree',
-      dairyLabel: 'Dairy'
+      glutenfreeLabel: 'Gluten free',
+      dairyfreeLabel: 'Dairy free'
     }
   },
   methods: {
@@ -54,7 +54,7 @@ export default {
       console.log("vegan watcher: from " + oldValue + " to " + newValue)
       if (newValue) {
         this.vegetarian = false
-        this.dairy = false
+        this.dairyfree = false
       }
     },
     vegetarian(newValue, oldValue) {
@@ -75,7 +75,11 @@ export default {
     SettingsCheckbox
   },
   beforeRouteLeave(to, from, next) {
-    this.$store.commit('updateSettings', [this.vegetarian, this.vegan, this.gluten, this.dairy])
+    this.$apollo.mutate({
+      mutation: setRecipePreferencesForUser,
+
+    })
+    // this.$store.commit('updateSettings', [this.vegetarian, this.vegan, this.glutenfree, this.dairyfree])
     console.log("before leaving settings: updateSettings");
     next();
   }

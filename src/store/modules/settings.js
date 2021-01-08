@@ -3,8 +3,9 @@ const settingsStorage = {
     state: {
         settingsVegetarian: false,
         settingsVegan: false,
-        settingsGluten: false,
-        settingsDairy: false
+        settingsGlutenfree: false,
+        settingsDairyfree: false,
+        cookingTime: 30
     },
     getters: {},
     mutations: {

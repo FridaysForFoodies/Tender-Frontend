@@ -6,17 +6,26 @@ import './assets/css/app.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHeart, faCog, faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { createProvider } from './vue-apollo'
+// import { createProvider } from './vue-apollo'
+import VueApollo from "vue-apollo";
+import ApolloClient from "apollo-boost";
+
+const client = require('../appollo.config.js')
 require('dotenv').config()
 
 library.add(faHeart, faCog, faPlay)
-
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
 Vue.config.productionTip = false
 
+const apolloClient = new ApolloClient({
+  uri: client.service
+});
+Vue.use(VueApollo);
+const apolloProvider = new VueApollo({ defaultClient: apolloClient });
+
 new Vue({
-  apolloProvider: createProvider(),
+  // apolloProvider: createProvider(),
+  apolloProvider,
   router,
   store,
   render: h => h(App)
