@@ -1,0 +1,6 @@
+query popularIngredients ($count: Float) {
+  popularIngredients(count: $count){
+    ID
+    name
+  }
+}
