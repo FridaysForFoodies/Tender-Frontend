@@ -88,8 +88,8 @@ const tagsStorage = {
     },
     actions: {
         // Instead of mutating the state, actions commit mutations.
-
         // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)
+    
     }
 }
 
