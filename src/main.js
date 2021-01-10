@@ -10,7 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueApollo from "vue-apollo";
 import ApolloClient from "apollo-boost";
 
-const client = require('../appollo.config.js')
+// import { client } from '../appollo.config.js'
+// const { client } = require('../appollo.config')
+const client = process.env.VUE_APP_GRAPHQL_HTTP
 require('dotenv').config()
 
 library.add(faHeart, faCog, faPlay)

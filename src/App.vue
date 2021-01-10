@@ -4,20 +4,24 @@
 
     <router-view class="flex-1 regal-blue"/>
     <!-- Content -->
-       <!-- Header -->
+    <!-- Header -->
 
     <!-- Navigation -->
-    <Navigation />
+    <Navigation/>
   </div>
 </template>
 
 <script>
 import Navigation from './components/Navigation.vue'
+import gql from "graphql-tag";
 
 export default {
   name: 'App',
   components: {
     Navigation
+  },
+  apollo: {
+
   },
   created() {
     if (!this.isAuthenticated) {
@@ -25,16 +29,58 @@ export default {
       this.$store.dispatch(
           'userStorage/authRequest',
           this.$apolloProvider.defaultClient,
-          { root: true }
+          {root: true}
       );
     }
+    // read settings from db into store
+    this.initSettings()
   },
   computed: {
-    isAuthenticated(){
+    isAuthenticated() {
       return this.$store.getters['userStorage/authenticationStatus'];
     }
+  },
+  methods: {
+    initSettings() {
+      console.log("initSettings")
+      const getSettings = gql`
+        query {
+          recipePreferencesForUser {
+            vegan
+            vegetarian
+            gluten
+            dairy
+            cookingTime
+          }
+        }
+      `
+      const uid = this.$store.state["userStorage/authenticationToken"]
+      console.log("uid = " + uid)
+      const response = this.$apollo.query({
+        header: '"authorization" : "' + uid,
+        query: getSettings
+      })
+      const settingsObj = response.data.recipePreferencesForUser
+      console.log("ZewaAPP: " + settingsObj)
+      // this.$store.state["settingsStorage/settingsVegan"] =
+    }
+  },
+  destroyed() {
+  //  write settings from store to db
+    this.$apollo.mutate({
+      mutation: "setRecipePreferencesForUser",
+      variables: {
+        preferences: {
+          user: this.$store.state["userStorage/authenticationToken"], //localStorage.getItem("tender-user-token"),
+          vegan: this.vegan,
+          vegetarian: this.vegetarian,
+          gluten: this.glutenfree,
+          dairy: this.dairyfree,
+          cookingTime: this.value
+        }
+      }
+    })
   }
-
 }
 
 </script>

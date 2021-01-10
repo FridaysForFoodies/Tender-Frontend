@@ -27,11 +27,13 @@
 import 'vue-range-component/dist/vue-range-slider.css'
 import VueRangeSlider from 'vue-range-component'
 import SettingsCheckbox from '../components/SettingsCheckbox'
+// import gql from "graphql-tag";
 
 export default {
   name: "Settings",
   data() {
     return {
+      // init settings value from store
       vegetarian: this.$store.state.settingsStorage.settingsVegetarian,
       vegan: this.$store.state.settingsStorage.settingsVegan,
       glutenfree: this.$store.state.settingsStorage.settingsGlutenfree,
@@ -40,14 +42,12 @@ export default {
       vegetarianLabel: 'Vegetarian',
       veganLabel: 'Vegan',
       glutenfreeLabel: 'Gluten free',
-      dairyfreeLabel: 'Dairy free'
+      dairyfreeLabel: 'Dairy free',
     }
   },
   methods: {
-
   },
   computed: {
-
   },
   watch: {
     vegan(newValue, oldValue) {
@@ -75,21 +75,14 @@ export default {
     SettingsCheckbox
   },
   beforeRouteLeave(to, from, next) {
-    // let uid = currentUser
-    this.$apollo.mutate({
-      mutation: "setRecipePreferencesForUser",
-      variables: {
-        preferences: {
-          user: localStorage.getItem("tender-user-token"),
-          vegan: this.vegan,
-          vegetarian: this.vegetarian,
-          gluten: this.glutenfree,
-          dairy: this.dairyfree,
-          cookingTime: this.value
-        }
-      }
+    // write settings values back to store before leaving page
+    this.$store.commit('updateSettings', {
+      vegetarian: this.vegetarian,
+      vegan: this.vegan,
+      glutenfree: this.glutenfree,
+      dairyfree: this.dairyfree,
+      cookingTime: this.value
     })
-    // this.$store.commit('updateSettings', [this.vegetarian, this.vegan, this.glutenfree, this.dairyfree])
     console.log("before leaving settings: updateSettings");
     next();
   }
