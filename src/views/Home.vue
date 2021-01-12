@@ -43,7 +43,7 @@
     <p class="font-bold	mt-4">Your favourite search terms</p>
 
     <p class="font-bold	mt-4">Common search terms</p>
-
+    
     <ApolloQuery
       :query="require('../graphql/PopularIngredients.gql')"
       :variables="{count: popularIngredientCount }"
@@ -59,37 +59,72 @@
         <div v-else class="no-result apollo">No result</div>
       </template>
     </ApolloQuery>
+
   </div>
 </template>
 
 <script>
+
 export default {
   name: "Home",
   data() {
     return {
-      suggestionIngredientCount: 5,      
-      popularIngredientCount: 5,
-      searchTerm: '',
-      selectedIngredients: [],
+      tag: '',
+      tags: [],
+      ingredients: [
+        { text: "Pasta" },
+        { text: "Tomatoes" },
+        { text: "Basil" },
+        { text: "White wine" },
+        { text: "Capsicum" }
+      ],
+      validation: [{
+        classes: 'avoid-item',
+        // enthält ingredients den tag nicht? -> dann disable add
+        rule: tag => !this.ingredients.find(ingredient => ingredient.text === tag.text),
+        disableAdd: true
+      }],
     }
   },
   methods:{
-    handleSearchSuccess(ingredient){
-      this.addToSelectedIngredients(ingredient);
-      this.searchTerm = '';
-    },
-    addToSelectedIngredients(ingredient){
-      this.selectedIngredients.push(ingredient);
-    },
-    removeFromSelectedIngredients(ingredient){
-      this.selectedIngredients.pop(ingredient)
-    },
-    isNotSelected(ingredient){
-      return !(this.selectedIngredients.some(selectedIngredient => selectedIngredient.ID == ingredient.ID))
-    },
-    focusIngredientInput(){
-      this.$refs.ingredientInput.focus();
+    addTagFromList(ingredient) {
+      this.tags.push({ 
+        text: ingredient.text,
+        tiClasses:["ti-valid"]
+      });
     }
   },
+  computed: {
+    proposedIngredients() {
+      return this.ingredients.filter(i => {
+        return i.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
+      });
+    },
+
+    unselectedIngredients() {
+      return this.ingredients.filter(ingredient => {
+        // enthält tags den ingredient?
+        return !this.tags.find(tag => tag.text === ingredient.text)
+      });
+    },
+  }
 }
 </script>
+
+<style lang="css">
+
+.vue-tags-input .ti-input {
+    border: none;
+}
+
+.vue-tags-input .ti-tag {
+  background-color: transparent;
+  font-size: 1em;
+  color: #9CA3AF;
+  border: #9CA3AF solid 2px;
+  border-radius: 1em;
+  padding: 0.2em 0.8em;
+  margin: 0.2rem 0.3rem 0.2rem 0; 
+}
+  
+</style>

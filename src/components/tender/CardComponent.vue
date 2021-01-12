@@ -1,26 +1,27 @@
 <template>
   <!-- Draggable -->
   <Vue2InteractDraggable
-      class="dragging-container absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100 bg-cover bg-no-repeat"
-      style="background-image: url('https://image.freepik.com/fotos-kostenlos/hoher-winkel-der-koestlichen-ramen-in-der-schuessel_23-2148678758.jpg')"
+      class="dragging-container absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100 bg-cover bg-no-repeat bg-image"
+      :style="{ backgroundImage:  tagImage() }"
       :interact-block-drag-down="interactBlockDragDown"
       :interact-block-drag-left="interactBlockDragLeft"
       :interact-block-drag-right="interactBlockDragRight"
       :interact-block-drag-up="interactBlockDragUp"
       :interact-lock-y-axis="true"
       :interact-max-rotation="15"
-      :interact-x-threshold="200"
+      :interact-x-threshold="150"
       :interact-y-threshold="200"
       v-if="isShowing"
 
-      @draggedLeft="dislikeTag(item)"
-      @draggedRight="likeTag(item)"
-  >
+      @draggedLeft="draggedLeft"
+      @draggedRight="draggedRight"
+  > 
+
 
     <!-- Title -->
     <div class="flex flex-1">
       <h2 class="m-auto text-center font-oswald text-5xl uppercase">
-        {{ item.title }}
+        {{ item.name }}
       </h2>
     </div>
     
@@ -34,8 +35,7 @@
         <img alt="Like" src="../../assets/images/like.png">
       </button>
     </div>
-  </Vue2InteractDraggable>
-
+</Vue2InteractDraggable>
 
 </template>
 
@@ -48,7 +48,8 @@ export default {
     Vue2InteractDraggable
   },
   props: {
-    item: Object
+    item: Object,
+    itemIndex: Number
   },
   data() {
     return {
@@ -61,19 +62,33 @@ export default {
   },
   methods: {
     hideCard() {
-      setTimeout(() => {
-        this.isShowing = false;
-      }, 200);
+     this.isShowing = false;
     },
-    likeTag(tag) {
-      this.$store.commit('addTagToLikedTags', tag);
-      this.$emit('tagLiked', tag);
+    likeTag() {
+      console.log("item liked called: " + this.item.name + " itemIndex: " + this.itemIndex);
+      this.$emit('likedTag', this.item, this.itemIndex);
+    },
+    dislikeTag() {
+
+      console.log("item disliked called: " + this.item.name + " itemIndex: " + this.itemIndex);
+      this.$emit('dislikedTag', this.item, this.itemIndex);
+    },
+    draggedLeft() {
+      console.log("dragged left");
+      this.dislikeTag();
       this.hideCard();
     },
-    dislikeTag(tag) {
-      this.$emit('dislikeTag', tag);
-      // maybe better to hide card via stack
+    draggedRight() {
+      console.log("dragged right");
+      this.likeTag();
       this.hideCard();
+    },
+    tagImage() {
+      let imagePath = `url(https://banner2.cleanpng.com/20180216/ggq/kisspng-hamburger-hot-dog-sushi-fast-food-pizza-pencil-drawing-food-hamburger-hot-dog-fast-food-ca-5a86ccb25a03f5.4552971515187836663687.jpg)`;
+      if(this.item.imagePath.length != 0) {
+        imagePath = `url(http://s3-eu-west-1.amazonaws.com/hf-recipes${this.item.imagePath})`; 
+      }
+      return imagePath;
     }
   }
 }
@@ -94,5 +109,10 @@ export default {
   background: rgba(255,255,255,.7);
   border-radius: 0.5rem;
   z-index: -1;
+}
+
+.dragging-container {
+  background-size: contain;
+  text-align: center;
 }
 </style>

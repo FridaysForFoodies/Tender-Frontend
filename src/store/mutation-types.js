@@ -1,1 +1,0 @@
-export const LIKE_CATEGORY_ITEM = 'LIKE_CATEGORY_ITEM'
