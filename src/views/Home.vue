@@ -1,53 +1,71 @@
 <template>
-    <div class="h-full p-4">
+  <div class="h-full p-4">
+    <h1 class="text-2xl font-bold mt-8">Which ingredients<br/> do you have?</h1> 
+    <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center"
+      @click="focusIngredientInput">
 
-      <h1 class="text-2xl font-bold mt-24">Which ingredients<br/> do you have?</h1> 
-      <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center">
-   
-        <div flex-1>
-          <vue-tags-input v-model="tag" :tags="tags" :autocomplete-items="proposedIngredients" :validation="validation" @tags-changed="newTags => tags = newTags"/>
-        </div>
-        
-        <router-link :to=" { name: 'FoodTender'}">  
-          <font-awesome-icon icon="play" class="text-4xl"/>
-        </router-link>
+      <ApolloQuery
+        :query="require('../graphql/IngredientSuggestions.gql')"
+        :variables="{count: suggestionIngredientCount, query: searchTerm }"
+        class="flex-1">
+        <template slot-scope="{ result: { loading, error, data } }">
+          <input ref="ingredientInput" v-model="searchTerm" class="w-full focus:outline-none">
+          <div v-if="loading" class="loading apollo">Loading...</div>
+          <div v-else-if="error" class="error apollo">An error occured</div>
+          <div v-else-if="data">
+            <div v-if="searchTerm!=''">
+              <div class="p-4 border-2 rounded-md bg-white absolute">
+                <div v-for="ingredientSuggestion in data.ingredientSuggestions" :key="ingredientSuggestion.ID"  
+                  @click="handleSearchSuccess(ingredientSuggestion)" v-show="isNotSelected(ingredientSuggestion)"
+                  class="result apollo border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+                  {{ ingredientSuggestion.name }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else class="no-result apollo">No result</div>
+        </template>
+      </ApolloQuery>
+      
+      <router-link :to=" { name: 'FoodTender'}">  
+        <font-awesome-icon icon="play" class="text-4xl ml-4"/>
+      </router-link>
+    </div>
+
+    <div class="mt-4">
+      <div v-for="selectedIngredient in selectedIngredients" :key="selectedIngredient.ID" 
+        @click="removeFromSelectedIngredients(selectedIngredient)"
+        class="border-solid border-gray-500 bg-primary border-2 rounded-full px-4 inline-flex mr-2 mb-2 text-gray-500">
+        {{ selectedIngredient.name }}
       </div>
+    </div>
 
-      <p class="font-bold	mt-4">Common search terms</p>
+    <p class="font-bold	mt-4">Your favourite search terms</p>
 
-      <div v-for="ingredient in unselectedIngredients" :key="ingredient" @click="addTagFromList(ingredient)"
-        class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2">
-        <p class="text-gray-400">{{ ingredient.text }}</p>
-      </div>
-
-<!--      <ApolloQuery
-      :query="require('../graphql/Ingredient.gql')"
-    >
+    <p class="font-bold	mt-4">Common search terms</p>
+    
+    <ApolloQuery
+      :query="require('../graphql/PopularIngredients.gql')"
+      :variables="{count: popularIngredientCount }"
+      class="flex-1">
       <template slot-scope="{ result: { loading, error, data } }">
-        &lt;!&ndash; Loading &ndash;&gt;
         <div v-if="loading" class="loading apollo">Loading...</div>
-
-        &lt;!&ndash; Error &ndash;&gt;
         <div v-else-if="error" class="error apollo">An error occured</div>
-
-        &lt;!&ndash; Result &ndash;&gt;
-        <div v-for="post in data.posts.data" :key="post.title" v-else-if="data" class="result apollo">{{ post.title }}</div>
-
-        &lt;!&ndash; No result &ndash;&gt;
-        <div v-else class="no-result apollo">No result :(</div>
+        <div v-else-if="data" v-for="popularIngredient in data.popularIngredients" :key="popularIngredient.ID" 
+          @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
+          class="result apollo border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+          {{ popularIngredient.name }}
+        </div>
+        <div v-else class="no-result apollo">No result</div>
       </template>
-    </ApolloQuery>-->
+    </ApolloQuery>
 
   </div>
 </template>
 
 <script>
-import VueTagsInput from '@johmun/vue-tags-input';
 
 export default {
-  components: {
-    VueTagsInput,
-  },
   name: "Home",
   data() {
     return {
