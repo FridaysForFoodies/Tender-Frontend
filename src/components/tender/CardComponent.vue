@@ -2,7 +2,7 @@
   <!-- Draggable -->
   <Vue2InteractDraggable
       class="dragging-container absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100 bg-cover bg-no-repeat"
-      :style="{ backgroundImage: `url(http://s3-eu-west-1.amazonaws.com/hf-recipes${item.imagePath})`}"
+      :style="{ backgroundImage:  tagImage() }"
       :interact-block-drag-down="interactBlockDragDown"
       :interact-block-drag-left="interactBlockDragLeft"
       :interact-block-drag-right="interactBlockDragRight"
@@ -67,12 +67,20 @@ export default {
       }, 200);
     },
     likeTag() {
-      console.log("item liked called: " + this.item.name + " itemIndex: " + this.itemIndex);
+      //console.log("item liked called: " + this.item.name + " itemIndex: " + this.itemIndex);
       this.$emit('likedTag', this.item, this.itemIndex);
     },
     dislikeTag() {
-      console.log("item disliked called: " + this.item.name + " itemIndex: " + this.itemIndex);
+      //console.log("item disliked called: " + this.item.name + " itemIndex: " + this.itemIndex);
       this.$emit('dislikedTag', this.item, this.itemIndex);
+    },
+    tagImage() {
+      let imagePath = `url(https://banner2.cleanpng.com/20180216/ggq/kisspng-hamburger-hot-dog-sushi-fast-food-pizza-pencil-drawing-food-hamburger-hot-dog-fast-food-ca-5a86ccb25a03f5.4552971515187836663687.jpg)`;
+      if(this.item.imagePath.length != 0) {
+        imagePath = `url(http://s3-eu-west-1.amazonaws.com/hf-recipes${this.item.imagePath})`; 
+        console.log("kein bild");
+      }
+      return imagePath;
     }
   }
 }
@@ -99,4 +107,6 @@ export default {
   background-size: contain;
   text-align: center;
 }
+
+
 </style>
