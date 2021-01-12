@@ -32,12 +32,13 @@
         @likedTag="liked"
         @dislikedTag="disliked"
     />
-  </div> 
+  </div>
   </div>
 </template>
 
 <script>
 import CardComponent from '../components/tender/CardComponent.vue';
+import router from '../router.js';
 
 export default {
   name: "FoodTender",
@@ -56,6 +57,10 @@ export default {
     },
     liked(item, index) {
       this.$store.dispatch('tagsStorage/likeTag', item);
+      if(this.likedTags.length == 5) {
+        // TODO: change to result lists
+        router.push({name: 'Favourites'});
+      } 
       this.tags.splice(index, 1);
     },
     disliked(item, index) {
