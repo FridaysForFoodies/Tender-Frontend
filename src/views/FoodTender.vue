@@ -20,7 +20,6 @@
       </div>
     </div>
   </div> 
-
   <div class="relative w-screen flex-1 px-6">
       <CardComponent
         v-for="(item, index) in tags"
