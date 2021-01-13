@@ -72,8 +72,12 @@ export default {
       suggestionIngredientCount: 5,      
       popularIngredientCount: 5,
       searchTerm: '',
-      selectedIngredients: [],
     }
+  },
+  computed:{
+    selectedIngredients(){
+      return this.$store.getters['ingredientsStorage/selectedIngredients'];
+    },
   },
   methods:{
     handleSearchSuccess(ingredient){
@@ -81,10 +85,10 @@ export default {
       this.searchTerm = '';
     },
     addToSelectedIngredients(ingredient){
-      this.selectedIngredients.push(ingredient);
+      this.$store.dispatch('ingredientsStorage/selectIngredients', ingredient );
     },
     removeFromSelectedIngredients(ingredient){
-      this.selectedIngredients.pop(ingredient)
+      this.$store.dispatch('ingredientsStorage/deselectIngredients', ingredient );
     },
     isNotSelected(ingredient){
       return !(this.selectedIngredients.some(selectedIngredient => selectedIngredient.ID == ingredient.ID))
@@ -92,6 +96,6 @@ export default {
     focusIngredientInput(){
       this.$refs.ingredientInput.focus();
     }
-  },
+  }
 }
 </script>

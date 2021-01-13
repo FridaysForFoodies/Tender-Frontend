@@ -26,6 +26,10 @@ const ingredientsStorage = {
             state.selectedIngredients.push(ingredient);
             console.log(state.selectedIngredients);
         },
+        removeFromSelectedIngredients(state, ingredient) {
+            state.selectedIngredients.pop(ingredient);
+            console.log(state.selectedIngredients);
+        },
         addIngredients(state, ingredients) {
             state.ingredients = ingredients;
         }
@@ -38,6 +42,9 @@ const ingredientsStorage = {
         },
         selectIngredients(context, ingredient) {
             context.commit('addToSelectedIngredients', ingredient);
+        },
+        deselectIngredients(context, ingredient) {
+            context.commit('removeFromSelectedIngredients', ingredient);
         }
     }
 }
