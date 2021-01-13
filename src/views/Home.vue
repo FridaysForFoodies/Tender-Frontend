@@ -9,7 +9,7 @@
         :variables="{count: suggestionIngredientCount, query: searchTerm }"
         class="flex-1">
         <template slot-scope="{ result: { loading, error, data } }">
-          <input ref="ingredientInput" v-model="searchTerm" class="w-full focus:outline-none">
+          <input ref="ingredientInput" placeholder="Search here" v-model="searchTerm" class="w-full focus:outline-none">
           <div v-if="loading" class="loading apollo">Loading...</div>
           <div v-else-if="error" class="error apollo">An error occured</div>
           <div v-else-if="data">
@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <p class="font-bold	mt-4">Your favourite search terms</p>
+    <p class="font-bold	mt-4">Your most used search terms</p>
 
     <p class="font-bold	mt-4">Common search terms</p>
     

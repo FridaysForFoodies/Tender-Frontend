@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const GET_POPULAR_INGREDIENTS = gql`query Tag {
+const GET_POPULAR_INGREDIENTS = gql`query Ingredient {
                                     popularIngredients(count: $count){
                                         ID,
                                         name
