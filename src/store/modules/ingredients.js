@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const GET_POPULAR_INGREDIENTS = gql`query Ingredient {
-                                    popularIngredients(count: $count){
+                                    popularIngredients(count: 5){
                                         ID,
                                         name
                                     }
@@ -30,15 +30,16 @@ const ingredientsStorage = {
             state.selectedIngredients.pop(ingredient);
             console.log(state.selectedIngredients);
         },
-        addIngredients(state, ingredients) {
-            state.ingredients = ingredients;
+        addPopularIngredients(state, ingredients) {
+            state.popularIngredients = ingredients;
+            console.log(state.popularIngredients);
         }
     },
     actions: {
-        async retrieveIngredients(context, apolloClient) {
+        async retrievePopularIngredients(context, apolloClient) {
             console.log(apolloClient);
             const response  = await apolloClient.query({ query: GET_POPULAR_INGREDIENTS });
-            context.commit('addIngredients', response.data.popularIngredients);
+            context.commit('addPopularIngredients', response.data.popularIngredients);
         },
         selectIngredients(context, ingredient) {
             context.commit('addToSelectedIngredients', ingredient);

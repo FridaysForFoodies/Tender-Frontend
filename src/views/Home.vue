@@ -44,21 +44,13 @@
 
     <p class="font-bold	mt-4">Common search terms</p>
     
-    <ApolloQuery
-      :query="require('../graphql/PopularIngredients.gql')"
-      :variables="{count: popularIngredientCount }"
-      class="flex-1">
-      <template slot-scope="{ result: { loading, error, data } }">
-        <div v-if="loading" class="loading apollo">Loading...</div>
-        <div v-else-if="error" class="error apollo">An error occured</div>
-        <div v-else-if="data" v-for="popularIngredient in data.popularIngredients" :key="popularIngredient.ID" 
-          @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
-          class="result apollo border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
-          {{ popularIngredient.name }}
-        </div>
-        <div v-else class="no-result apollo">No result</div>
-      </template>
-    </ApolloQuery>
+    <div class="flex-1">
+      <div v-for="popularIngredient in popularIngredients" :key="popularIngredient.ID" 
+        @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
+        class="result apollo border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+        {{ popularIngredient.name }}
+      </div>
+    </div>
 
   </div>
 </template>
@@ -70,16 +62,24 @@ export default {
   data() {
     return {
       suggestionIngredientCount: 5,      
-      popularIngredientCount: 5,
       searchTerm: '',
     }
+  },
+  created: function() { 
+    this.fetchData();
   },
   computed:{
     selectedIngredients(){
       return this.$store.getters['ingredientsStorage/selectedIngredients'];
     },
+    popularIngredients(){
+      return this.$store.getters['ingredientsStorage/popularIngredients'];
+    },
   },
   methods:{
+    fetchData() {
+      this.$store.dispatch('ingredientsStorage/retrievePopularIngredients', this.$apolloProvider.defaultClient);
+    },
     handleSearchSuccess(ingredient){
       this.addToSelectedIngredients(ingredient);
       this.searchTerm = '';
