@@ -4,28 +4,18 @@
     <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center"
       @click="focusIngredientInput">
 
-      <ApolloQuery
-        :query="require('../graphql/IngredientSuggestions.gql')"
-        :variables="{count: suggestionIngredientCount, query: searchTerm }"
-        class="flex-1">
-        <template slot-scope="{ result: { loading, error, data } }">
+      <div class="flex-1">
           <input ref="ingredientInput" placeholder="Search here" v-model="searchTerm" class="w-full focus:outline-none">
-          <div v-if="loading" class="loading apollo">Loading...</div>
-          <div v-else-if="error" class="error apollo">An error occured</div>
-          <div v-else-if="data">
             <div v-if="searchTerm!=''">
               <div class="p-4 border-2 rounded-md bg-white absolute">
-                <div v-for="ingredientSuggestion in data.ingredientSuggestions" :key="ingredientSuggestion.ID"  
-                  @click="handleSearchSuccess(ingredientSuggestion)" v-show="isNotSelected(ingredientSuggestion)"
+                <div v-for="suggestedIngredient in suggestedIngredients" :key="suggestedIngredient.ID"  
+                  @click="handleSearchSuccess(suggestedIngredient)" v-show="isNotSelected(suggestedIngredient)"
                   class="result apollo border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
-                  {{ ingredientSuggestion.name }}
+                  {{ suggestedIngredient.name }}
                 </div>
               </div>
-            </div>
           </div>
-          <div v-else class="no-result apollo">No result</div>
-        </template>
-      </ApolloQuery>
+      </div>
       
       <router-link :to=" { name: 'FoodTender'}">  
         <font-awesome-icon icon="play" class="text-4xl ml-4"/>
@@ -72,6 +62,9 @@ export default {
     selectedIngredients(){
       return this.$store.getters['ingredientsStorage/selectedIngredients'];
     },
+    suggestedIngredients(){
+      return this.$store.getters['ingredientsStorage/suggestedIngredients'];
+    },
     popularIngredients(){
       return this.$store.getters['ingredientsStorage/popularIngredients'];
     },
@@ -95,6 +88,14 @@ export default {
     },
     focusIngredientInput(){
       this.$refs.ingredientInput.focus();
+    }
+  },
+  watch: {
+    searchTerm (term) {
+      this.$store.dispatch('ingredientsStorage/retrieveSuggestedIngredients', { 
+        apolloClient: this.$apolloProvider.defaultClient, 
+        searchTerm: term } 
+      );
     }
   }
 }
