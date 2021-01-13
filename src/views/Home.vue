@@ -10,7 +10,7 @@
               <div class="p-4 border-2 rounded-md bg-white absolute">
                 <div v-for="suggestedIngredient in suggestedIngredients" :key="suggestedIngredient.ID"  
                   @click="handleSearchSuccess(suggestedIngredient)" v-show="isNotSelected(suggestedIngredient)"
-                  class="result apollo border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+                  class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
                   {{ suggestedIngredient.name }}
                 </div>
               </div>
@@ -31,13 +31,19 @@
     </div>
 
     <p class="font-bold	mt-4">Your most used search terms</p>
+    <div class="flex-1">
+      <div v-for="personalIngredient in personalIngredients" :key="personalIngredient.ID" 
+        @click="addToSelectedIngredients(personalIngredient)" v-show="isNotSelected(personalIngredient)"
+        class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+        {{ personalIngredient.name }}
+      </div>
+    </div>
 
     <p class="font-bold	mt-4">Common search terms</p>
-    
     <div class="flex-1">
       <div v-for="popularIngredient in popularIngredients" :key="popularIngredient.ID" 
         @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
-        class="result apollo border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+        class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
         {{ popularIngredient.name }}
       </div>
     </div>
@@ -68,10 +74,14 @@ export default {
     popularIngredients(){
       return this.$store.getters['ingredientsStorage/popularIngredients'];
     },
+    personalIngredients(){
+      return this.$store.getters['ingredientsStorage/personalIngredients'];
+    }
   },
   methods:{
     fetchData() {
       this.$store.dispatch('ingredientsStorage/retrievePopularIngredients', this.$apolloProvider.defaultClient);
+      this.$store.dispatch('ingredientsStorage/retrievePersonalIngredients', this.$apolloProvider.defaultClient);
     },
     handleSearchSuccess(ingredient){
       this.addToSelectedIngredients(ingredient);

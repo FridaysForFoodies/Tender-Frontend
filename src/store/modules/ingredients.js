@@ -1,11 +1,18 @@
 import gql from 'graphql-tag';
 
-const GET_POPULAR_INGREDIENTS = gql`query PopupularIngredients {
+const GET_POPULAR_INGREDIENTS = gql`query PopularIngredients {
                                     popularIngredients(count: 5){
                                         ID,
                                         name
                                     }
-                                }`;       
+                                }`; 
+
+const GET_PERSONAL_INGREDIENTS = gql`query PersonalIngredients {
+    personalCommonIngredients(count: 5){
+        ID,
+        name
+    }
+}`;       
 
 const GET_SUGGESTED_INGREDIENTS = gql`query IngredientSuggestions ($query: String!) {
     ingredientSuggestions(count: 5, query: $query) {
@@ -17,13 +24,17 @@ const GET_SUGGESTED_INGREDIENTS = gql`query IngredientSuggestions ($query: Strin
 const ingredientsStorage = {
     namespaced: true,
     state: {
-        popularIngredients: [],
+        popularIngredients: [],        
+        personalIngredients: [],
         suggestedIngredients: [],
         selectedIngredients: []
     },
     getters: {
         popularIngredients: state => {
             return state.popularIngredients;
+        },
+        personalIngredients: state => {
+            return state.personalIngredients;
         },
         suggestedIngredients: state  => {
             return state.suggestedIngredients;
@@ -35,6 +46,9 @@ const ingredientsStorage = {
     mutations: {
         addPopularIngredients(state, ingredients) {
             state.popularIngredients = ingredients;
+        },
+        addPersonalIngredients(state, ingredients) {
+            state.personalIngredients = ingredients;
         },
         addSuggestedIngredients(state, ingredients){
             state.suggestedIngredients = ingredients;
@@ -50,6 +64,10 @@ const ingredientsStorage = {
         async retrievePopularIngredients(context, apolloClient) {
             const response  = await apolloClient.query({ query: GET_POPULAR_INGREDIENTS });
             context.commit('addPopularIngredients', response.data.popularIngredients);
+        },
+        async retrievePersonalIngredients(context, apolloClient) {
+            const response  = await apolloClient.query({ query: GET_PERSONAL_INGREDIENTS });
+            context.commit('addPersonalIngredients', response.data.personalIngredients);
         },
         async retrieveSuggestedIngredients(context, { apolloClient, searchTerm}) {
             const response  = await apolloClient.query({ 
