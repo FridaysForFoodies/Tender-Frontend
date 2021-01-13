@@ -13,25 +13,46 @@
 
 <script>
 import Navigation from './components/Navigation.vue'
-import gql from "graphql-tag";
+import gql from "graphql-tag"
+
+const QUERY_SETTINGS = gql`
+  query {
+    recipePreferencesForUser {
+      vegan
+      vegetarian
+      gluten
+      dairy
+      cookingTime
+    }
+  }
+`
 
 export default {
   name: 'App',
+  data() {
+    return {
+      // Initialize your apollo data
+      // settingsObj: null
+    }
+  },
   components: {
     Navigation
   },
-  apollo: {
 
-  },
+  // apollo: {
+  //   settingsObj: gql'{recipePreferencesForUser}',
+  // },
+  // when app is created, do this
   created() {
     if (!this.isAuthenticated) {
-      console.log("test");
+      console.log("test userStorage/authRequest");
       this.$store.dispatch(
           'userStorage/authRequest',
           this.$apolloProvider.defaultClient,
           {root: true}
       );
     }
+
     // read settings from db into store
     this.initSettings()
   },
@@ -43,30 +64,29 @@ export default {
   methods: {
     initSettings() {
       console.log("initSettings")
-      const getSettings = gql`
-        query {
-          recipePreferencesForUser {
-            vegan
-            vegetarian
-            gluten
-            dairy
-            cookingTime
-          }
+
+      this.$apollo.query({
+        query: QUERY_SETTINGS,
+        header: {
+          authorization: this.$store.state["userStorage/authenticationToken"]
         }
-      `
-      const uid = this.$store.state["userStorage/authenticationToken"]
-      console.log("uid = " + uid)
-      const response = this.$apollo.query({
-        header: '"authorization" : "' + uid,
-        query: getSettings
-      })
-      const settingsObj = response.data.recipePreferencesForUser
-      console.log("ZewaAPP: " + settingsObj)
-      // this.$store.state["settingsStorage/settingsVegan"] =
+    }).then(result => console.log('got data: ', result))
+
+
+    //   const uid = this.$store.state["userStorage/authenticationToken"]
+    //   console.log("uid = " + uid)
+    //   const response = this.$apollo.query({
+    //     header: '"authorization" : "' + uid,
+    //     query: getSettings
+    //   })
+    //   const settingsObj = response.data.recipePreferencesForUser
+    //   console.log("ZewaAPP: " + settingsObj)
+    //   // this.$store.state["settingsStorage/settingsVegan"] =
     }
   },
+  // when app is destroyed, do this
   destroyed() {
-  //  write settings from store to db
+  // write settings from store to db
     this.$apollo.mutate({
       mutation: "setRecipePreferencesForUser",
       variables: {
