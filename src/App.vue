@@ -15,33 +15,42 @@
 import Navigation from './components/Navigation.vue'
 import gql from "graphql-tag"
 
-const QUERY_SETTINGS = gql`
-  query {
-    recipePreferencesForUser {
-      vegan
-      vegetarian
-      gluten
-      dairy
-      cookingTime
-    }
-  }
-`
-
 export default {
   name: 'App',
   data() {
     return {
-      // Initialize your apollo data
+      // optionally initialize your apollo data
       // settingsObj: null
+      uid: 'default value'
     }
   },
   components: {
     Navigation
   },
-
-  // apollo: {
-  //   settingsObj: gql'{recipePreferencesForUser}',
-  // },
+  apollo: {
+    settingsObj: {
+      query: gql`
+        query {
+          recipePreferencesForUser {
+            vegan
+            vegetarian
+            gluten
+            dairy
+            cookingTime
+          }
+        }
+      `,
+    },
+    uid: {
+      query: gql`
+        query {
+          generateUser {
+            uuid
+          }
+        }
+      `,
+    },
+  },
   // when app is created, do this
   created() {
     if (!this.isAuthenticated) {
@@ -54,7 +63,10 @@ export default {
     }
 
     // read settings from db into store
-    this.initSettings()
+    console.log("init from query: ", this.uid)
+    console.log("init from query: ", this.settingsObj)
+    // this.initSettings()
+
   },
   computed: {
     isAuthenticated() {
@@ -62,15 +74,15 @@ export default {
     }
   },
   methods: {
-    initSettings() {
-      console.log("initSettings")
-
-      this.$apollo.query({
-        query: QUERY_SETTINGS,
-        header: {
-          authorization: this.$store.state["userStorage/authenticationToken"]
-        }
-    }).then(result => console.log('got data: ', result))
+    // initSettings() {
+    //   console.log("initSettings")
+    //
+    //   this.$apollo.query({
+    //     query: QUERY_SETTINGS,
+    //     header: {
+    //       authorization: this.$store.state["userStorage/authenticationToken"]
+    //     }
+    // }).then(result => console.log('got data: ', result))
 
 
     //   const uid = this.$store.state["userStorage/authenticationToken"]
@@ -82,24 +94,24 @@ export default {
     //   const settingsObj = response.data.recipePreferencesForUser
     //   console.log("ZewaAPP: " + settingsObj)
     //   // this.$store.state["settingsStorage/settingsVegan"] =
-    }
+    // }
   },
   // when app is destroyed, do this
   destroyed() {
   // write settings from store to db
-    this.$apollo.mutate({
-      mutation: "setRecipePreferencesForUser",
-      variables: {
-        preferences: {
-          user: this.$store.state["userStorage/authenticationToken"], //localStorage.getItem("tender-user-token"),
-          vegan: this.vegan,
-          vegetarian: this.vegetarian,
-          gluten: this.glutenfree,
-          dairy: this.dairyfree,
-          cookingTime: this.value
-        }
-      }
-    })
+  //   this.$apollo.mutate({
+  //     mutation: "setRecipePreferencesForUser",
+  //     variables: {
+  //       preferences: {
+  //         user: this.$store.state["userStorage/authenticationToken"], //localStorage.getItem("tender-user-token"),
+  //         vegan: this.vegan,
+  //         vegetarian: this.vegetarian,
+  //         gluten: this.glutenfree,
+  //         dairy: this.dairyfree,
+  //         cookingTime: this.value
+  //       }
+  //     }
+  //   })
   }
 }
 
