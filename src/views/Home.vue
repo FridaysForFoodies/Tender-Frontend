@@ -75,13 +75,14 @@ export default {
       return this.$store.getters['ingredientsStorage/popularIngredients'];
     },
     personalIngredients(){
-      return this.$store.getters['ingredientsStorage/personalIngredients'];
+      return[];
+      //return this.$store.getters['ingredientsStorage/personalIngredients'];
     }
   },
   methods:{
     fetchData() {
       this.$store.dispatch('ingredientsStorage/retrievePopularIngredients', this.$apolloProvider.defaultClient);
-      this.$store.dispatch('ingredientsStorage/retrievePersonalIngredients', this.$apolloProvider.defaultClient);
+      //this.$store.dispatch('ingredientsStorage/retrievePersonalIngredients', this.$apolloProvider.defaultClient);
     },
     handleSearchSuccess(ingredient){
       this.addToSelectedIngredients(ingredient);
