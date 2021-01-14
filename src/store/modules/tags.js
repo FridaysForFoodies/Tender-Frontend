@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const GET_TAGS = gql`query Tag {
-                        findTags(take: 20) {
+                        findTags(take: 25) {
                             id,
                             name, 
                             imagePath
@@ -32,20 +32,22 @@ const tagsStorage = {
         addToLikedTags(state, tag) {
             // push liked tag to likedTags array
             state.likedTags.push(tag);
-            console.log(state.likedTags);
         },
         addToDislikedTags(state, tag) {
             // push liked tag to likedTags array
             state.dislikedTags.push(tag);
-            console.log(state.dislikedTags);
         },
         addTags(state, tags) {
-            state.tags = tags
+            state.tags = tags;
+        },
+        reset(state) {
+            state.tags = [];
+            state.dislikedTags = [];
+            state.likedTags = [];
         }
     },
     actions: {
         async retrieveTags(context, apolloClient) {
-            console.log(apolloClient);
             const response  = await apolloClient.query({ query: GET_TAGS });
             context.commit('addTags', response.data.findTags);
         },

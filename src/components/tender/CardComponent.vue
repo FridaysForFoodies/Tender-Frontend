@@ -16,24 +16,11 @@
       @draggedLeft="draggedLeft"
       @draggedRight="draggedRight"
   > 
-
-
     <!-- Title -->
     <div class="flex flex-1">
-      <h2 class="m-auto text-center font-oswald text-5xl uppercase">
+      <h2 class="m-auto text-center font-oswald text-4xl uppercase md:break-all">
         {{ item.name }}
       </h2>
-    </div>
-    
-    <!-- Buttons need to be moved to card stack component -->
-    <div class="flex flex-row justify-around w-full h-24 text-center mb-6">
-      <button class="rounded-full h-24 w-24 flex items-center justify-center bg-white border-8 border-gray-200 p-4" @click="dislikeTag(item)">
-        <img class="transform rotate-180" alt="Dislike" src="../../assets/images/dislike.png">
-      </button>
-
-      <button class="rounded-full h-24 w-24 flex items-center justify-center bg-white border-8 border-gray-200 p-4" @click="likeTag(item)">
-        <img alt="Like" src="../../assets/images/like.png">
-      </button>
     </div>
 </Vue2InteractDraggable>
 
@@ -61,27 +48,19 @@ export default {
     };
   },
   methods: {
-    hideCard() {
-     this.isShowing = false;
-    },
     likeTag() {
       console.log("item liked called: " + this.item.name + " itemIndex: " + this.itemIndex);
       this.$emit('likedTag', this.item, this.itemIndex);
     },
     dislikeTag() {
-
       console.log("item disliked called: " + this.item.name + " itemIndex: " + this.itemIndex);
       this.$emit('dislikedTag', this.item, this.itemIndex);
-    },
-    draggedLeft() {
+    },    draggedLeft() {
       console.log("dragged left");
       this.dislikeTag();
-      this.hideCard();
     },
     draggedRight() {
-      console.log("dragged right");
       this.likeTag();
-      this.hideCard();
     },
     tagImage() {
       let imagePath = `url(https://banner2.cleanpng.com/20180216/ggq/kisspng-hamburger-hot-dog-sushi-fast-food-pizza-pencil-drawing-food-hamburger-hot-dog-fast-food-ca-5a86ccb25a03f5.4552971515187836663687.jpg)`;
@@ -106,7 +85,7 @@ export default {
   position: absolute;
   left: 0; right: 0;
   top: 0; bottom: 0;
-  background: rgba(255,255,255,.7);
+  background: rgba(240, 240, 240, 0.7);
   border-radius: 0.5rem;
   z-index: -1;
 }
@@ -115,4 +94,5 @@ export default {
   background-size: contain;
   text-align: center;
 }
+
 </style>
