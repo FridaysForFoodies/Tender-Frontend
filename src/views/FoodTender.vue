@@ -20,10 +20,10 @@
       </div>
     </div>
   </div> 
-  <div class="relative w-screen flex-1 px-6">
+  <div class="relative w-screen flex-1">
       <CardComponent
         v-for="(item, index) in tags"
-        v-bind:key="index"
+        v-bind:key="item.id"
         v-bind:item="item"
         v-bind:itemIndex="index"
         :style="{ zIndex: -index }"
@@ -32,6 +32,16 @@
         @dislikedTag="disliked"
     />
   </div>
+    <!-- Buttons need to be moved to card stack component -->
+    <div class="flex justify-around w-full h-24 text-center mb-28 mt-4">
+      <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked(item, index)">
+        <img class="transform rotate-180 " alt="Dislike" src="../assets/images/dislike.png">
+      </button>
+
+      <button class="rounded-full h-24 w-24  items-center justify-center bg-white border-8 border-gray-200 p-4" @click="liked(item, index)">
+        <img alt="Like" src="../assets/images/like.png">
+      </button>
+    </div>
   </div>
 </template>
 
@@ -45,7 +55,9 @@ export default {
     CardComponent
   },
   created: function() { 
+    this.reset();
     this.fetchData();
+    this.shuffle(this.tags);
   },
   methods: {
     goBack() {
@@ -65,13 +77,26 @@ export default {
     disliked(item, index) {
       this.$store.dispatch('tagsStorage/dislikeTag', item);
       this.tags.splice(index, 1);
+    }, 
+    shuffle(tenderTags) {
+      const x = tenderTags.length - 1;
+      for(let i = x; i > 0; i--){
+        const j = Math.floor(Math.random() * i)
+        const temp = tenderTags[i]
+        tenderTags[i] = tenderTags[j]
+        tenderTags[j] = temp
+      }
+      return tenderTags;
+    },
+    reset(){
+      this.$store.commit('tagsStorage/reset');
     }
   },
   computed: {
     isEmpty: () => {
       return this.tags.length == 0;
     },
-    tags(){
+    tags() {  
       return this.$store.getters['tagsStorage/tags'];
     },
     likedTags() {
