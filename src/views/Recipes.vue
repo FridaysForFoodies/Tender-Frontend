@@ -50,6 +50,11 @@ export default {
 
     },
   },
+  methods: {
+    goToRecipe(recipeId) {
+      console.log(recipeId);
+    }
+  },
   computed: {
     likedTags() {
       return this.$store.getters['tagsStorage/likedTags'];

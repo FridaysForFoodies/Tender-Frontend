@@ -30,14 +30,15 @@
 
         @likedTag="liked"
         @dislikedTag="disliked"
-    />
+    >
+
+    </CardComponent>
   </div>
     <!-- Buttons need to be moved to card stack component -->
     <div class="flex justify-around w-full h-24 text-center mb-28 mt-4">
-      <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked(item, index)">
+        <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked(item, index)">
         <img class="transform rotate-180 " alt="Dislike" src="../assets/images/dislike.png">
-      </button>
-
+        </button>
       <button class="rounded-full h-24 w-24  items-center justify-center bg-white border-8 border-gray-200 p-4" @click="liked(item, index)">
         <img alt="Like" src="../assets/images/like.png">
       </button>
@@ -110,7 +111,9 @@ export default {
   data: function() {
     return {
        message: "Swipe for your Taste!",
-       maxLikedTagsCount: 5
+       maxLikedTagsCount: 5,
+       item: undefined,
+       index: undefined
     }
   }
 }

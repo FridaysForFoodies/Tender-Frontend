@@ -30,6 +30,10 @@
 export default {
   name: "recipeComponent",
   props: ['recipe'],
+  created: function() {
+    console.log(this.recipe.id);
+    console.log(this.recipe);
+  },
   methods: {
     toggle() {
       this.localRecipe.isFavourite = !this.localRecipe.isFavourite;
