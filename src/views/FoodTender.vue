@@ -10,7 +10,7 @@
       <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >{{ message }}</h1>     
   </div>
       
-    
+  
   <div class="relative m-2.5 h-8">
     <div class="overflow-hidden h-1.5 mb-4 flex bg-secondary">
       <div class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center align-middle bg-primary"
@@ -20,7 +20,9 @@
       </div>
     </div>
   </div> 
+ 
   <div class="relative w-screen flex-1">
+
       <CardComponent
         v-for="(item, index) in tags"
         v-bind:key="item.id"
