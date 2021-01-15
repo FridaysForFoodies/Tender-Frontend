@@ -16,16 +16,16 @@
 import RecipeComponent from '../components/listing/RecipeComponent.vue'
 import gql from 'graphql-tag';
 
-const GET_RECIPES = gql`query recipes {
-        searchForRecipes(take: 25, searchOptions: {ingredients: ["Nudeln"], tags: ["Vegan"]}) {
+const GET_RECIPES = gql`query searchForRecipes ($ingredients: [String!]!, $tags: [String!]!) {
+        searchForRecipes(take: 5, searchOptions: {ingredients: $ingredients, tags: $tags}) {
             ID,
             name,
-            ingredients {ID, name},
             imagePath,
             duration,
             missingIngredients {ID, name}
         }
       }`;
+
 export default {
   name: "Favourites",
   components: {
@@ -41,11 +41,27 @@ export default {
     searchForRecipes: {
       // gql query
       query: GET_RECIPES,
+      variables() {
+        return {
+          ingredients: this.selectedIngredients,
+          tags: this.likedTags
+        }
+      }
+
     },
   },
-  methods: {
-
-  },
+  computed: {
+    likedTags() {
+      return this.$store.getters['tagsStorage/likedTags'];
+    },
+    selectedIngredients() {
+      const selectedIngredients = [];
+      this.$store.getters['ingredientsStorage/selectedIngredients'].forEach(selectedIngredient => {
+        selectedIngredients.push(selectedIngredient.name);
+      })
+     return selectedIngredients;
+    }
+  }
 }
 </script>
 
