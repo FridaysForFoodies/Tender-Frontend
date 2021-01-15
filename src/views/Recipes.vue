@@ -20,7 +20,6 @@ const GET_RECIPES = gql`query searchForRecipes ($ingredients: [String!]!, $tags:
         searchForRecipes(take: 5, searchOptions: {ingredients: $ingredients, tags: $tags}) {
             ID,
             name,
-            ingredients {ID, name},
             imagePath,
             duration,
             missingIngredients {ID, name}

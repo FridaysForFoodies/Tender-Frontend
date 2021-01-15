@@ -7,14 +7,13 @@
 
         <div class="recipe-title h-auto flex-1">
           <h2 class="text-2xl font-bold leading-6">
-
             <router-link :to=" { name: 'Recipe', params: { recipeId: localRecipe.ID }}" active-class="text-yellow-400">
               {{ recipe.name }}
             </router-link>
           </h2>
 
           <small>
-            es fehlt dies das und das
+            {{missingIngredients}}
           </small>
         </div>
 
@@ -40,6 +39,14 @@ export default {
     localRecipe: function () {
       // `this` points to the vm instance
       return this.recipe;
+    },
+
+    missingIngredients(){
+      let missingIngredientsNames = [];
+      this.recipe.missingIngredients.slice(0, 2).forEach(missingIngredient => {
+        missingIngredientsNames.push(missingIngredient.name);
+      });
+      return missingIngredientsNames.join(", ");
     }
   }
 }
