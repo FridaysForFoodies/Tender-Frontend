@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const GET_TAGS = gql`query Tag {
-                        findTags(take: 25) {
+                        findTags(take: 50) {
                             id,
                             name, 
                             imagePath
