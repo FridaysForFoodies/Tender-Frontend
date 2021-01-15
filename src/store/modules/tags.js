@@ -48,8 +48,14 @@ const tagsStorage = {
     },
     actions: {
         async retrieveTags(context, apolloClient) {
-            const response  = await apolloClient.query({ query: GET_TAGS });
-            context.commit('addTags', response.data.findTags);
+            try {
+                const response  = await apolloClient.query({ query: GET_TAGS });
+                context.commit('addTags', response.data.findTags);
+            }
+            catch(error) {
+                alert(error);
+            }
+
         },
         likeTag(context, tag) {
             context.commit('addToLikedTags', tag);
