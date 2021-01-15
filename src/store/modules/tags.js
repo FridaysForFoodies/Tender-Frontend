@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const GET_TAGS = gql`query Tag {
-                        findTags(take: 25) {
+                        findTags(take: 40) {
                             id,
                             name, 
                             imagePath
@@ -55,7 +55,6 @@ const tagsStorage = {
             catch(error) {
                 alert(error);
             }
-
         },
         likeTag(context, tag) {
             context.commit('addToLikedTags', tag);
