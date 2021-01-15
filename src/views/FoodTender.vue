@@ -76,7 +76,6 @@ export default {
     disliked(item, index) {
       this.$store.dispatch('tagsStorage/dislikeTag', item);
       this.tags.splice(index, 1);
-      console.log(this.tags.length);
       if(this.tags.length == 0){
         this.$router.push({name: 'Recipes'});
       } 
