@@ -3,10 +3,9 @@
     <div style="overflow: scroll;margin-bottom: 100px;">
 
       <RecipeComponent
-          v-for="recipe in recipes"
+          v-for="recipe in searchForRecipes"
           v-bind:key="recipe.id"
           v-bind:recipe="recipe"
-          v-on:unfavourite-recipe="unfavRecipe(index)"
       ></RecipeComponent>
 
     </div>
@@ -15,24 +14,54 @@
 
 <script>
 import RecipeComponent from '../components/listing/RecipeComponent.vue'
+import gql from 'graphql-tag';
+
+const GET_RECIPES = gql`query searchForRecipes ($ingredients: [String!]!, $tags: [String!]!) {
+        searchForRecipes(take: 5, searchOptions: {ingredients: $ingredients, tags: $tags}) {
+            ID,
+            name,
+            imagePath,
+            duration,
+            missingIngredients {ID, name}
+        }
+      }`;
+
 export default {
   name: "Favourites",
   components: {
     RecipeComponent
   },
-  data: function () {
+  data() {
     return {
-      recipes: [
-        { id: 1, title: 'Rezept #1', imageUrl: 'https://cdn.theforkmanager.com/static/styles/blog_article_header_image/public/wp-blog/eltenedor-foodporn-marketing-restaurantes.png?itok=frBLipGv', isFavourite: true, recipeUrl: '' },
-        { id: 2, title: 'Rezept #2', imageUrl: 'https://cdn.theforkmanager.com/static/styles/blog_article_header_image/public/wp-blog/eltenedor-foodporn-marketing-restaurantes.png?itok=frBLipGv', isFavourite: true,recipeUrl: ''  },
-        { id: 3, title: 'Rezept #3', imageUrl: 'https://cdn.theforkmanager.com/static/styles/blog_article_header_image/public/wp-blog/eltenedor-foodporn-marketing-restaurantes.png?itok=frBLipGv', isFavourite: true, recipeUrl: '' },
-        { id: 4, title: 'Rezept #4', imageUrl: 'https://cdn.theforkmanager.com/static/styles/blog_article_header_image/public/wp-blog/eltenedor-foodporn-marketing-restaurantes.png?itok=frBLipGv', isFavourite: true, recipeUrl: '' },
-      ]
+      searchForRecipes: []
     }
   },
-  methods: {
+  apollo: {
+    // Query with parameters
+    searchForRecipes: {
+      // gql query
+      query: GET_RECIPES,
+      variables() {
+        return {
+          ingredients: this.selectedIngredients,
+          tags: this.likedTags
+        }
+      }
 
+    },
   },
+  computed: {
+    likedTags() {
+      return this.$store.getters['tagsStorage/likedTags'];
+    },
+    selectedIngredients() {
+      const selectedIngredients = [];
+      this.$store.getters['ingredientsStorage/selectedIngredients'].forEach(selectedIngredient => {
+        selectedIngredients.push(selectedIngredient.name);
+      })
+     return selectedIngredients;
+    }
+  }
 }
 </script>
 
