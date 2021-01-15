@@ -1,0 +1,6 @@
+query ingredientSuggestions ($count: Float, $query: String!) {
+  ingredientSuggestions(count: $count, query: $query) {
+    ID
+    name
+  }
+}

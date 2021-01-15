@@ -25,10 +25,10 @@ const userStorage = {
         async authRequest(context, apolloClient) {
             try {
                 console.log(apolloClient);
-                const data  = await apolloClient.query({ query: GET_USER_UUID});
-                const uuid = data.data.generateUser.uuid;
-
+                
                 if(localStorage.getItem("tender-user-token") == undefined) {
+                    const data  = await apolloClient.query({ query: GET_USER_UUID});
+                    const uuid = data.data.generateUser.uuid;
                     localStorage.setItem("tender-user-token", uuid)
                     context.commit('storeUserToken', localStorage.getItem("tender-user-token"));
                     context.commit('authenticateUser', true);

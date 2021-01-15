@@ -14,87 +14,107 @@
   <div class="relative m-2.5 h-8">
     <div class="overflow-hidden h-1.5 mb-4 flex bg-secondary">
       <div class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center align-middle bg-primary"
-          v-bind:style="{ width: progress()}"
+          v-bind:style="{ width: progress }"
           style=""
       >
       </div>
     </div>
   </div> 
-
-  <div class="relative w-screen flex-1 px-6">
-    <CardStackComponent
-        v-for="(tag, index) in openCategories"
-        v-bind:key="index"
-        v-bind:items="tag.items"
-        v-bind:category="tag.category"
+  <div class="relative w-screen flex-1">
+      <CardComponent
+        v-for="(item, index) in tags"
+        v-bind:key="item.id"
+        v-bind:item="item"
+        v-bind:itemIndex="index"
         :style="{ zIndex: -index }"
 
-        @categoryLiked="removeCategoryFromTags"
-        @categoryDisliked="removeCategoryFromTags"
+        @likedTag="liked"
+        @dislikedTag="disliked"
     />
   </div>
-  
+    <!-- Buttons need to be moved to card stack component -->
+    <div class="flex justify-around w-full h-24 text-center mb-28 mt-4">
+      <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked(item, index)">
+        <img class="transform rotate-180 " alt="Dislike" src="../assets/images/dislike.png">
+      </button>
+
+      <button class="rounded-full h-24 w-24  items-center justify-center bg-white border-8 border-gray-200 p-4" @click="liked(item, index)">
+        <img alt="Like" src="../assets/images/like.png">
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
-import CardStackComponent from '../components/tender/CardStackComponent.vue';
+import CardComponent from '../components/tender/CardComponent.vue';
+import router from '../router.js';
 
 export default {
   name: "FoodTender",
   components: {
-    CardStackComponent
+    CardComponent
+  },
+  created: function() { 
+    this.reset();
+    this.fetchData();
+    this.shuffle(this.tags);
   },
   methods: {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     },
-    dislikeCategory(index) {
-      // need to discuss what happens if all items of category have been disliked
-      /*let lastElement = items[items.length - 1];
-      if(lastElement.title === item.title) {
-        item.liked = true;
-      }*/
-      this.tags.splice(index, 1);
-      this.progress();
-
+    fetchData() {
+      this.$store.dispatch('tagsStorage/retrieveTags', this.$apolloProvider.defaultClient);
     },
-    removeCategoryFromTags(index) {
-      // only temp solution until final data model is available
-      //let tagIndex = this.tags.findIndex(tag => tag.category === category);
-      //let itemIndex = this.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
-      //this.tags[tagIndex].items[itemIndex].liked = true;
+    liked(item, index) {
+      this.$store.dispatch('tagsStorage/likeTag', item);
+      if(this.likedTags.length == 5) {
+        // TODO: change to result lists
+        router.push({name: 'Favourites'});
+      } 
       this.tags.splice(index, 1);
-      this.progress();
     },
-    progress() {
-      // calculate progress based on finished categories
-      let progress = (this.finishedCategories.length / this.tags.length) * 100;
-      return  progress.toString() + "%"
+    disliked(item, index) {
+      this.$store.dispatch('tagsStorage/dislikeTag', item);
+      this.tags.splice(index, 1);
+    }, 
+    shuffle(tenderTags) {
+      const x = tenderTags.length - 1;
+      for(let i = x; i > 0; i--){
+        const j = Math.floor(Math.random() * i)
+        const temp = tenderTags[i]
+        tenderTags[i] = tenderTags[j]
+        tenderTags[j] = temp
+      }
+      return tenderTags;
+    },
+    reset(){
+      this.$store.commit('tagsStorage/reset');
     }
   },
   computed: {
     isEmpty: () => {
       return this.tags.length == 0;
     },
-    openCategories() {
-      // returns all elements in tags array, where all items in items array have not been liked yet
-      return this.$store.getters['tagsStorage/openCategories'];
-    },
-    finishedCategories() {
-      return this.$store.getters['tagsStorage/finishedCategories'];
-    },
-    tags(){
+    tags() {  
       return this.$store.getters['tagsStorage/tags'];
+    },
+    likedTags() {
+      return this.$store.getters['tagsStorage/likedTags'];
+    },
+    progress() {
+      let progress = (this.likedTags.length / this.maxLikedTagsCount) * 100;
+      return  progress.toString() + "%"
     }
   },
   data: function() {
     return {
-       message: "Swipe for your Taste!"
+       message: "Swipe for your Taste!",
+       maxLikedTagsCount: 5
     }
   }
 }
 </script>
-
+ 
 <style scoped>
 </style>
