@@ -31,11 +31,11 @@
         @likedTag="liked"
         @dislikedTag="disliked"
     >
-
     </CardComponent>
   </div>
     <!-- Buttons need to be moved to card stack component -->
     <div class="flex justify-around w-full h-24 text-center mb-28 mt-4">
+      
         <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked(item, index)">
         <img class="transform rotate-180 " alt="Dislike" src="../assets/images/dislike.png">
         </button>
@@ -68,9 +68,7 @@ export default {
     },
     liked(item, index) {
       this.$store.dispatch('tagsStorage/likeTag', item);
-
-      if(this.likedTags.length == 5) {
-        this.$store.dispatch('tagsStorage/retrieveTags', this.$apolloProvider.defaultClient);
+      if(this.likedTags.length == 5){
         this.$router.push({name: 'Recipes'});
       } 
       this.tags.splice(index, 1);
@@ -78,6 +76,10 @@ export default {
     disliked(item, index) {
       this.$store.dispatch('tagsStorage/dislikeTag', item);
       this.tags.splice(index, 1);
+      console.log(this.tags.length);
+      if(this.tags.length == 0){
+        this.$router.push({name: 'Recipes'});
+      } 
     }, 
     shuffle(tenderTags) {
       const x = tenderTags.length - 1;
@@ -97,7 +99,7 @@ export default {
     isEmpty: () => {
       return this.tags.length == 0;
     },
-    tags() {  
+    tags() {
       return this.$store.getters['tagsStorage/tags'];
     },
     likedTags() {
@@ -118,6 +120,5 @@ export default {
   }
 }
 </script>
- 
 <style scoped>
 </style>
