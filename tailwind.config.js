@@ -16,7 +16,10 @@ module.exports = {
         montserrat: ['Montserrat'],
         openSans: ['Open Sans'],
         oswald: ['Oswald']
-      }
+      },
+      backgroundImage: (theme) => ({
+        'like': "../assets/images/like.png"
+      })
     }
   },
   variants: {
