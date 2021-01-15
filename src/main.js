@@ -16,6 +16,7 @@ import { createProvider } from './vue-apollo'
 library.add(faHeart, faCog, faPlay)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
+// Vue.prototype.$apolloProvider = createProvider() --> evtl. globaler
 
 // const apolloClient = new ApolloClient({
 //   uri: client.service

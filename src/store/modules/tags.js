@@ -1,95 +1,62 @@
-import {LIKE_CATEGORY_ITEM} from "@/store/mutation-types";
+import gql from 'graphql-tag';
+
+const GET_TAGS = gql`query Tag {
+                        findTags(take: 25) {
+                            id,
+                            name, 
+                            imagePath
+                        }
+                    }`;
 
 const tagsStorage = {
     namespaced: true,
     state: {
-        count: 0,
         isAuthenticated: false,
         authenticationToken: null,
+        tags: [],
         likedTags: [],
-        completedCategories: [],
-        tags: [
-            {
-                id: 1,
-                category: 'cuisine',
-                items: [
-                    {id: 1, title: 'Japanese', liked: false},
-                    {id: 2, title: 'Italian', liked: false},
-                    {id: 3, title: 'German', liked: false},
-                    {id: 4, title: 'Indian', liked: false},
-                ]},
-            {
-                id: 2,
-                category: 'flavour',
-                items: [
-                    {id: 1, title: 'sweet', liked: false},
-                    {id: 2, title: 'spicy', liked: false},
-                    {id: 3, title: 'salty', liked: false},
-                ]},
-            {
-                id: 3,
-                category: 'carbs',
-                items: [
-                    {id: 1, title: 'potatoe', liked: false},
-                    {id: 2, title: 'pasta', liked: false},
-                    {id: 3, title: 'bread', liked: false},
-                ]},
-            {
-                id: 4,
-                category: 'season',
-                items: [
-                    {id: 1, title: 'summer', liked: false},
-                    {id: 2, title: 'winter', liked: false},
-                    {id: 3, title: 'spring', liked: false},
-                    {id: 4, title: 'autumn', liked: false},
-                ]},
-            {
-                id: 5,
-                category: 'diet',
-                items: [
-                    {id: 1, title: 'low carb', liked: false},
-                    {id: 2, title: 'protein boost', liked: false},
-                    {id: 3, title: 'low fat', liked: false},
-                    {id: 4, title: 'autumn', liked: false},
-                ]}
-        ]
+        dislikedTags: []
     },
     getters: {
-        openCategories: state => {
-            return state.tags;
-        },
-        finishedCategories: state => {
-            return state.completedCategories;
-        },
         tags: state => {
             return state.tags;
+        },
+        likedTags: state => {
+            return state.likedTags;
+        },
+        dislikedTags: state => {
+            return state.dislikedTags;
         }
     },
     mutations: {
-        [LIKE_CATEGORY_ITEM](state, category, subcategory) {
-            let tagIndex = state.tags.findIndex(tag => tag.category === category);
-            let itemIndex = state.tags[tagIndex].items.findIndex(item => item.id === subcategory.id);
-            state.tags[tagIndex].items[itemIndex].liked = true;
-        },
-
-        addTagToLikedTags(state, tag) {
+        addToLikedTags(state, tag) {
             // push liked tag to likedTags array
             state.likedTags.push(tag);
         },
-
-        removeCategoryFromTags(state, category) {
-            state.tags.splice(state.tags.indexOf(category), 1);
-        },
-
-        addCategoryToCompletedCategories(state, category) {
+        addToDislikedTags(state, tag) {
             // push liked tag to likedTags array
-            state.completedCategories.push(category);
+            state.dislikedTags.push(tag);
         },
+        addTags(state, tags) {
+            state.tags = tags;
+        },
+        reset(state) {
+            state.tags = [];
+            state.dislikedTags = [];
+            state.likedTags = [];
+        }
     },
     actions: {
-        // Instead of mutating the state, actions commit mutations.
-
-        // Actions can contain arbitrary >> asynchronous operations << . --> APOLLO Stuff goes in here :)
+        async retrieveTags(context, apolloClient) {
+            const response  = await apolloClient.query({ query: GET_TAGS });
+            context.commit('addTags', response.data.findTags);
+        },
+        likeTag(context, tag) {
+            context.commit('addToLikedTags', tag);
+        },
+        dislikeTag(context, tag) {
+            context.commit('addToDislikedTags', tag);
+        }
     }
 }
 

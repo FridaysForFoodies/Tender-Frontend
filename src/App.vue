@@ -54,7 +54,6 @@ export default {
   // when app is created, do this
   created() {
     if (!this.isAuthenticated) {
-      console.log("test userStorage/authRequest");
       this.$store.dispatch(
           'userStorage/authRequest',
           this.$apolloProvider.defaultClient,
@@ -63,10 +62,7 @@ export default {
     }
 
     // read settings from db into store
-    console.log("init from query: ", this.uid)
-    console.log("init from query: ", this.settingsObj)
-    // this.initSettings()
-
+    this.initSettings()
   },
   computed: {
     isAuthenticated() {
@@ -74,17 +70,23 @@ export default {
     }
   },
   methods: {
-    // initSettings() {
-    //   console.log("initSettings")
-    //
+    initSettings() {
+      console.log("App.initSettings")
+
+      //
+      // console.log("init from query: ", this.uid)
+      // console.log("init from query: ", this.settingsObj)
+
+      this.$store.dispatch('settingsStorage/retrieveSettings', this.$apolloProvider.defaultClient);
+
     //   this.$apollo.query({
     //     query: QUERY_SETTINGS,
     //     header: {
     //       authorization: this.$store.state["userStorage/authenticationToken"]
     //     }
     // }).then(result => console.log('got data: ', result))
-
-
+    //
+    //
     //   const uid = this.$store.state["userStorage/authenticationToken"]
     //   console.log("uid = " + uid)
     //   const response = this.$apollo.query({
@@ -94,7 +96,7 @@ export default {
     //   const settingsObj = response.data.recipePreferencesForUser
     //   console.log("ZewaAPP: " + settingsObj)
     //   // this.$store.state["settingsStorage/settingsVegan"] =
-    // }
+    }
   },
   // when app is destroyed, do this
   destroyed() {

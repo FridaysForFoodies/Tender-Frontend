@@ -7,6 +7,9 @@ Vue.use(VueApollo)
 
 // Name of the localStorage item
 const AUTH_TOKEN = 'apollo-token'
+// const AUTH_HEADER = 'Bearer ' + localStorage.getItem("tender-user-token")
+const AUTH_HEADER = 'Bearer 6c4df798-cf95-4296-adb6-78f08068afaa'
+console.log('auth header: ', AUTH_HEADER)
 
 // Http endpoint
 const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql'
@@ -42,7 +45,9 @@ const defaultOptions = {
   // cache: myCache
 
   // Override the way the Authorization header is set
-  // getAuth: (tokenName) => ...
+  // getAuth: defaultGetAuth(AUTH_TOKEN)
+  // eslint-disable-next-line no-unused-vars
+  getAuth: () => AUTH_HEADER
 
   // Additional ApolloClient options
   // apollo: { ... }
@@ -104,3 +109,12 @@ export async function onLogout (apolloClient) {
     console.log('%cError on cache reset (logout)', 'color: orange;', e.message)
   }
 }
+
+// function defaultGetAuth(tokenName) {
+//   if (typeof window !== 'undefined') {
+//     // get the authentication token from local storage if it exists
+//     const token = window.localStorage.getItem(tokenName)
+//     // return the headers to the context so httpLink can read them
+//     return token ? `Bearer ${token}` : ''
+//   }
+// }

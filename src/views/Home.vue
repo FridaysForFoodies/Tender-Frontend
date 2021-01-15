@@ -1,112 +1,112 @@
 <template>
-    <div class="h-full p-4">
+  <div class="h-full p-4">
+    <h1 class="text-2xl font-bold mt-8">Which ingredients<br/> do you have?</h1> 
+    <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center"
+      @click="focusIngredientInput">
 
-      <h1 class="text-2xl font-bold mt-24">Which ingredients<br/> do you have?</h1> 
-      <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center">
-   
-        <div flex-1>
-          <vue-tags-input v-model="tag" :tags="tags" :autocomplete-items="proposedIngredients" :validation="validation" @tags-changed="newTags => tags = newTags"/>
-        </div>
-        
-        <router-link :to=" { name: 'FoodTender'}">  
-          <font-awesome-icon icon="play" class="text-4xl"/>
-        </router-link>
+      <div class="flex-1">
+          <input ref="ingredientInput" placeholder="Search here" v-model="searchTerm" class="w-full focus:outline-none">
+            <div v-if="searchTerm!=''">
+              <div class="p-4 border-2 rounded-md bg-white absolute">
+                <div v-for="suggestedIngredient in suggestedIngredients" :key="suggestedIngredient.ID"  
+                  @click="handleSearchSuccess(suggestedIngredient)" v-show="isNotSelected(suggestedIngredient)"
+                  class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+                  {{ suggestedIngredient.name }}
+                </div>
+              </div>
+          </div>
       </div>
+      
+      <router-link :to=" { name: 'FoodTender'}">  
+        <font-awesome-icon icon="play" class="text-4xl ml-4"/>
+      </router-link>
+    </div>
 
-      <p class="font-bold	mt-4">Common search terms</p>
-
-      <div v-for="ingredient in unselectedIngredients" :key="ingredient" @click="addTagFromList(ingredient)"
-        class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2">
-        <p class="text-gray-400">{{ ingredient.text }}</p>
+    <div class="mt-4">
+      <div v-for="selectedIngredient in selectedIngredients" :key="selectedIngredient.ID" 
+        @click="removeFromSelectedIngredients(selectedIngredient)"
+        class="border-solid border-gray-500 bg-primary border-2 rounded-full px-4 inline-flex mr-2 mb-2 text-gray-500">
+        {{ selectedIngredient.name }}
       </div>
+    </div>
 
-<!--      <ApolloQuery
-      :query="require('../graphql/Ingredient.gql')"
-    >
-      <template slot-scope="{ result: { loading, error, data } }">
-        &lt;!&ndash; Loading &ndash;&gt;
-        <div v-if="loading" class="loading apollo">Loading...</div>
+    <p class="font-bold	mt-4">Your most used search terms</p>
+    <div class="flex-1">
+      <div v-for="personalIngredient in personalIngredients" :key="personalIngredient.ID" 
+        @click="addToSelectedIngredients(personalIngredient)" v-show="isNotSelected(personalIngredient)"
+        class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+        {{ personalIngredient.name }}
+      </div>
+    </div>
 
-        &lt;!&ndash; Error &ndash;&gt;
-        <div v-else-if="error" class="error apollo">An error occured</div>
-
-        &lt;!&ndash; Result &ndash;&gt;
-        <div v-for="post in data.posts.data" :key="post.title" v-else-if="data" class="result apollo">{{ post.title }}</div>
-
-        &lt;!&ndash; No result &ndash;&gt;
-        <div v-else class="no-result apollo">No result :(</div>
-      </template>
-    </ApolloQuery>-->
-
+    <p class="font-bold	mt-4">Common search terms</p>
+    <div class="flex-1">
+      <div v-for="popularIngredient in popularIngredients" :key="popularIngredient.ID" 
+        @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
+        class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+        {{ popularIngredient.name }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import VueTagsInput from '@johmun/vue-tags-input';
 
 export default {
-  components: {
-    VueTagsInput,
-  },
   name: "Home",
   data() {
     return {
-      tag: '',
-      tags: [],
-      ingredients: [
-        { text: "Pasta" },
-        { text: "Tomatoes" },
-        { text: "Basil" },
-        { text: "White wine" },
-        { text: "Capsicum" }
-      ],
-      validation: [{
-        classes: 'avoid-item',
-        // enthält ingredients den tag nicht? -> dann disable add
-        rule: tag => !this.ingredients.find(ingredient => ingredient.text === tag.text),
-        disableAdd: true
-      }],
+      suggestionIngredientCount: 5,      
+      searchTerm: '',
+    }
+  },
+  created: function() { 
+    this.fetchData();
+  },
+  computed:{
+    selectedIngredients(){
+      return this.$store.getters['ingredientsStorage/selectedIngredients'];
+    },
+    suggestedIngredients(){
+      return this.$store.getters['ingredientsStorage/suggestedIngredients'];
+    },
+    popularIngredients(){
+      return this.$store.getters['ingredientsStorage/popularIngredients'];
+    },
+    personalIngredients(){
+      return[];
+      //return this.$store.getters['ingredientsStorage/personalIngredients'];
     }
   },
   methods:{
-    addTagFromList(ingredient) {
-      this.tags.push({ 
-        text: ingredient.text,
-        tiClasses:["ti-valid"]
-      });
+    fetchData() {
+      this.$store.dispatch('ingredientsStorage/retrievePopularIngredients', this.$apolloProvider.defaultClient);
+      //this.$store.dispatch('ingredientsStorage/retrievePersonalIngredients', this.$apolloProvider.defaultClient);
+    },
+    handleSearchSuccess(ingredient){
+      this.addToSelectedIngredients(ingredient);
+      this.searchTerm = '';
+    },
+    addToSelectedIngredients(ingredient){
+      this.$store.dispatch('ingredientsStorage/selectIngredients', ingredient );
+    },
+    removeFromSelectedIngredients(ingredient){
+      this.$store.dispatch('ingredientsStorage/deselectIngredients', ingredient );
+    },
+    isNotSelected(ingredient){
+      return !(this.selectedIngredients.some(selectedIngredient => selectedIngredient.ID == ingredient.ID))
+    },
+    focusIngredientInput(){
+      this.$refs.ingredientInput.focus();
     }
   },
-  computed: {
-    proposedIngredients() {
-      return this.ingredients.filter(i => {
-        return i.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
-      });
-    },
-
-    unselectedIngredients() {
-      return this.ingredients.filter(ingredient => {
-        // enthält tags den ingredient?
-        return !this.tags.find(tag => tag.text === ingredient.text)
-      });
-    },
+  watch: {
+    searchTerm (term) {
+      this.$store.dispatch('ingredientsStorage/retrieveSuggestedIngredients', { 
+        apolloClient: this.$apolloProvider.defaultClient, 
+        searchTerm: term } 
+      );
+    }
   }
 }
 </script>
-
-<style lang="css">
-
-.vue-tags-input .ti-input {
-    border: none;
-}
-
-.vue-tags-input .ti-tag {
-  background-color: transparent;
-  font-size: 1em;
-  color: #9CA3AF;
-  border: #9CA3AF solid 2px;
-  border-radius: 1em;
-  padding: 0.2em 0.8em;
-  margin: 0.2rem 0.3rem 0.2rem 0; 
-}
-  
-</style>
