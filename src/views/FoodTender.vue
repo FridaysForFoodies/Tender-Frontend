@@ -70,9 +70,8 @@ export default {
       this.$store.dispatch('tagsStorage/likeTag', item);
       
       if(this.likedTags.length == 5) {
-        // TODO: change to result lists
         this.$store.dispatch('tagsStorage/retrieveTags', this.$apolloProvider.defaultClient);
-        router.push({name: 'Favourites'});
+        router.push({name: 'Recipes'});
       } 
       this.tags.splice(index, 1);
     },
