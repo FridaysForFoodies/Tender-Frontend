@@ -27,6 +27,7 @@ const userStorage = {
                 console.log(apolloClient);
                 
                 if(localStorage.getItem("tender-user-token") == undefined) {
+
                     const data  = await apolloClient.query({ query: GET_USER_UUID});
                     const uuid = data.data.generateUser.uuid;
                     localStorage.setItem("tender-user-token", uuid)
