@@ -1,7 +1,7 @@
 <template>
   <!-- Draggable -->
   <Vue2InteractDraggable
-      class="dragging-container absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100 bg-cover bg-no-repeat bg-like"
+      class="dragging-container absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100 bg-cover bg-center bg-no-repeat bg-like"
       :style="{ backgroundImage:  tagImage() }"
       :interact-block-drag-down="interactBlockDragDown"
       :interact-block-drag-left="interactBlockDragLeft"
@@ -16,11 +16,10 @@
       @draggedLeft="draggedLeft"
       @draggedRight="draggedRight"
   > 
-    <img class="flex-1 justify-center items-center" :src="tagImage()"/>
     <!-- Title -->
-    <div class="flex flex-1">
-      
-      <h2 class="m-auto text-center font-oswald text-4xl uppercase md:break-all">
+    <div class="flex flex-1 justify-center items-center">
+      <img class="absolute w-3/5 opacity-30" :src="tagImage()"/>
+      <h2 class="absolute m-auto text-center font-oswald text-4xl uppercase md:break-all">
         {{ item.name }}
       </h2>
     </div>
@@ -100,5 +99,4 @@ export default {
   background-size: contain;
   text-align: center;
 }
-
 </style>
