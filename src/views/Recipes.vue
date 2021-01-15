@@ -16,8 +16,8 @@
 import RecipeComponent from '../components/listing/RecipeComponent.vue'
 import gql from 'graphql-tag';
 
-const GET_RECIPES = gql`query recipes {
-        searchForRecipes(take: 25, searchOptions: {ingredients: ["Nudeln"], tags: ["Vegan"]}) {
+const GET_RECIPES = gql`query searchForRecipes ($ingredients: [String!]!, $tags: [String!]!) {
+        searchForRecipes(take: 5, searchOptions: {ingredients: $ingredients, tags: $tags}) {
             ID,
             name,
             ingredients {ID, name},
@@ -41,6 +41,11 @@ export default {
     searchForRecipes: {
       // gql query
       query: GET_RECIPES,
+      variables: {
+        ingredients: ["Nudeln"],
+        tags: ["Vegan"]
+      }
+
     },
   },
   methods: {
