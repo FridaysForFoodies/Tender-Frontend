@@ -28,6 +28,15 @@ export default {
     Navigation
   },
   apollo: {
+    uid: {
+      query: gql`
+        query {
+          generateUser {
+            uuid
+          }
+        }
+      `,
+    },
     settingsObj: {
       query: gql`
         query {
@@ -37,15 +46,6 @@ export default {
             gluten
             dairy
             cookingTime
-          }
-        }
-      `,
-    },
-    uid: {
-      query: gql`
-        query {
-          generateUser {
-            uuid
           }
         }
       `,
