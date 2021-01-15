@@ -1,0 +1,7 @@
+query Tag {
+    findTags {
+        id,
+        name, 
+        imagePath
+    }
+}
