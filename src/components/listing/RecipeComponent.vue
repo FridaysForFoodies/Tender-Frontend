@@ -13,7 +13,7 @@
           </h2>
 
           <small>
-            {{missingIngredients}}
+            {{missingIngredients}} ...
           </small>
         </div>
 

@@ -52,14 +52,14 @@ export default {
   },
   computed: {
     likedTags() {
-      return this.$store.getters['tagsStorage/likedTags'].length == 0
-          ? ["Vegan"]
-          : this.$store.getters['tagsStorage/likedTags'];
+      return this.$store.getters['tagsStorage/likedTags'];
     },
     selectedIngredients() {
-      return this.$store.getters['ingredientsStorage/selectedIngredients'].length == 0
-          ? ["Nudeln"]
-          : this.$store.getters['tagsStorage/likedTags'];
+      const selectedIngredients = [];
+      this.$store.getters['ingredientsStorage/selectedIngredients'].forEach(selectedIngredient => {
+        selectedIngredients.push(selectedIngredient.name);
+      })
+     return selectedIngredients;
     }
   }
 }
