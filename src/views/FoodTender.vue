@@ -47,7 +47,6 @@
 
 <script>
 import CardComponent from '../components/tender/CardComponent.vue';
-import router from '../router.js';
 
 export default {
   name: "FoodTender",
@@ -67,15 +66,15 @@ export default {
       this.$store.dispatch('tagsStorage/retrieveTags', this.$apolloProvider.defaultClient);
     },
     liked(item, index) {
-      this.$store.dispatch('tagsStorage/likeTag', item);
+      this.$store.dispatch('tagsStorage/likeTag', item.name);
       if(this.likedTags.length == 5) {
         // TODO: change to result lists
-        router.push({name: 'Favourites'});
+        this.$router.push({name: 'Recipes'});
       } 
       this.tags.splice(index, 1);
     },
     disliked(item, index) {
-      this.$store.dispatch('tagsStorage/dislikeTag', item);
+      this.$store.dispatch('tagsStorage/dislikeTag', item.name);
       this.tags.splice(index, 1);
     }, 
     shuffle(tenderTags) {
