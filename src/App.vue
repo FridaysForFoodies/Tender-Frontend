@@ -21,7 +21,6 @@ export default {
   },
   created() {
     if (!this.isAuthenticated) {
-      console.log("test");
       this.$store.dispatch(
           'userStorage/authRequest',
           this.$apolloProvider.defaultClient,

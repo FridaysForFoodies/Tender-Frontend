@@ -7,7 +7,7 @@
 
         <div class="recipe-title h-auto flex-1">
           <h2 class="text-2xl font-bold leading-6">
-            {{ recipe.title }}
+            {{ recipe.name }}
           </h2>
 
           <small>

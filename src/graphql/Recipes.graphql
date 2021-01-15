@@ -1,0 +1,10 @@
+query recipes {
+    searchForRecipes(take: 25, searchOptions: {ingredients: ["Nudeln"], tags: ["Vegan"]}) {
+        ID,
+        name,
+        ingredients {ID, name},
+        imagePath,
+        duration,
+        missingIngredients {ID, name}
+    }
+}

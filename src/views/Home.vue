@@ -47,7 +47,6 @@
         {{ popularIngredient.name }}
       </div>
     </div>
-
   </div>
 </template>
 
