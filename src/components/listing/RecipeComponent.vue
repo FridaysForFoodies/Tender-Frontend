@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe-container shadow-lg mx-3 my-5 rounded-xl">
+  <div class="recipe-container shadow-lg mx-3 my-6 rounded-xl">
     <div class="recipe-image rounded-t-xl" style="height:360px; background-size: cover" :style="{ backgroundImage: 'url(http://s3-eu-west-1.amazonaws.com/hf-recipes' + localRecipe.imagePath + ')' }"></div>
 
     <div class="recipe-info text-left p-5 flex flex-column">

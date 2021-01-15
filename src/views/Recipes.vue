@@ -25,6 +25,7 @@ const GET_RECIPES = gql`query searchForRecipes ($ingredients: [String!]!, $tags:
             missingIngredients {ID, name}
         }
       }`;
+
 export default {
   name: "Favourites",
   components: {
@@ -40,16 +41,27 @@ export default {
     searchForRecipes: {
       // gql query
       query: GET_RECIPES,
-      variables: {
-        ingredients: ["Nudeln"],
-        tags: ["Vegan"]
+      variables() {
+        return {
+          ingredients: this.selectedIngredients,
+          tags: this.likedTags
+        }
       }
 
     },
   },
-  methods: {
-
-  },
+  computed: {
+    likedTags() {
+      return this.$store.getters['tagsStorage/likedTags'].length == 0
+          ? ["Vegan"]
+          : this.$store.getters['tagsStorage/likedTags'];
+    },
+    selectedIngredients() {
+      return this.$store.getters['ingredientsStorage/selectedIngredients'].length == 0
+          ? ["Nudeln"]
+          : this.$store.getters['tagsStorage/likedTags'];
+    }
+  }
 }
 </script>
 
