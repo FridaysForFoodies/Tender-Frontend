@@ -20,9 +20,7 @@
       </div>
     </div>
   </div> 
- 
   <div class="relative w-screen flex-1">
-
       <CardComponent
         v-for="(item, index) in tags"
         v-bind:key="item.id"
@@ -68,15 +66,16 @@ export default {
       this.$store.dispatch('tagsStorage/retrieveTags', this.$apolloProvider.defaultClient);
     },
     liked(item, index) {
-      this.$store.dispatch('tagsStorage/likeTag', item.name);
+      this.$store.dispatch('tagsStorage/likeTag', item);
+
       if(this.likedTags.length == 5) {
-        // TODO: change to result lists
+        this.$store.dispatch('tagsStorage/retrieveTags', this.$apolloProvider.defaultClient);
         this.$router.push({name: 'Recipes'});
       } 
       this.tags.splice(index, 1);
     },
     disliked(item, index) {
-      this.$store.dispatch('tagsStorage/dislikeTag', item.name);
+      this.$store.dispatch('tagsStorage/dislikeTag', item);
       this.tags.splice(index, 1);
     }, 
     shuffle(tenderTags) {
