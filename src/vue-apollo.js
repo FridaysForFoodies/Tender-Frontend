@@ -8,7 +8,7 @@ Vue.use(VueApollo)
 // Name of the localStorage item
 const AUTH_TOKEN = 'apollo-token'
 // const AUTH_HEADER = 'Bearer ' + localStorage.getItem("tender-user-token")
-const AUTH_HEADER = 'Bearer 6c4df798-cf95-4296-adb6-78f08068afaa'
+const AUTH_HEADER = 'Bearer e11b761c-dcfb-4001-b218-cf0a64b271bd'
 console.log('auth header: ', AUTH_HEADER)
 
 // Http endpoint
@@ -69,9 +69,9 @@ export function createProvider (options = {}) {
   const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
     defaultOptions: {
-      $query: {
+      // $query: {
         // fetchPolicy: 'cache-and-network',
-      },
+      // },
     },
     errorHandler (error) {
       // eslint-disable-next-line no-console

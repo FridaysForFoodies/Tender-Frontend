@@ -22,6 +22,7 @@ const settingsStorage = {
     actions: {
         async retrieveSettings(context, apolloClient) {
             console.log("settingsStore.start")
+            console.log("settingsStore.auth? ", apolloClient.state)
 
             try {
                 const response = await apolloClient.query({
@@ -40,8 +41,30 @@ const settingsStorage = {
 
                 console.log('settingsStore.received: ', response)
             } catch (error) {
-                console.log('settingsStore.received error')
+                console.log('settingsStore.received error: ', error)
             }
+            console.log('settingsStore.end')
+            // context.commit('addTags', response.data.findTags);
+        },
+        async retrieveUser(context, apolloClient) {
+            console.log("settingsStore.retrieveUser")
+
+            try {
+                const response = await apolloClient.query({
+                    query: gql`
+                    query {
+                        generateUser {
+                            uuid
+                          }
+                    }
+                  `
+                });
+
+                console.log("settingsStore.retrieveUser.received: ", response.data.generateUser.uuid)
+            } catch (error) {
+                console.log('settingsStore.retrieveUser error: ', error)
+            }
+            console.log('settingsStore.retrieveUser.end')
             // context.commit('addTags', response.data.findTags);
         },
     }

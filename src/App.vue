@@ -13,44 +13,44 @@
 
 <script>
 import Navigation from './components/Navigation.vue'
-import gql from "graphql-tag"
+// import gql from "graphql-tag"
 
 export default {
   name: 'App',
   data() {
     return {
       // optionally initialize your apollo data
-      // settingsObj: null
-      uid: 'default value'
+      // settingsObj: null,
+      // uid: 'default value'
     }
   },
   components: {
     Navigation
   },
-  apollo: {
-    uid: {
-      query: gql`
-        query {
-          generateUser {
-            uuid
-          }
-        }
-      `,
-    },
-    settingsObj: {
-      query: gql`
-        query {
-          recipePreferencesForUser {
-            vegan
-            vegetarian
-            gluten
-            dairy
-            cookingTime
-          }
-        }
-      `,
-    },
-  },
+  // apollo: {
+  //   uid: {
+  //     query: gql`
+  //       query {
+  //         generateUser {
+  //           uuid
+  //         }
+  //       }
+  //     `,
+  //   },
+  //   settingsObj: {
+  //     query: gql`
+  //       query {
+  //         recipePreferencesForUser {
+  //           vegan
+  //           vegetarian
+  //           gluten
+  //           dairy
+  //           cookingTime
+  //         }
+  //       }
+  //     `,
+  //   },
+  // },
   // when app is created, do this
   created() {
     if (!this.isAuthenticated) {
@@ -77,24 +77,19 @@ export default {
       // console.log("init from query: ", this.uid)
       // console.log("init from query: ", this.settingsObj)
 
+      // this.$store.dispatch('settingsStorage/retrieveUser', this.$apolloProvider.defaultClient);
+
       this.$store.dispatch('settingsStorage/retrieveSettings', this.$apolloProvider.defaultClient);
 
     //   this.$apollo.query({
     //     query: QUERY_SETTINGS,
-    //     header: {
-    //       authorization: this.$store.state["userStorage/authenticationToken"]
-    //     }
     // }).then(result => console.log('got data: ', result))
     //
     //
-    //   const uid = this.$store.state["userStorage/authenticationToken"]
-    //   console.log("uid = " + uid)
     //   const response = this.$apollo.query({
-    //     header: '"authorization" : "' + uid,
     //     query: getSettings
     //   })
     //   const settingsObj = response.data.recipePreferencesForUser
-    //   console.log("ZewaAPP: " + settingsObj)
     //   // this.$store.state["settingsStorage/settingsVegan"] =
     }
   },
