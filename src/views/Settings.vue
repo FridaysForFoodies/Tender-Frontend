@@ -76,13 +76,15 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     // write settings values back to store before leaving page
-    this.$store.commit('updateSettings', {
+    let settingsObj = {
       vegetarian: this.vegetarian,
       vegan: this.vegan,
       glutenfree: this.glutenfree,
       dairyfree: this.dairyfree,
       cookingTime: this.value
-    })
+    }
+
+    this.$store.commit('updateSettings', { settingsObj })
     console.log("before leaving settings: updateSettings");
     next();
   }

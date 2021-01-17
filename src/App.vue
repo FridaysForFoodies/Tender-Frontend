@@ -51,6 +51,7 @@ export default {
   //     `,
   //   },
   // },
+
   // when app is created, do this
   created() {
     if (!this.isAuthenticated) {
@@ -61,8 +62,7 @@ export default {
       );
     }
 
-    // read settings from db into store
-    this.initSettings()
+    this.readSettingsFromDbToStore()
   },
   computed: {
     isAuthenticated() {
@@ -70,45 +70,25 @@ export default {
     }
   },
   methods: {
-    initSettings() {
+    readSettingsFromDbToStore() {
       console.log("App.initSettings")
 
-      //
-      // console.log("init from query: ", this.uid)
-      // console.log("init from query: ", this.settingsObj)
+      // populate db with default values
+      this.updateSettingsFromStoreToDb()
 
       // this.$store.dispatch('settingsStorage/retrieveUser', this.$apolloProvider.defaultClient);
 
       this.$store.dispatch('settingsStorage/retrieveSettings', this.$apolloProvider.defaultClient);
-
-    //   this.$apollo.query({
-    //     query: QUERY_SETTINGS,
-    // }).then(result => console.log('got data: ', result))
-    //
-    //
-    //   const response = this.$apollo.query({
-    //     query: getSettings
-    //   })
-    //   const settingsObj = response.data.recipePreferencesForUser
-    //   // this.$store.state["settingsStorage/settingsVegan"] =
+    },
+    updateSettingsFromStoreToDb() {
+      this.$store.dispatch('settingsStorage/updateSettingsInDb', this.$apolloProvider.defaultClient);
     }
   },
+
   // when app is destroyed, do this
   destroyed() {
-  // write settings from store to db
-  //   this.$apollo.mutate({
-  //     mutation: "setRecipePreferencesForUser",
-  //     variables: {
-  //       preferences: {
-  //         user: this.$store.state["userStorage/authenticationToken"], //localStorage.getItem("tender-user-token"),
-  //         vegan: this.vegan,
-  //         vegetarian: this.vegetarian,
-  //         gluten: this.glutenfree,
-  //         dairy: this.dairyfree,
-  //         cookingTime: this.value
-  //       }
-  //     }
-  //   })
+    // do we really need this since we do not have accounts?
+    // this.updateSettingsFromStoreToDb()
   }
 }
 
