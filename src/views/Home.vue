@@ -8,7 +8,7 @@
           <input ref="ingredientInput" placeholder="Search here" v-model="searchTerm" class="w-full focus:outline-none">
             <div v-if="searchTerm!=''">
               <div class="p-4 border-2 rounded-md bg-white absolute">
-                <div v-for="suggestedIngredient in suggestedIngredients" :key="suggestedIngredient.ID"  
+                <div ref="suggestedIngredient" v-for="suggestedIngredient in suggestedIngredients" :key="suggestedIngredient.ID"  
                   @click="handleSearchSuccess(suggestedIngredient)" v-show="isNotSelected(suggestedIngredient)"
                   class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
                   {{ suggestedIngredient.name }}
@@ -23,7 +23,7 @@
     </div>
 
     <div class="mt-4">
-      <div v-for="selectedIngredient in selectedIngredients" :key="selectedIngredient.ID" 
+      <div ref="selectedIngredient" v-for="selectedIngredient in selectedIngredients" :key="selectedIngredient.ID" 
         @click="removeFromSelectedIngredients(selectedIngredient)"
         class="border-solid border-gray-500 bg-primary border-2 rounded-full px-4 inline-flex mr-2 mb-2 text-gray-500">
         {{ selectedIngredient.name }}
@@ -41,7 +41,7 @@
 
     <p class="font-bold	mt-4">Common search terms</p>
     <div class="flex-1">
-      <div v-for="popularIngredient in popularIngredients" :key="popularIngredient.ID" 
+      <div ref="popularIngredient" v-for="popularIngredient in popularIngredients" :key="popularIngredient.ID" 
         @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
         class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
         {{ popularIngredient.name }}
@@ -56,7 +56,6 @@ export default {
   name: "Home",
   data() {
     return {
-      suggestionIngredientCount: 5,      
       searchTerm: '',
     }
   },
@@ -65,33 +64,33 @@ export default {
   },
   computed:{
     selectedIngredients(){
-      return this.$store.getters['ingredientsStorage/selectedIngredients'];
+      return this.$store.getters['selectedIngredients'];
     },
     suggestedIngredients(){
-      return this.$store.getters['ingredientsStorage/suggestedIngredients'];
+      return this.$store.getters['suggestedIngredients'];
     },
     popularIngredients(){
-      return this.$store.getters['ingredientsStorage/popularIngredients'];
+      return this.$store.getters['popularIngredients'];
     },
     personalIngredients(){
       return[];
-      //return this.$store.getters['ingredientsStorage/personalIngredients'];
+      //return this.$store.getters['personalIngredients'];
     }
   },
   methods:{
     fetchData() {
-      this.$store.dispatch('ingredientsStorage/retrievePopularIngredients', this.$apolloProvider.defaultClient);
-      //this.$store.dispatch('ingredientsStorage/retrievePersonalIngredients', this.$apolloProvider.defaultClient);
+      this.$store.dispatch('retrievePopularIngredients', this.$apolloProvider.defaultClient);
+      //this.$store.dispatch('retrievePersonalIngredients', this.$apolloProvider.defaultClient);
     },
     handleSearchSuccess(ingredient){
       this.addToSelectedIngredients(ingredient);
       this.searchTerm = '';
     },
     addToSelectedIngredients(ingredient){
-      this.$store.dispatch('ingredientsStorage/selectIngredients', ingredient );
+      this.$store.dispatch('selectIngredients', ingredient );
     },
     removeFromSelectedIngredients(ingredient){
-      this.$store.dispatch('ingredientsStorage/deselectIngredients', ingredient );
+      this.$store.dispatch('deselectIngredients', ingredient );
     },
     isNotSelected(ingredient){
       return !(this.selectedIngredients.some(selectedIngredient => selectedIngredient.ID == ingredient.ID))
@@ -102,7 +101,7 @@ export default {
   },
   watch: {
     searchTerm (term) {
-      this.$store.dispatch('ingredientsStorage/retrieveSuggestedIngredients', { 
+      this.$store.dispatch('retrieveSuggestedIngredients', { 
         apolloClient: this.$apolloProvider.defaultClient, 
         searchTerm: term } 
       );
