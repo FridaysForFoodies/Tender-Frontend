@@ -1,4 +1,10 @@
-<template>
+<template v-if="$apollo.loading">
+  <div>
+    Loading...
+  </div>
+</template>
+
+<template v-else>
   <div class="w-full">
     <div style="overflow: scroll;margin-bottom: 100px;">
       <article class="overflow-hidden">
@@ -112,8 +118,6 @@ export default {
     imagePath() {
       return this.findRecipe != null ? "http://s3-eu-west-1.amazonaws.com/hf-recipes" + this.findRecipe.imagePath : "";
     }
-
-
   },
   methods: {
 
