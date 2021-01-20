@@ -22,7 +22,6 @@ const GET_SUGGESTED_INGREDIENTS = gql`query IngredientSuggestions ($query: Strin
   }`;
 
 const ingredientsStorage = {
-    namespaced: true,
     state: {
         popularIngredients: [],        
         personalIngredients: [],

@@ -56,7 +56,7 @@ export default {
     },
     selectedIngredients() {
       const selectedIngredients = [];
-      this.$store.getters['ingredientsStorage/selectedIngredients'].forEach(selectedIngredient => {
+      this.$store.getters['selectedIngredients'].forEach(selectedIngredient => {
         selectedIngredients.push(selectedIngredient.name);
       })
      return selectedIngredients;
