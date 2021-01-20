@@ -44,21 +44,20 @@ export default {
       variables() {
         return {
           ingredients: this.selectedIngredients,
-          tags: this.likedTags
+          tags: this.likedTags().map(tag => tag.id)
         }
       }
-
     },
   },
   methods: {
     goToRecipe(recipeId) {
       console.log(recipeId);
+    },
+    likedTags() {
+        return this.$store.getters['tagsStorage/likedTags'];
     }
   },
   computed: {
-    likedTags() {
-      return this.$store.getters['tagsStorage/likedTags'];
-    },
     selectedIngredients() {
       const selectedIngredients = [];
       this.$store.getters['ingredientsStorage/selectedIngredients'].forEach(selectedIngredient => {

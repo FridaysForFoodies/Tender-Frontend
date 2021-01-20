@@ -19,7 +19,8 @@
       >
       </div>
     </div>
-  </div> 
+  </div>
+
   <div class="relative w-screen flex-1">
       <CardComponent
         v-for="(item, index) in tags"
@@ -35,11 +36,11 @@
   </div>
     <!-- Buttons need to be moved to card stack component -->
     <div class="flex justify-around w-full h-24 text-center mb-28 mt-4">
-      
-        <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked(item, index)">
+      <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked()">
         <img class="transform rotate-180 " alt="Dislike" src="../assets/images/dislike.png">
-        </button>
-      <button class="rounded-full h-24 w-24  items-center justify-center bg-white border-8 border-gray-200 p-4" @click="liked(item, index)">
+      </button>
+
+      <button class="rounded-full h-24 w-24  items-center justify-center bg-white border-8 border-gray-200 p-4" @click="liked()">
         <img alt="Like" src="../assets/images/like.png">
       </button>
     </div>
@@ -57,7 +58,6 @@ export default {
   created: function() { 
     this.reset();
     this.fetchData();
-    this.shuffle(this.tags);
   },
   methods: {
     goBack() {
@@ -66,29 +66,16 @@ export default {
     fetchData() {
       this.$store.dispatch('tagsStorage/retrieveTags', this.$apolloProvider.defaultClient);
     },
-    liked(item, index) {
-      this.$store.dispatch('tagsStorage/likeTag', item);
-      if(this.likedTags.length == 5){
+    liked() {
+      this.$store.commit('tagsStorage/addToLikedTags');
+      
+      if(this.likedTags.length == 5) {
+        // TODO: change to result lists
         this.$router.push({name: 'Recipes'});
-      } 
-      this.tags.splice(index, 1);
-    },
-    disliked(item, index) {
-      this.$store.dispatch('tagsStorage/dislikeTag', item);
-      this.tags.splice(index, 1);
-      if(this.tags.length == 0){
-        this.$router.push({name: 'Recipes'});
-      } 
-    }, 
-    shuffle(tenderTags) {
-      const x = tenderTags.length - 1;
-      for(let i = x; i > 0; i--){
-        const j = Math.floor(Math.random() * i)
-        const temp = tenderTags[i]
-        tenderTags[i] = tenderTags[j]
-        tenderTags[j] = temp
       }
-      return tenderTags;
+    },
+    disliked() {
+      this.$store.commit('tagsStorage/addToDislikedTags');
     },
     reset(){
       this.$store.commit('tagsStorage/reset');
@@ -112,9 +99,7 @@ export default {
   data: function() {
     return {
        message: "Swipe for your Taste!",
-       maxLikedTagsCount: 5,
-       item: undefined,
-       index: undefined
+       maxLikedTagsCount: 5
     }
   }
 }
