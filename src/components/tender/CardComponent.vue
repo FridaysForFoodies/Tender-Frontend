@@ -1,7 +1,7 @@
 <template>
   <!-- Draggable -->
   <Vue2InteractDraggable
-      class="dragging-container absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100 bg-cover bg-no-repeat bg-image"
+      class="dragging-container absolute flex flex-col left-0 right-0 top-0 h-full mx-6 transform rounded-lg bg-gray-100 bg-cover bg-center bg-no-repeat bg-like"
       :style="{ backgroundImage:  tagImage() }"
       :interact-block-drag-down="interactBlockDragDown"
       :interact-block-drag-left="interactBlockDragLeft"
@@ -17,8 +17,9 @@
       @draggedRight="draggedRight"
   > 
     <!-- Title -->
-    <div class="flex flex-1">
-      <h2 class="m-auto text-center font-oswald text-4xl uppercase md:break-all">
+    <div class="flex flex-1 justify-center items-center">
+      <img class="absolute w-3/5 opacity-20 mb-64" :src="tagImage()"/>
+      <h2 class="absolute m-auto text-center font-oswald text-4xl uppercase md:break-all">
         {{ item.name }}
       </h2>
     </div>
@@ -28,6 +29,7 @@
 
 <script>
 import { Vue2InteractDraggable } from 'vue2-interact'
+import fallbackImage from '../../assets/images/placeholder.png'
 
 export default {
   name: "CardComponent",
@@ -44,7 +46,8 @@ export default {
       interactBlockDragDown: true,
       interactBlockDragLeft: false,
       interactBlockDragRight: false,
-      interactBlockDragUp: true
+      interactBlockDragUp: true,
+      fallbackImage: fallbackImage
     };
   },
   methods: {
@@ -55,7 +58,8 @@ export default {
     dislikeTag() {
       console.log("item disliked called: " + this.item.name + " itemIndex: " + this.itemIndex);
       this.$emit('dislikedTag', this.item, this.itemIndex);
-    },    draggedLeft() {
+    },
+    draggedLeft() {
       console.log("dragged left");
       this.dislikeTag();
     },
@@ -63,10 +67,11 @@ export default {
       this.likeTag();
     },
     tagImage() {
-      let imagePath = `url(https://banner2.cleanpng.com/20180216/ggq/kisspng-hamburger-hot-dog-sushi-fast-food-pizza-pencil-drawing-food-hamburger-hot-dog-fast-food-ca-5a86ccb25a03f5.4552971515187836663687.jpg)`;
+      let imagePath = fallbackImage;
       if(this.item.imagePath.length != 0) {
-        imagePath = `url(http://s3-eu-west-1.amazonaws.com/hf-recipes${this.item.imagePath})`; 
+        imagePath = `http://s3-eu-west-1.amazonaws.com/hf-recipes${this.item.imagePath}`; 
       }
+
       return imagePath;
     }
   }
@@ -94,5 +99,4 @@ export default {
   background-size: contain;
   text-align: center;
 }
-
 </style>
