@@ -29,16 +29,31 @@ const tagsStorage = {
         }
     },
     mutations: {
-        addToLikedTags(state, tag) {
+        addToLikedTags(state) {
+            console.log('liked');
+
             // push liked tag to likedTags array
-            state.likedTags.push(tag);
+            const item = state.tags.shift();
+            state.likedTags.push(item);
         },
-        addToDislikedTags(state, tag) {
+        addToDislikedTags(state) {
             // push liked tag to likedTags array
-            state.dislikedTags.push(tag);
+            console.log('disliked');
+            const item = state.tags.shift();
+            state.dislikedTags.push(item);
         },
         addTags(state, tags) {
-            state.tags = tags;
+            function shuffle(tenderTags) {
+                const x = tenderTags.length - 1;
+                for(let i = x; i > 0; i--){
+                  const j = Math.floor(Math.random() * i)
+                  const temp = tenderTags[i]
+                  tenderTags[i] = tenderTags[j]
+                  tenderTags[j] = temp
+                }
+                return tenderTags;
+              }
+            state.tags = shuffle(tags);
         },
         reset(state) {
             state.tags = [];
@@ -50,12 +65,6 @@ const tagsStorage = {
         async retrieveTags(context, apolloClient) {
             const response  = await apolloClient.query({ query: GET_TAGS });
             context.commit('addTags', response.data.findTags);
-        },
-        likeTag(context, tag) {
-            context.commit('addToLikedTags', tag);
-        },
-        dislikeTag(context, tag) {
-            context.commit('addToDislikedTags', tag);
         }
     }
 }

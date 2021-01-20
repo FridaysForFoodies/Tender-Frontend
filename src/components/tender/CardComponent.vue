@@ -55,7 +55,8 @@ export default {
     dislikeTag() {
       console.log("item disliked called: " + this.item.name + " itemIndex: " + this.itemIndex);
       this.$emit('dislikedTag', this.item, this.itemIndex);
-    },    draggedLeft() {
+    },
+    draggedLeft() {
       console.log("dragged left");
       this.dislikeTag();
     },

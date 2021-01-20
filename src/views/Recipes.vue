@@ -44,22 +44,25 @@ export default {
       variables() {
         return {
           ingredients: this.selectedIngredients,
-          tags: this.likedTags
+          tags: this.likedTags().map(tag => tag.id)
         }
       }
 
     },
   },
   computed: {
-    likedTags() {
-      return this.$store.getters['tagsStorage/likedTags'];
-    },
     selectedIngredients() {
       const selectedIngredients = [];
       this.$store.getters['ingredientsStorage/selectedIngredients'].forEach(selectedIngredient => {
         selectedIngredients.push(selectedIngredient.name);
       })
      return selectedIngredients;
+    }
+  },
+  methods: {
+    likedTags() {
+        console.log(this.$store.getters['tagsStorage/likedTags']);
+        return this.$store.getters['tagsStorage/likedTags'];
     }
   }
 }
