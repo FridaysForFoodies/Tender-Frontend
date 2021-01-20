@@ -18,7 +18,7 @@
   > 
     <!-- Title -->
     <div class="flex flex-1 justify-center items-center">
-      <img class="absolute w-3/5 opacity-30" :src="tagImage()"/>
+      <img class="absolute w-3/5 opacity-20 mb-64" :src="tagImage()"/>
       <h2 class="absolute m-auto text-center font-oswald text-4xl uppercase md:break-all">
         {{ item.name }}
       </h2>
@@ -29,7 +29,7 @@
 
 <script>
 import { Vue2InteractDraggable } from 'vue2-interact'
-import fallbackImage from '../../assets/images/like.png'
+import fallbackImage from '../../assets/images/placeholder.png'
 
 export default {
   name: "CardComponent",
