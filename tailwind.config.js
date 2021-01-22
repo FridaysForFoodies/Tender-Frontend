@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         primary: "var(--color-primary)",
         secondary: "var(--color-secondary)",
+        secondaryText: "var(--color-secondary)",
         darkGrey: "var(--color-dark-grey)",
         lightGrey: "var(--color-light-grey)",
         'regal-blue': '#243c5a'

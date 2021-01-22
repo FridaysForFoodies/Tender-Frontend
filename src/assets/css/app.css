@@ -18,6 +18,7 @@ p {
 :root{
     --color-primary: #ffda07;
     --color-secondary: #DEDACA;
+    --color-secondary-text: #cec9b4;
     --color-dark-grey: #333333;
     --color-light-grey: #f8f8f8;
 }

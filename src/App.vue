@@ -32,9 +32,12 @@ export default {
           { root: true }
       );
     }
-    setTimeout(function(){ 
+    if (this.$route.name == 'Home'){
+      setTimeout(function(){ 
       this.splashscreenTimeRunning = false }
       .bind(this), 4000)
+    }
+    else this.splashscreenTimeRunning = false
   },
   computed: {
     isAuthenticated(){
@@ -44,7 +47,7 @@ export default {
       return this.$store.getters['splashscreenStorage/firstApolloLoaded'];
     },
     showSplashscreen(){
-      return this.splashscreenTimeRunning || !this.firstApolloLoaded
+      return (this.splashscreenTimeRunning || !this.firstApolloLoaded) && (this.$route.name == 'Home')
     }
   }
 
