@@ -96,7 +96,8 @@ export default {
       return !(this.selectedIngredients.some(selectedIngredient => selectedIngredient.ID == ingredient.ID))
     },
     focusIngredientInput(){
-      this.$refs.ingredientInput.focus();
+      if(this.$refs.ingredientInput != undefined)
+        this.$refs.ingredientInput.focus();
     }
   },
   watch: {
