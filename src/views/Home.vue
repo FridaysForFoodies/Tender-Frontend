@@ -1,7 +1,6 @@
 <template>
   <div class="h-full">
-    <img v-if="showSplashScreen" class="z-10 absolute h-full object-cover" src="../assets/images/splashscreen.svg"/>
-    <div v-if="!showSplashScreen" class="h-full p-4">
+    <div class="h-full p-4">
       <h1 class="text-2xl font-bold mt-8">Which ingredients<br/> do you have?</h1> 
       <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center"
         @click="focusIngredientInput">
@@ -59,13 +58,10 @@ export default {
   name: "Home",
   data() {
     return {
-      searchTerm: '',
-      animationOver: false
-    }
+      searchTerm: ''    }
   },
   created: function() { 
     this.fetchData();
-    setTimeout(function(){ this.animationOver = true }.bind(this), 4000)
   },
   computed:{
     selectedIngredients(){
@@ -80,9 +76,6 @@ export default {
     personalIngredients(){
       return[];
       //return this.$store.getters['personalIngredients'];
-    },
-    showSplashScreen(){
-      return !this.animationOver || (this.popularIngredients.length != 5)
     }
   },
   methods:{
@@ -106,7 +99,7 @@ export default {
     focusIngredientInput(){
       if(this.$refs.ingredientInput != undefined)
         this.$refs.ingredientInput.focus();
-    }
+    },
   },
   watch: {
     searchTerm (term) {
@@ -114,6 +107,10 @@ export default {
         apolloClient: this.$apolloProvider.defaultClient, 
         searchTerm: term } 
       );
+    },
+    popularIngredients(ingredients) {
+      if (ingredients.length > 0)
+        this.$store.dispatch('splashscreenStorage/registerFirstApolloLoaded');
     }
   }
 }
