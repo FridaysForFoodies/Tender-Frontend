@@ -1,50 +1,53 @@
 <template>
-  <div class="h-full p-4">
-    <h1 class="text-2xl font-bold mt-8">Which ingredients<br/> do you have?</h1> 
-    <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center"
-      @click="focusIngredientInput">
+  <div class="h-full">
+    <img v-if="showSplashScreen" class="z-10 absolute h-full object-cover" src="../assets/images/splashscreen.svg"/>
+    <div v-if="!showSplashScreen" class="h-full p-4">
+      <h1 class="text-2xl font-bold mt-8">Which ingredients<br/> do you have?</h1> 
+      <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center"
+        @click="focusIngredientInput">
 
-      <div class="flex-1">
-          <input ref="ingredientInput" placeholder="Search here" v-model="searchTerm" class="w-full focus:outline-none">
-            <div v-if="searchTerm!=''">
-              <div class="p-4 border-2 rounded-md bg-white absolute">
-                <div ref="suggestedIngredient" v-for="suggestedIngredient in suggestedIngredients" :key="suggestedIngredient.ID"  
-                  @click="handleSearchSuccess(suggestedIngredient)" v-show="isNotSelected(suggestedIngredient)"
-                  class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
-                  {{ suggestedIngredient.name }}
+        <div class="flex-1">
+            <input ref="ingredientInput" placeholder="Search here" v-model="searchTerm" class="w-full focus:outline-none">
+              <div v-if="searchTerm!=''">
+                <div class="p-4 border-2 rounded-md bg-white absolute">
+                  <div ref="suggestedIngredient" v-for="suggestedIngredient in suggestedIngredients" :key="suggestedIngredient.ID"  
+                    @click="handleSearchSuccess(suggestedIngredient)" v-show="isNotSelected(suggestedIngredient)"
+                    class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+                    {{ suggestedIngredient.name }}
+                  </div>
                 </div>
-              </div>
-          </div>
+            </div>
+        </div>
+        
+        <router-link :to=" { name: 'FoodTender'}">  
+          <font-awesome-icon icon="play" class="text-4xl ml-4"/>
+        </router-link>
       </div>
-      
-      <router-link :to=" { name: 'FoodTender'}">  
-        <font-awesome-icon icon="play" class="text-4xl ml-4"/>
-      </router-link>
-    </div>
 
-    <div class="mt-4">
-      <div ref="selectedIngredient" v-for="selectedIngredient in selectedIngredients" :key="selectedIngredient.ID" 
-        @click="removeFromSelectedIngredients(selectedIngredient)"
-        class="border-solid border-gray-500 bg-primary border-2 rounded-full px-4 inline-flex mr-2 mb-2 text-gray-500">
-        {{ selectedIngredient.name }}
+      <div class="mt-4">
+        <div ref="selectedIngredient" v-for="selectedIngredient in selectedIngredients" :key="selectedIngredient.ID" 
+          @click="removeFromSelectedIngredients(selectedIngredient)"
+          class="border-solid border-gray-500 bg-primary border-2 rounded-full px-4 inline-flex mr-2 mb-2 text-gray-500">
+          {{ selectedIngredient.name }}
+        </div>
       </div>
-    </div>
 
-    <p class="font-bold	mt-4">Your most used search terms</p>
-    <div class="flex-1">
-      <div v-for="personalIngredient in personalIngredients" :key="personalIngredient.ID" 
-        @click="addToSelectedIngredients(personalIngredient)" v-show="isNotSelected(personalIngredient)"
-        class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
-        {{ personalIngredient.name }}
+      <p class="font-bold	mt-4">Your most used search terms</p>
+      <div class="flex-1">
+        <div v-for="personalIngredient in personalIngredients" :key="personalIngredient.ID" 
+          @click="addToSelectedIngredients(personalIngredient)" v-show="isNotSelected(personalIngredient)"
+          class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+          {{ personalIngredient.name }}
+        </div>
       </div>
-    </div>
 
-    <p class="font-bold	mt-4">Common search terms</p>
-    <div class="flex-1">
-      <div ref="popularIngredient" v-for="popularIngredient in popularIngredients" :key="popularIngredient.ID" 
-        @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
-        class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
-        {{ popularIngredient.name }}
+      <p class="font-bold	mt-4">Common search terms</p>
+      <div class="flex-1">
+        <div ref="popularIngredient" v-for="popularIngredient in popularIngredients" :key="popularIngredient.ID" 
+          @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
+          class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
+          {{ popularIngredient.name }}
+        </div>
       </div>
     </div>
   </div>
@@ -57,10 +60,12 @@ export default {
   data() {
     return {
       searchTerm: '',
+      animationOver: false
     }
   },
   created: function() { 
     this.fetchData();
+    setTimeout(function(){ this.animationOver = true }.bind(this), 4000)
   },
   computed:{
     selectedIngredients(){
@@ -75,6 +80,9 @@ export default {
     personalIngredients(){
       return[];
       //return this.$store.getters['personalIngredients'];
+    },
+    showSplashScreen(){
+      return !this.animationOver || (this.popularIngredients.length != 5)
     }
   },
   methods:{

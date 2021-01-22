@@ -7,7 +7,7 @@
        <!-- Header -->
 
     <!-- Navigation -->
-    <Navigation />
+    <Navigation v-if="showNavigation" />
   </div>
 </template>
 
@@ -19,6 +19,11 @@ export default {
   components: {
     Navigation
   },
+  data() {
+    return {
+      showNavigation: false
+    }
+  },
   created() {
     if (!this.isAuthenticated) {
       this.$store.dispatch(
@@ -27,6 +32,7 @@ export default {
           { root: true }
       );
     }
+    setTimeout(function(){ this.showNavigation = true }.bind(this), 4000)
   },
   computed: {
     isAuthenticated(){
