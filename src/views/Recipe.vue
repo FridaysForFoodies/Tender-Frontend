@@ -1,11 +1,9 @@
-<template v-if="$apollo.loading">
-  <div>
+<template>
+  <div v-if="$apollo.loading">
     Loading...
   </div>
-</template>
 
-<template v-else>
-  <div class="w-full">
+  <div class="w-full" v-else>
     <div style="overflow: scroll;margin-bottom: 100px;">
       <article class="overflow-hidden">
         <div class="relative" style="padding-bottom: 75%;">
@@ -94,11 +92,12 @@ const QUERY_GET_RECIPE = gql`query findRecipe($recipeId: String!) {
 export default {
   name: "Recipe",
   created() {
-    console.log(this.$route.params.recipeId);
+    console.log(this.loading);
   },
   data() {
     return {
       findRecipe: {},
+      loading: 0,
     }
   },
   apollo: {
@@ -110,8 +109,8 @@ export default {
         return {
           recipeId: this.$route.params.recipeId
         }
-      }
-
+      },
+      loadingKey: 'loading'
     },
   },
   computed: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full p-4">
+  <div class="h-full p-4" >
     <h1 class="text-2xl font-bold mt-8">Which ingredients<br/> do you have?</h1> 
     <div class="w-full border-solid border-black border-2 rounded-md p-3 mt-4 flex justify-between items-center"
       @click="focusIngredientInput">

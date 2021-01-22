@@ -1,6 +1,10 @@
 <template>
-  <div class="w-full">
-    <div style="overflow: scroll;margin-bottom: 100px;">
+  <div v-if="$apollo.loading">
+    Loading...
+  </div>
+
+  <div class="w-full" v-else>
+    <div style="overflow: scroll; margin-bottom: 100px;">
 
       <RecipeComponent
           v-for="recipe in searchForRecipes"
