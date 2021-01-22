@@ -1,6 +1,6 @@
 // import gql from "graphql-tag";
-import GET_PREFERENCES from "../../graphql/GetPreferences.gql"
-import POST_PREFERENCES from "../../graphql/PostPreferences.gql"
+import recipePreferencesForUser from "../../graphql/GetPreferences.gql"
+import setRecipePreferencesForUser from "../../graphql/PostPreferences.gql"
 import GET_USER_ID from "../../graphql/User.gql"
 
 const settingsStorage = {
@@ -13,7 +13,7 @@ const settingsStorage = {
         cookingTime: 30
     },
     getters: {
-        settingsVegetarian: state => {
+        getSettingsVegetarian: state => {
             return state.settingsVegetarian
         }
     },
@@ -33,7 +33,7 @@ const settingsStorage = {
             let response
             try {
                 response = await apolloClient.query({
-                    query: GET_PREFERENCES
+                    query: recipePreferencesForUser
                 });
 
                 console.log('settingsStore.received: ', response)
@@ -50,12 +50,21 @@ const settingsStorage = {
             console.log("{ \"authorization\": \"" + localStorage.getItem("tender-user-token") + "\" }")
 
             // const temp = {
-            //     vegetarian: this.settingsVegetarian,
-            //     vegan: this.vegan,
-            //     glutenfree: this.glutenfree,
-            //     dairyfree: this.dairyfree,
+            //     vegetarian: this.state.settingsVegetarian,
+            //     vegan: this.settingsVegan,
+            //     glutenfree: this.settingsGlutenfree,
+            //     dairyfree: this.settingsDairyfree,
             //     cookingTime: this.cookingTime
             // }
+            const temp = {
+                vegetarian: true,
+                vegan: false,
+                glutenfree: false,
+                lactosefree: false,
+                cookingTime: 8
+            }
+            console.log("temp created: ", temp)
+            console.log("test state: ", this.settingsVegan)
 
             // const temp1 = this.settingsVegetarian
             // const temp2 = this.settingsVegan
@@ -65,15 +74,16 @@ const settingsStorage = {
 
             try {
                 apolloClient.mutate({
-                    mutation: POST_PREFERENCES,
+                    mutation: setRecipePreferencesForUser,
                     variables: {
-                        preferencesInput: {
-                            vegetarian: this.settingsVegetarian,
-                            vegan: this.vegan,
-                            glutenfree: this.glutenfree,
-                            dairyfree: this.dairyfree,
-                            cookingTime: this.cookingTime
-                        }
+                        preferencesInput: temp
+                        //     {
+                        //     vegetarian: this.settingsVegetarian,
+                        //     vegan: this.settingsVegan,
+                        //     glutenfree: this.settingsGlutenfree,
+                        //     lactosefree: this.settingsDairyfree,
+                        //     cookingTime: this.cookingTime
+                        // }
                     }
                 });
 

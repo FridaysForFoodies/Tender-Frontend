@@ -1,9 +1,9 @@
-query GetPreferences {
+query recipePreferencesForUser {
     recipePreferencesForUser {
         vegan
         vegetarian
-        gluten
-        dairy
+        glutenfree
+        lactosefree
         cookingTime
     }
 }

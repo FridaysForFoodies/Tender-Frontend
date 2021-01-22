@@ -3,10 +3,10 @@
 mutation setRecipePreferencesForUser ($preferencesInput: RecipePreferencesInput!) {
     setRecipePreferencesForUser ( preferences: $preferencesInput )
     {
-        vegan
         vegetarian
-        gluten
-        dairy
+        vegan
+        glutenfree
+        lactosefree
         cookingTime
     }
 }
