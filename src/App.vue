@@ -2,12 +2,12 @@
 
   <div id="app" class="flex flex-col h-screen">
     <img v-if="showSplashscreen" class="z-10 absolute h-full object-cover" src="./assets/images/splashscreen.svg"/>
-    <router-view class="flex-1 regal-blue"/>
+    <router-view v-show="!showSplashscreen" class="flex-1 regal-blue"/>
     <!-- Content -->
        <!-- Header -->
 
     <!-- Navigation -->
-    <Navigation/>
+    <Navigation v-show="!showSplashscreen"/>
   </div>
 </template>
 
