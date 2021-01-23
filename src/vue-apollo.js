@@ -7,7 +7,7 @@ Vue.use(VueApollo)
 
 // Name of the localStorage item
 const AUTH_TOKEN = 'apollo-token'
-const AUTH_HEADER = 'Bearer ' + localStorage.getItem("tender-user-token")
+const AUTH_HEADER = localStorage.getItem("tender-user-token")
 console.log('auth header: ', AUTH_HEADER)
 
 // Http endpoint

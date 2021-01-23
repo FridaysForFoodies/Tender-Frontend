@@ -1,7 +1,6 @@
 // import gql from "graphql-tag";
 import recipePreferencesForUser from "../../graphql/GetPreferences.gql"
 import setRecipePreferencesForUser from "../../graphql/PostPreferences.gql"
-import GET_USER_ID from "../../graphql/User.gql"
 
 const settingsStorage = {
     namespaced: true,
@@ -9,102 +8,88 @@ const settingsStorage = {
         settingsVegetarian: false,
         settingsVegan: false,
         settingsGlutenfree: false,
-        settingsDairyfree: false,
+        settingsLactoseFree: false,
         cookingTime: 30
     },
     getters: {
         getSettingsVegetarian: state => {
             return state.settingsVegetarian
-        }
+        },
+        getSettingsVegan: state => {
+            return state.settingsVegan
+        },
+        getSettingsGluten: state => {
+            return state.settingsGlutenfree
+        },
+        getSettingsLactose: state => {
+            return state.settingsLactoseFree
+        },
+        getSettingsTime: state => {
+            return state.cookingTime
+        },
     },
     mutations: {
         updateSettings(state, newValuesObj) {
-            this.settingsVegetarian = newValuesObj.vegetarian
-            this.settingsVegan = newValuesObj.vegan
-            this.settingsGlutenfree = newValuesObj.glutenfree
-            this.settingsDairyfree = newValuesObj.dairyfree
-            this.cookingTime = newValuesObj.cookingTime
+            console.log('updateSettings.obj: ', newValuesObj)
+            state.settingsVegetarian = newValuesObj.vegetarian
+            state.settingsVegan = newValuesObj.vegan
+            state.settingsGlutenfree = newValuesObj.glutenfree
+            state.settingsLactoseFree = newValuesObj.dairyfree
+            console.log("time before update: ", state.cookingTime)
+            if(newValuesObj.cookingTime < 15)
+                state.cookingTime = 15
+            else if(newValuesObj.cookingTime > 60)
+                state.cookingTime = 60
+            else
+                state.cookingTime = newValuesObj.cookingTime
+            console.log("time after update: ", state.cookingTime)
         }
     },
     actions: {
-        async retrieveSettings(context, apolloClient) {
+        async retrieveSettingsFromDB(context, apolloClient) {
             console.log("settingsStore.start")
 
             let response
+            let settingsObj
             try {
                 response = await apolloClient.query({
                     query: recipePreferencesForUser
                 });
 
-                console.log('settingsStore.received: ', response)
+                settingsObj = response.data.recipePreferencesForUser
+                console.log('settingsStore.received: ', settingsObj)
             } catch (error) {
                 console.log('settingsStore.received error: ', error)
             }
 
             console.log('settingsStore.end')
-            context.commit('updateSettings', response.data.recipePreferencesForUser);
+            context.commit('updateSettings', settingsObj)
         },
 
-        async updateSettingsInDb(context, apolloClient) {
+        async updateSettingsInDB({state}, apolloClient) {
             console.log("updateSettingsInDb.start")
             console.log("{ \"authorization\": \"" + localStorage.getItem("tender-user-token") + "\" }")
 
-            // const temp = {
-            //     vegetarian: this.state.settingsVegetarian,
-            //     vegan: this.settingsVegan,
-            //     glutenfree: this.settingsGlutenfree,
-            //     dairyfree: this.settingsDairyfree,
-            //     cookingTime: this.cookingTime
-            // }
             const temp = {
-                vegetarian: true,
-                vegan: false,
-                glutenfree: false,
-                lactosefree: false,
-                cookingTime: 8
+                vegetarian: state.settingsVegetarian,
+                vegan: state.settingsVegan,
+                glutenfree: state.settingsGlutenfree,
+                lactosefree: state.settingsLactoseFree,
+                cookingTime: state.cookingTime
             }
             console.log("temp created: ", temp)
-            console.log("test state: ", this.settingsVegan)
-
-            // const temp1 = this.settingsVegetarian
-            // const temp2 = this.settingsVegan
-            // const temp3 = this.settingsGlutenfree
-            // const temp4 = this.settingsDairyfree
-            // const temp5 = this.cookingTime
 
             try {
-                apolloClient.mutate({
+                await apolloClient.mutate({
                     mutation: setRecipePreferencesForUser,
                     variables: {
                         preferencesInput: temp
-                        //     {
-                        //     vegetarian: this.settingsVegetarian,
-                        //     vegan: this.settingsVegan,
-                        //     glutenfree: this.settingsGlutenfree,
-                        //     lactosefree: this.settingsDairyfree,
-                        //     cookingTime: this.cookingTime
-                        // }
                     }
                 });
 
                 console.log('updateSettingsInDb.mutated')
             } catch (error) {
                 console.log('updateSettingsInDb.mutation error: ', error)
-            }
-        },
-
-        // just for testing
-        async retrieveUser(context, apolloClient) {
-            console.log("settingsStore.retrieveUser")
-
-            try {
-                const response = await apolloClient.query({
-                    query: GET_USER_ID
-                });
-
-                console.log("settingsStore.retrieveUser.received: ", response.data.generateUser.uuid)
-            } catch (error) {
-                console.log('settingsStore.retrieveUser error: ', error)
             }
         },
     }

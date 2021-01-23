@@ -13,6 +13,7 @@
 
 <script>
 import Navigation from './components/Navigation.vue'
+// import setRecipePreferencesForUser from "@/graphql/PostPreferences.gql"
 // import gql from "graphql-tag"
 
 export default {
@@ -27,30 +28,6 @@ export default {
   components: {
     Navigation
   },
-  // apollo: {
-  //   uid: {
-  //     query: gql`
-  //       query {
-  //         generateUser {
-  //           uuid
-  //         }
-  //       }
-  //     `,
-  //   },
-  //   settingsObj: {
-  //     query: gql`
-  //       query {
-  //         recipePreferencesForUser {
-  //           vegan
-  //           vegetarian
-  //           gluten
-  //           dairy
-  //           cookingTime
-  //         }
-  //       }
-  //     `,
-  //   },
-  // },
 
   // when app is created, do this
   created() {
@@ -62,7 +39,7 @@ export default {
       );
     }
 
-    this.readSettingsFromDbToStore()
+    this.$store.dispatch('settingsStorage/retrieveSettingsFromDB', this.$apolloProvider.defaultClient);
   },
   computed: {
     isAuthenticated() {
@@ -70,25 +47,11 @@ export default {
     }
   },
   methods: {
-    readSettingsFromDbToStore() {
-      console.log("App.initSettings")
-
-      // populate db with default values
-      this.updateSettingsFromStoreToDb()
-
-      // this.$store.dispatch('settingsStorage/retrieveUser', this.$apolloProvider.defaultClient);
-
-      this.$store.dispatch('settingsStorage/retrieveSettings', this.$apolloProvider.defaultClient);
-    },
-    updateSettingsFromStoreToDb() {
-      this.$store.dispatch('settingsStorage/updateSettingsInDb', this.$apolloProvider.defaultClient);
-    }
   },
 
   // when app is destroyed, do this
   destroyed() {
-    // do we really need this since we do not have accounts?
-    // this.updateSettingsFromStoreToDb()
+    this.$store.dispatch('settingsStorage/updateSettingsInDB', this.$apolloProvider.defaultClient);
   }
 }
 

@@ -37,7 +37,7 @@ export default {
       vegetarian: this.$store.state.settingsStorage.settingsVegetarian,
       vegan: this.$store.state.settingsStorage.settingsVegan,
       glutenfree: this.$store.state.settingsStorage.settingsGlutenfree,
-      dairyfree: this.$store.state.settingsStorage.settingsDairyfree,
+      dairyfree: this.$store.state.settingsStorage.settingsLactoseFree,
       value: this.$store.state.settingsStorage.cookingTime,
       vegetarianLabel: 'Vegetarian',
       veganLabel: 'Vegan',
@@ -84,8 +84,9 @@ export default {
       cookingTime: this.value
     }
 
-    this.$store.commit('updateSettings', { settingsObj })
-    console.log("before leaving settings: updateSettings");
+    this.$store.commit('settingsStorage/updateSettings', settingsObj)
+    // this.$store.dispatch('settingsStorage/updateSettingsInDB')
+    this.$store.dispatch('settingsStorage/updateSettingsInDB', this.$apolloProvider.defaultClient);
     next();
   }
 }
