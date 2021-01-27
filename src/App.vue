@@ -1,12 +1,14 @@
 <template>
 
   <div id="app" class="flex flex-col h-screen">
-
-    <router-view class="flex-1 regal-blue"/>
+    <img v-if="showSplashscreen" class="z-10 absolute h-full object-cover" src="./assets/images/splashscreen.svg"/>
+    <router-view v-show="!showSplashscreen" class="flex-1 regal-blue"/>
     <!-- Content -->
     <!-- Header -->
 
     <!-- Navigation -->
+
+    <Navigation v-show="!showSplashscreen"/>
     <Navigation/>
   </div>
 </template>
@@ -28,7 +30,11 @@ export default {
   components: {
     Navigation
   },
-
+  data() {
+    return {
+      splashscreenTimeRunning: true   
+    }
+  },
   // when app is created, do this
   created() {
     if (!this.isAuthenticated) {
@@ -39,11 +45,23 @@ export default {
       );
     }
 
+    if (this.$route.name == 'Home'){
+      setTimeout(function(){ 
+      this.splashscreenTimeRunning = false }
+      .bind(this), 5000)
+    }
+    else this.splashscreenTimeRunning = false
     this.$store.dispatch('settingsStorage/retrieveSettingsFromDB', this.$apolloProvider.defaultClient);
   },
   computed: {
     isAuthenticated() {
       return this.$store.getters['userStorage/authenticationStatus'];
+    },
+    firstApolloLoaded(){
+      return this.$store.getters['splashscreenStorage/firstApolloLoaded'];
+    },
+    showSplashscreen(){
+      return (this.splashscreenTimeRunning || !this.firstApolloLoaded) && (this.$route.name == 'Home')
     }
   },
   methods: {

@@ -1,6 +1,7 @@
 <template>
-  <div v-if="$apollo.loading">
-    Loading...
+  <div v-if="$apollo.loading" class="flex flex-col h-full w-full justify-center items-center font-bold text-secondaryText">
+    <p>Gathering all<br>ingredients for you ...</p>
+    <img src="../assets/images/loading.svg"/>
   </div>
 
   <div class="w-full" v-else>
