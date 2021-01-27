@@ -17,7 +17,7 @@
           </small>
         </div>
 
-        <font-awesome-icon icon="heart" v-on:click="toggle" :class="localRecipe.isFavourite ? 'text-yellow-400' : ''" class="recipe-favorite text-4xl item-center align-center"/>
+        <font-awesome-icon icon="heart" v-on:click="toggleFavourite" :class="localRecipe.isFavourite ? 'text-yellow-400' : ''" class="recipe-favorite text-4xl item-center align-center"/>
 
 
       </div>
@@ -27,20 +27,36 @@
 </template>
 
 <script>
+
+import gql from "graphql-tag";
+
+const ADD_FAVOURITE_MUTATION = gql`mutation addRecipeToFavourites($recipeId: String!){
+                                      addRecipeToFavourites(recipeId: $recipeId) {
+                                        recipeId
+                                      }
+                                    }`;
 export default {
   name: "recipeComponent",
   props: ['recipe'],
-  created: function() {
-    console.log(this.recipe.id);
-    console.log(this.recipe);
-  },
   methods: {
-    toggle() {
-      this.localRecipe.isFavourite = !this.localRecipe.isFavourite;
+    toggleFavourite() {
+      //this.localRecipe.isFavourite = !this.localRecipe.isFavourite;
+      if (!this.localRecipe.isFavourite) {
+        try {
+          this.$apollo.mutate({
+            mutation: ADD_FAVOURITE_MUTATION,
+            variables: { recipeId: this.localRecipe.ID }
+          });
+          this.localRecipe.isFavourite = true;
+        } catch(e) {
+          console.log(e);
+        }
+      }
+      //else: remove recipe from favourites
     }
   },
   computed: {
-    localRecipe: function () {
+    localRecipe() {
       // `this` points to the vm instance
       return this.recipe;
     },
