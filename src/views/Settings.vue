@@ -4,8 +4,8 @@
 
     <settings-checkbox :label-text="vegetarianLabel" :mapped-value.sync="vegetarian"/>
     <settings-checkbox :label-text="veganLabel" :mapped-value.sync="vegan"/>
-    <settings-checkbox :label-text="glutenLabel" :mapped-value.sync="gluten"/>
-    <settings-checkbox :label-text="dairyLabel" :mapped-value.sync="dairy"/>
+    <settings-checkbox :label-text="glutenfreeLabel" :mapped-value.sync="glutenfree"/>
+    <settings-checkbox :label-text="dairyfreeLabel" :mapped-value.sync="dairyfree"/>
 
     <div class="text-left font-bold">
       <span>Cooking time</span>
@@ -27,34 +27,34 @@
 import 'vue-range-component/dist/vue-range-slider.css'
 import VueRangeSlider from 'vue-range-component'
 import SettingsCheckbox from '../components/SettingsCheckbox'
+// import gql from "graphql-tag";
 
 export default {
   name: "Settings",
   data() {
     return {
-      vegetarian: false,
-      vegan: false,
-      gluten: false,
-      dairy: false,
-      value: 30,
+      // init settings value from store
+      vegetarian: this.$store.state.settingsStorage.settingsVegetarian,
+      vegan: this.$store.state.settingsStorage.settingsVegan,
+      glutenfree: this.$store.state.settingsStorage.settingsGlutenfree,
+      dairyfree: this.$store.state.settingsStorage.settingsLactoseFree,
+      value: this.$store.state.settingsStorage.cookingTime,
       vegetarianLabel: 'Vegetarian',
       veganLabel: 'Vegan',
-      glutenLabel: 'Glutenfree',
-      dairyLabel: 'Dairy'
+      glutenfreeLabel: 'Gluten free',
+      dairyfreeLabel: 'Dairy free',
     }
   },
   methods: {
-
   },
   computed: {
-
   },
   watch: {
     vegan(newValue, oldValue) {
       console.log("vegan watcher: from " + oldValue + " to " + newValue)
       if (newValue) {
         this.vegetarian = false
-        this.dairy = false
+        this.dairyfree = false
       }
     },
     vegetarian(newValue, oldValue) {
@@ -73,6 +73,21 @@ export default {
   components: {
     VueRangeSlider,
     SettingsCheckbox
+  },
+  beforeRouteLeave(to, from, next) {
+    // write settings values back to store before leaving page
+    let settingsObj = {
+      vegetarian: this.vegetarian,
+      vegan: this.vegan,
+      glutenfree: this.glutenfree,
+      dairyfree: this.dairyfree,
+      cookingTime: this.value
+    }
+
+    this.$store.commit('settingsStorage/updateSettings', settingsObj)
+    // this.$store.dispatch('settingsStorage/updateSettingsInDB')
+    this.$store.dispatch('settingsStorage/updateSettingsInDB', this.$apolloProvider.defaultClient);
+    next();
   }
 }
 </script>

@@ -1,0 +1,12 @@
+# mutation name used for import
+
+mutation setRecipePreferencesForUser ($preferencesInput: RecipePreferencesInput!) {
+    setRecipePreferencesForUser ( preferences: $preferencesInput )
+    {
+        vegetarian
+        vegan
+        glutenfree
+        lactosefree
+        cookingTime
+    }
+}
