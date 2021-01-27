@@ -62,6 +62,16 @@ const settingsStorage = {
                 console.log('settingsStore.received error: ', error)
             }
 
+            if (typeof settingsObj == "undefined") {
+                settingsObj = {
+                    vegetarian: context.getters.getSettingsVegetarian,
+                    vegan: context.getters.getSettingsVegan,
+                    glutenfree: context.getters.getSettingsGluten,
+                    lactosefree: context.getters.getSettingsLactose,
+                    cookingTime: context.getters.getSettingsTime
+                }
+            }
+
             console.log('settingsStore.end')
             context.commit('updateSettings', settingsObj)
         },
