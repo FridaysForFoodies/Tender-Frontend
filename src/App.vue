@@ -35,7 +35,7 @@ export default {
     if (this.$route.name == 'Home'){
       setTimeout(function(){ 
       this.splashscreenTimeRunning = false }
-      .bind(this), 4000)
+      .bind(this), 5000)
     }
     else this.splashscreenTimeRunning = false
   },
