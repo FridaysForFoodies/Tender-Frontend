@@ -10,7 +10,7 @@
       <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >{{ message }}</h1>     
   </div>
       
-    
+  
   <div class="relative m-2.5 h-8">
     <div class="overflow-hidden h-1.5 mb-4 flex bg-secondary">
       <div class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center align-middle bg-primary"
@@ -19,7 +19,8 @@
       >
       </div>
     </div>
-  </div> 
+  </div>
+
   <div class="relative w-screen flex-1">
       <CardComponent
         v-for="(item, index) in tags"
@@ -30,15 +31,16 @@
 
         @likedTag="liked"
         @dislikedTag="disliked"
-    />
+    >
+    </CardComponent>
   </div>
     <!-- Buttons need to be moved to card stack component -->
     <div class="flex justify-around w-full h-24 text-center mb-28 mt-4">
-      <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked(item, index)">
+      <button class="rounded-full h-24 w-24 items-center justify-center bg-white border-8 border-gray-200 p-4" @click="disliked()">
         <img class="transform rotate-180 " alt="Dislike" src="../assets/images/dislike.png">
       </button>
 
-      <button class="rounded-full h-24 w-24  items-center justify-center bg-white border-8 border-gray-200 p-4" @click="liked(item, index)">
+      <button class="rounded-full h-24 w-24  items-center justify-center bg-white border-8 border-gray-200 p-4" @click="liked()">
         <img alt="Like" src="../assets/images/like.png">
       </button>
     </div>
@@ -47,7 +49,6 @@
 
 <script>
 import CardComponent from '../components/tender/CardComponent.vue';
-import router from '../router.js';
 
 export default {
   name: "FoodTender",
@@ -57,7 +58,6 @@ export default {
   created: function() { 
     this.reset();
     this.fetchData();
-    this.shuffle(this.tags);
   },
   methods: {
     goBack() {
@@ -66,27 +66,16 @@ export default {
     fetchData() {
       this.$store.dispatch('tagsStorage/retrieveTags', this.$apolloProvider.defaultClient);
     },
-    liked(item, index) {
-      this.$store.dispatch('tagsStorage/likeTag', item);
+    liked() {
+      this.$store.commit('tagsStorage/addToLikedTags');
+      
       if(this.likedTags.length == 5) {
         // TODO: change to result lists
-        router.push({name: 'Favourites'});
-      } 
-      this.tags.splice(index, 1);
-    },
-    disliked(item, index) {
-      this.$store.dispatch('tagsStorage/dislikeTag', item);
-      this.tags.splice(index, 1);
-    }, 
-    shuffle(tenderTags) {
-      const x = tenderTags.length - 1;
-      for(let i = x; i > 0; i--){
-        const j = Math.floor(Math.random() * i)
-        const temp = tenderTags[i]
-        tenderTags[i] = tenderTags[j]
-        tenderTags[j] = temp
+        this.$router.push({name: 'Recipes'});
       }
-      return tenderTags;
+    },
+    disliked() {
+      this.$store.commit('tagsStorage/addToDislikedTags');
     },
     reset(){
       this.$store.commit('tagsStorage/reset');
@@ -96,7 +85,7 @@ export default {
     isEmpty: () => {
       return this.tags.length == 0;
     },
-    tags() {  
+    tags() {
       return this.$store.getters['tagsStorage/tags'];
     },
     likedTags() {
@@ -115,6 +104,5 @@ export default {
   }
 }
 </script>
- 
 <style scoped>
 </style>

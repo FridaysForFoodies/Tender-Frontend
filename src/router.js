@@ -41,8 +41,8 @@ const router = new Router({
         component: Recipes
     },
     {
-        path: '/recipe',
         name: 'Recipe',
+        path: '/recipe/:recipeId',
         component: Recipe
     }
 ]
