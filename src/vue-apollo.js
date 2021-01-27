@@ -7,6 +7,8 @@ Vue.use(VueApollo)
 
 // Name of the localStorage item
 const AUTH_TOKEN = 'apollo-token'
+const AUTH_HEADER = localStorage.getItem("tender-user-token")
+console.log('auth header: ', AUTH_HEADER)
 
 // Http endpoint
 const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql'
@@ -42,7 +44,9 @@ const defaultOptions = {
   // cache: myCache
 
   // Override the way the Authorization header is set
-  // getAuth: (tokenName) => ...
+  // getAuth: defaultGetAuth(AUTH_TOKEN)
+  // eslint-disable-next-line no-unused-vars
+  getAuth: () => AUTH_HEADER
 
   // Additional ApolloClient options
   // apollo: { ... }
@@ -64,9 +68,9 @@ export function createProvider (options = {}) {
   const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
     defaultOptions: {
-      $query: {
+      // $query: {
         // fetchPolicy: 'cache-and-network',
-      },
+      // },
     },
     errorHandler (error) {
       // eslint-disable-next-line no-console
