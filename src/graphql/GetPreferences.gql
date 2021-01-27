@@ -1,0 +1,9 @@
+query recipePreferencesForUser {
+    recipePreferencesForUser {
+        vegan
+        vegetarian
+        glutenfree
+        lactosefree
+        cookingTime
+    }
+}

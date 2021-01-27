@@ -4,36 +4,55 @@
 
     <router-view class="flex-1 regal-blue"/>
     <!-- Content -->
-       <!-- Header -->
+    <!-- Header -->
 
     <!-- Navigation -->
-    <Navigation />
+    <Navigation/>
   </div>
 </template>
 
 <script>
 import Navigation from './components/Navigation.vue'
+// import setRecipePreferencesForUser from "@/graphql/PostPreferences.gql"
+// import gql from "graphql-tag"
 
 export default {
   name: 'App',
+  data() {
+    return {
+      // optionally initialize your apollo data
+      // settingsObj: null,
+      // uid: 'default value'
+    }
+  },
   components: {
     Navigation
   },
+
+  // when app is created, do this
   created() {
     if (!this.isAuthenticated) {
       this.$store.dispatch(
           'userStorage/authRequest',
           this.$apolloProvider.defaultClient,
-          { root: true }
+          {root: true}
       );
     }
+
+    this.$store.dispatch('settingsStorage/retrieveSettingsFromDB', this.$apolloProvider.defaultClient);
   },
   computed: {
-    isAuthenticated(){
+    isAuthenticated() {
       return this.$store.getters['userStorage/authenticationStatus'];
     }
-  }
+  },
+  methods: {
+  },
 
+  // when app is destroyed, do this
+  destroyed() {
+    this.$store.dispatch('settingsStorage/updateSettingsInDB', this.$apolloProvider.defaultClient);
+  }
 }
 
 </script>
