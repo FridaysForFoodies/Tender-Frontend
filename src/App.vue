@@ -20,13 +20,6 @@ import Navigation from './components/Navigation.vue'
 
 export default {
   name: 'App',
-  data() {
-    return {
-      // optionally initialize your apollo data
-      // settingsObj: null,
-      // uid: 'default value'
-    }
-  },
   components: {
     Navigation
   },
