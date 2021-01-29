@@ -1,14 +1,11 @@
 <template>
-
-  <div id="app" class="flex flex-col h-screen">
-    <img v-if="showSplashscreen" class="z-10 absolute h-full object-cover" src="./assets/images/splashscreen.svg"/>
+  <div id="app" class="flex flex-col h-full">
+    <img v-if="showSplashscreen" class="z-10 absolute h-full w-full object-cover" src="./assets/images/splashscreen.svg"/>
     <router-view v-show="!showSplashscreen" class="flex-1 regal-blue"/>
     <!-- Content -->
     <!-- Header -->
-
     <!-- Navigation -->
     <Navigation v-show="!showSplashscreen"/>
-    <Navigation/>
   </div>
 </template>
 
@@ -24,7 +21,7 @@ export default {
   },
   data() {
     return {
-      splashscreenTimeRunning: true   
+      splashscreenTimeRunning: true
     }
   },
   // when app is created, do this
@@ -40,7 +37,7 @@ export default {
     if (this.$route.name == 'Home'){
       setTimeout(function(){ 
       this.splashscreenTimeRunning = false }
-      .bind(this), 5000)
+      .bind(this), 10000000)
     }
     else this.splashscreenTimeRunning = false
     this.$store.dispatch('settingsStorage/retrieveSettingsFromDB', this.$apolloProvider.defaultClient);
