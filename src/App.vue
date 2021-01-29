@@ -37,7 +37,7 @@ export default {
     if (this.$route.name == 'Home'){
       setTimeout(function(){ 
       this.splashscreenTimeRunning = false }
-      .bind(this), 10000000)
+      .bind(this), 5000)
     }
     else this.splashscreenTimeRunning = false
     this.$store.dispatch('settingsStorage/retrieveSettingsFromDB', this.$apolloProvider.defaultClient);
