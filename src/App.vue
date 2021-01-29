@@ -7,7 +7,6 @@
     <!-- Header -->
 
     <!-- Navigation -->
-
     <Navigation v-show="!showSplashscreen"/>
     <Navigation/>
   </div>
