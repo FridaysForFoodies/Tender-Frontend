@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="flex flex-col h-full">
-    <img v-if="showSplashscreen" class="z-10 absolute h-full w-full object-cover" src="./assets/images/splashscreen.svg"/>
+    <img v-if="showSplashscreen" class="z-10 absolute h-full object-cover" src="./assets/images/splashscreen.svg"/>
     <router-view v-show="!showSplashscreen" class="flex-1 regal-blue"/>
     <!-- Content -->
     <!-- Header -->
