@@ -48,7 +48,7 @@ export default {
       query: GET_RECIPES,
       variables() {
         return {
-          ingredients: this.selectedIngredients,
+          ingredients: this.selectedIngredients().map(ingredient => ingredient.ID),
           tags: this.likedTags().map(tag => tag.id)
         }
       }
@@ -59,16 +59,10 @@ export default {
       console.log(recipeId);
     },
     likedTags() {
-        return this.$store.getters['tagsStorage/likedTags'];
-    }
-  },
-  computed: {
+      return this.$store.getters['tagsStorage/likedTags'];
+    },
     selectedIngredients() {
-      const selectedIngredients = [];
-      this.$store.getters['selectedIngredients'].forEach(selectedIngredient => {
-        selectedIngredients.push(selectedIngredient.name);
-      })
-     return selectedIngredients;
+      return this.$store.getters['selectedIngredients'];
     }
   }
 }

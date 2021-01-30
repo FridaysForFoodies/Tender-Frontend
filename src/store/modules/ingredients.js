@@ -66,7 +66,7 @@ const ingredientsStorage = {
         },
         async retrievePersonalIngredients(context, apolloClient) {
             const response  = await apolloClient.query({ query: GET_PERSONAL_INGREDIENTS });
-            context.commit('addPersonalIngredients', response.data.personalIngredients);
+            context.commit('addPersonalIngredients', response.data.personalCommonIngredients);
         },
         async retrieveSuggestedIngredients(context, { apolloClient, searchTerm}) {
             const response  = await apolloClient.query({ 

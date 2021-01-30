@@ -31,16 +31,18 @@
         </div>
       </div>
 
-      <p class="font-bold	mt-4">Your most used search terms</p>
+      <p class="font-bold	mt-6">Your most used search terms</p>
       <div class="flex-1">
         <div v-for="personalIngredient in personalIngredients" :key="personalIngredient.ID" 
           @click="addToSelectedIngredients(personalIngredient)" v-show="isNotSelected(personalIngredient)"
           class="border-solid border-gray-400 border-2 rounded-full px-4 inline-flex mr-2 mt-2 text-gray-400">
           {{ personalIngredient.name }}
         </div>
+        <div v-if="noPersonalIngredientsRegistered" class="mt-2 text-gray-400">Once you searched for some recipes, 
+          your most used ingredients will show up here.</div>
       </div>
 
-      <p class="font-bold	mt-4">Common search terms</p>
+      <p class="font-bold	mt-6">Common search terms</p>
       <div class="flex-1">
         <div ref="popularIngredient" v-for="popularIngredient in popularIngredients" :key="popularIngredient.ID" 
           @click="addToSelectedIngredients(popularIngredient)" v-show="isNotSelected(popularIngredient)"
@@ -74,14 +76,16 @@ export default {
       return this.$store.getters['popularIngredients'];
     },
     personalIngredients(){
-      return[];
-      //return this.$store.getters['personalIngredients'];
+      return this.$store.getters['personalIngredients'];
+    },
+    noPersonalIngredientsRegistered(){
+      return this.personalIngredients.length < 1
     }
   },
   methods:{
     fetchData() {
       this.$store.dispatch('retrievePopularIngredients', this.$apolloProvider.defaultClient);
-      //this.$store.dispatch('retrievePersonalIngredients', this.$apolloProvider.defaultClient);
+      this.$store.dispatch('retrievePersonalIngredients', this.$apolloProvider.defaultClient);
     },
     handleSearchSuccess(ingredient){
       this.addToSelectedIngredients(ingredient);
