@@ -9,7 +9,6 @@
       <button @click="goBack" style="filter: brightness(0) invert(1);" class="w-8 h-8 ml-1 mt-2.5 mr-1 mb-1 inline-block" type="button">
         <img alt="Back" src="../assets/images/back-button.png">
       </button>
-      <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >{{ message }}</h1>
     </div>
     <div style="overflow: scroll;margin-bottom: 100px;">
       <article class="overflow-hidden">
