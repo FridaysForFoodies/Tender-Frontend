@@ -50,6 +50,7 @@ export default {
         try {
           this.$apollo.mutate({
             mutation: ADD_FAVOURITE_MUTATION,
+            context: { headers: { 'Authorization': localStorage.getItem("tender-user-token") } },
             variables: { recipeId: this.localRecipe.ID }
           });
           this.isFavourite = true
