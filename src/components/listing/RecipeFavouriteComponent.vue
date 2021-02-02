@@ -7,7 +7,9 @@
 
         <div class="recipe-title h-auto flex-1">
           <h2 class="text-2xl font-bold leading-6">
-            {{ recipe.name }}
+            <router-link :to=" { name: 'Recipe', params: { recipeId: localRecipe.ID }}" active-class="text-yellow-400">
+              {{ recipe.name }}
+            </router-link>
           </h2>
         </div>
 
