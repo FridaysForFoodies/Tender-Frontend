@@ -41,10 +41,7 @@ export default {
     }
   },
   created() {
-    console.log("#################");
     this.getFavourites();
-    console.log(this.findFavouriteRecipes);
-
   },
   apollo: {
     // Query with parameters
