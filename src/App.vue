@@ -11,6 +11,8 @@
 
 <script>
 import Navigation from './components/Navigation.vue'
+import {restartWebsockets} from "vue-cli-plugin-apollo/graphql-client";
+
 // import setRecipePreferencesForUser from "@/graphql/PostPreferences.gql"
 // import gql from "graphql-tag"
 
@@ -24,8 +26,7 @@ export default {
       splashscreenTimeRunning: true
     }
   },
-  // when app is created, do this
-  created() {
+  beforeCreate() {
     if (!this.isAuthenticated) {
       this.$store.dispatch(
           'userStorage/authRequest',
@@ -33,6 +34,9 @@ export default {
           {root: true}
       );
     }
+  },
+  // when app is created, do this
+  created() {
 
     if (this.$route.name == 'Home'){
       setTimeout(function(){ 
@@ -54,6 +58,15 @@ export default {
     }
   },
   methods: {
+    async resetAuthHeader(apolloClient) {
+      if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient)
+      try {
+        await apolloClient.resetStore()
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('%cError on cache reset (login)', 'color: orange;', e.message)
+      }
+    }
   },
 
   // when app is destroyed, do this

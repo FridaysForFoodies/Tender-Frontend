@@ -46,6 +46,8 @@ export default {
     searchForRecipes: {
       // gql query
       query: GET_RECIPES,
+      context() { return { headers: { 'Authorization': localStorage.getItem("tender-user-token") } } },
+
       variables() {
         return {
           ingredients: this.selectedIngredients,
