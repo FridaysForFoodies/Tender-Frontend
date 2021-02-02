@@ -20,7 +20,6 @@
 
 <script>
 import RecipeFavouriteComponent from '../components/listing/RecipeFavouriteComponent.vue'
-import getFavouritesForUser from "@/graphql/GetFavourites.gql";
 import gql from "graphql-tag";
 
 const GET_FAVOURITES = gql`query findFavouriteRecipes {
@@ -41,15 +40,15 @@ export default {
       findFavouriteRecipes: []
     }
   },
-  async created() {
-    console.log("#################");
-    await this.getFavourites();
+  created() {
+    this.getFavourites();
   },
   apollo: {
     // Query with parameters
     findFavouriteRecipes: {
       // gql query
-      query: GET_FAVOURITES
+      query: GET_FAVOURITES,
+      context() { return { headers: { 'Authorization': localStorage.getItem("tender-user-token") } } },
     },
   },
   methods: {
@@ -58,16 +57,8 @@ export default {
     },
 
     async getFavourites() {
-      try {
-        const response = await this.$apolloProvider.defaultClient.query({
-          query: getFavouritesForUser,
-          context: { headers: { 'Authorization': localStorage.getItem("tender-user-token") } },
-        });
-        this.findFavouriteRecipes = response.data.findFavouriteRecipes
-        console.log()
-      } catch (error) {
-        console.log('settingsStore.received error: ', error)
-      }
+      const response = await this.$apollo.queries.findFavouriteRecipes.refetch();
+      this.findFavouriteRecipes = response.data.findFavouriteRecipes;
     }
   },
   beforeRouteLeave(to, from, next) {
