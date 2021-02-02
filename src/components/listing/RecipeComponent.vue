@@ -17,7 +17,7 @@
           </small>
         </div>
 
-        <font-awesome-icon icon="heart" v-on:click="toggleFavourite" :class="localRecipe.isFavourite ? 'text-yellow-400' : ''" class="recipe-favorite text-4xl item-center align-center"/>
+        <font-awesome-icon icon="heart" v-on:click="toggleFavourite" :class="isFavourite ? 'text-yellow-400' : ''" class="recipe-favorite text-4xl item-center align-center"/>
 
 
       </div>
@@ -32,12 +32,17 @@ import gql from "graphql-tag";
 
 const ADD_FAVOURITE_MUTATION = gql`mutation addRecipeToFavourites($recipeId: String!){
                                       addRecipeToFavourites(recipeId: $recipeId) {
-                                        recipeId
+                                        ID
                                       }
                                     }`;
 export default {
   name: "recipeComponent",
   props: ['recipe'],
+  data() {
+    return {
+      isFavourite: false,
+    }
+  },
   methods: {
     toggleFavourite() {
       //this.localRecipe.isFavourite = !this.localRecipe.isFavourite;
@@ -47,10 +52,15 @@ export default {
             mutation: ADD_FAVOURITE_MUTATION,
             variables: { recipeId: this.localRecipe.ID }
           });
-          this.localRecipe.isFavourite = true;
+          this.isFavourite = true
+          this.localRecipe.isFavourite = true
         } catch(e) {
-          console.log(e);
+          console.log(e)
         }
+
+      } else {
+        this.isFavourite = false;
+        this.localRecipe.isFavourite = false;
       }
       //else: remove recipe from favourites
     }

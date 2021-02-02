@@ -66,7 +66,7 @@ export default {
     selectedIngredients() {
       const selectedIngredients = [];
       this.$store.getters['selectedIngredients'].forEach(selectedIngredient => {
-        selectedIngredients.push(selectedIngredient.name);
+        selectedIngredients.push(selectedIngredient.ID);
       })
      return selectedIngredients;
     }
