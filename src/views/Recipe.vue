@@ -5,6 +5,12 @@
   </div>
 
   <div class="w-full" v-else>
+    <div class="w-screen h-12 bg-gradient-to-b from-black bg-opacity-40 space-x-4 fixed z-10">
+      <button @click="goBack" style="filter: brightness(0) invert(1);" class="w-8 h-8 ml-1 mt-2.5 mr-1 mb-1 inline-block" type="button">
+        <img alt="Back" src="../assets/images/back-button.png">
+      </button>
+      <h1 class="h-12 inline-block align-middle text-2xl font-bold mb-2.5" >{{ message }}</h1>
+    </div>
     <div style="overflow: scroll;margin-bottom: 100px;">
       <article class="overflow-hidden">
         <div class="relative" style="padding-bottom: 75%;">
@@ -39,9 +45,9 @@
             </li>
           </ul>
 
-          <div class="my-3" v-for="instructionStep in findRecipe.instructionSteps" :key="instructionStep.id">
+          <div class="my-3" v-for="(instructionStep, index) in findRecipe.instructionSteps" :key="index">
             <div class="text-bold text-2xl mb-1 mt-4">
-              Schritt {{instructionStep.imageCaption}}:
+              Schritt {{ index + 1 }}:
             </div>
             <div>
               <p>
@@ -120,6 +126,9 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/recipes')
+    },
 
   },
 }
