@@ -46,9 +46,11 @@ export default {
     searchForRecipes: {
       // gql query
       query: GET_RECIPES,
+      context() { return { headers: { 'Authorization': localStorage.getItem("tender-user-token") } } },
+
       variables() {
         return {
-          ingredients: this.selectedIngredients().map(ingredient => ingredient.ID),
+          ingredients: this.selectedIngredients(),
           tags: this.likedTags().map(tag => tag.id)
         }
       }
@@ -62,7 +64,11 @@ export default {
       return this.$store.getters['tagsStorage/likedTags'];
     },
     selectedIngredients() {
-      return this.$store.getters['selectedIngredients'];
+      const selectedIngredients = [];
+      this.$store.getters['selectedIngredients'].forEach(selectedIngredient => {
+        selectedIngredients.push(selectedIngredient.ID);
+      })
+     return selectedIngredients;
     }
   }
 }

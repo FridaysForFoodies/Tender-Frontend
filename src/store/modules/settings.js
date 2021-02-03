@@ -53,7 +53,8 @@ const settingsStorage = {
             let settingsObj
             try {
                 response = await apolloClient.query({
-                    query: recipePreferencesForUser
+                    query: recipePreferencesForUser,
+                    context: { headers: { 'Authorization': localStorage.getItem("tender-user-token") } },
                 });
 
                 settingsObj = response.data.recipePreferencesForUser

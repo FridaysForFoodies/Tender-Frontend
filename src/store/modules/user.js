@@ -39,6 +39,9 @@ const userStorage = {
     getters: {
         authenticationStatus: state => {
             return state.isAuthenticated;
+        },
+        authenticationToken: state => {
+            return state.authenticationToken;
         }
     }
 }
